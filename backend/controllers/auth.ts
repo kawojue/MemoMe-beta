@@ -1,12 +1,14 @@
 import bcrypt from 'bcrypt'
-import User from '../model/User'
+import User from '../models/User'
 import { ICheckMail } from '../type'
+import jwt, { Secret } from 'jsonwebtoken'
 import checkMail from '../config/checkMail'
 import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 
+// handle account creation
 const createUser = asyncHandler(async (req: Request, res: Response) => {
-    let { email, pswd, pswd2, createdAt }: any = req.body
+    let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
     const { valid, validators }: ICheckMail = await checkMail(email)
@@ -31,7 +33,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     if (validators.regex.valid === false) {
         return res.status(400).json({
             success: false,
-            action: "warning",
+            action: "error",
             msg: "Email Regex is not valid."
         })
         
@@ -40,14 +42,14 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     if (valid === false) {
         return res.status(400).json({
             success: false,
-            action: "warning",
+            action: "error",
             msg: validators.smtp.reason
         })
         
     }
 
     const user: string = email.split('@')[0]
-    const account = await User.findOne({ 'mail.email': email })
+    const account: any = await User.findOne({ 'mail.email': email }).exec()
 
     if (account) {
         return res.status(409).json({
@@ -57,11 +59,11 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    pswd = await bcrypt.hash(pswd, 10)
+    const salt: string = await bcrypt.genSalt(10)
+    pswd = await bcrypt.hash(pswd, salt)
 
     await User.create({
         user,
-        createdAt,
         password: pswd as string,
         'mail.email': email as string,
     })
@@ -73,4 +75,66 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
-export { createUser }
+// handle Login
+const login = asyncHandler(async (req: Request, res: Response) => {
+    const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    let { userId, pswd, lastLogin } = req.body
+    userId = userId?.toLowerCase()?.trim()
+
+    if (!userId || !pswd) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required."
+        })
+    }
+
+    const account: any = await User.findOne(
+        EMAIL_REGEX.test(userId) ?
+        { 'mail.email': userId } : { user: userId }
+    ).exec()
+
+    if (!account) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Invalid User ID or Password."
+        })
+    }
+
+    const match: boolean = await bcrypt.compare(pswd, account.password)
+    if (!match) {
+        return res.status(401).json({
+            success: false,
+            action: "error",
+            msg: "Incorrect password."
+        })
+    }
+    
+    const token: Secret = jwt.sign(
+        { "user": account.user },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '10d' }
+    )
+
+    account.token = token
+    account.lastLogin = lastLogin
+    await account.save()
+
+    return res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "Login successful.",
+        token,
+        user: account.user as string,
+    })
+})
+
+// change username
+
+// reset password
+
+// verify OTP
+
+export { createUser, login }
