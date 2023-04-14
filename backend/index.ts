@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import mongoose from 'mongoose'
 import dbCOnn from './config/DBConn'
 import corsOptions from './config/corsOptions'
+import errorHandler from './middlewares/errorHandler'
 import express, { Application, Response, Request } from 'express'
 
 // import routes
@@ -17,6 +18,7 @@ const PORT = process.env.PORT || 1707
 dbCOnn(process.env.DB_URI as string)
 
 // set middlewares
+app.use(errorHandler)
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cors(corsOptions))
