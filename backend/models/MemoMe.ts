@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 const autoIncrement = require('mongoose-sequence')(mongoose)
 
-const memoMeModel = new mongoose.Schema({
+const memoSchema = new mongoose.Schema({
     username: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -12,10 +12,10 @@ const memoMeModel = new mongoose.Schema({
     time: String,
 })
 
-memoMeModel.plugin(autoIncrement, {
+memoSchema.plugin(autoIncrement, {
     inc_field: "memome",
     id: "memos",
     start_req: 1
 })
 
-export default mongoose.model("memome", memoMeModel)
+export default mongoose.model("MemoMe", memoSchema)
