@@ -1,18 +1,18 @@
-import mongoose from 'mongoose'
-const autoIncrement = require('express-mongoose-sequence')(mongoose)
+import mongoose, { Schema } from 'mongoose'
 
-const userModel = new mongoose.Schema(
+const userSchema = new Schema(
     {
         user: {
-            sparse: true,
+            type: String,
             require: true,
             unique: true,
+            sparse: true,
         },
         mail: {
             email: {
                 type: String,
                 unique: true,
-                sparse: true
+                sparse: true,
             },
             isVerified: {
                 type: Boolean,
@@ -27,10 +27,4 @@ const userModel = new mongoose.Schema(
     }
 )
 
-userModel.plugin(autoIncrement, {
-    inc_field: 'user',
-    id: 'userNums',
-    start_req: 1
-})
-
-export default mongoose.model("User", userModel)
+export default mongoose.model("User", userSchema)
