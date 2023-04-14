@@ -3,18 +3,28 @@ const autoIncrement = require('express-mongoose-sequence')(mongoose)
 
 const userModel = new mongoose.Schema(
     {
-        username: {
+        user: {
             sparse: true,
             require: true,
             unique: true,
+        },
+        mail: {
+            email: {
+                type: String,
+                unique: true,
+                sparse: true
+            },
+            isVerified: {
+                type: Boolean,
+                default: false
+            }
         },
         password: {
-            sparse: true,
-            require: true,
-            unique: true,
+            type: String,
+            require: true
         },
         createdAt: String
-    },
+    }
 )
 
 userModel.plugin(autoIncrement, {
@@ -23,4 +33,4 @@ userModel.plugin(autoIncrement, {
     start_req: 1
 })
 
-export default mongoose.model("usermodel", userModel)
+export default mongoose.model("User", userModel)
