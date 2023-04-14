@@ -8,7 +8,8 @@ const memoMeModel = new mongoose.Schema({
         ref: "User"
     },
     content: String,
-    image: String
+    image: String,
+    time: String,
 })
 
 memoMeModel.plugin(autoIncrement, {
