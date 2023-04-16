@@ -1,14 +1,8 @@
 import dotenv from 'dotenv'
+import { IMailer } from '../type'
 import nodemailer, { Transporter } from 'nodemailer'
 
 dotenv.config()
-
-export interface IMailer {
-    senderName: string
-    to: string
-    subject: string
-    text: string
-}
 
 const transporter: Transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
