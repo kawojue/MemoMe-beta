@@ -56,12 +56,27 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             content: encryptContent
         }]
     })
-    account.hasContent = true
+    account.body = true
     await account.save()
 
     res.sendStatus(200)
 })
 
+const countViews = asyncHandler(async (req: Request, res: Response) => {
+    const { user } = req.params
+    const account: any = await User.findOne({ user }).select('-password').exec()
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            message: "User does not exist."
+        })
+    }
+    account.profileViews += 1
+    await account.save()
+    return res.sendStatus(200)
+})
+
 // get memos
 
-export { addMemo }
+export { addMemo, countViews }
