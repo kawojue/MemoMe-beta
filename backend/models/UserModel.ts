@@ -25,15 +25,17 @@ const userSchema = new Schema(
         },
         token: String,
         lastLogin: String,
+        createdAt: String,
         lastLogout: String,
+        profileViews: {
+            type: Number,
+            default: 0
+        },
         body: {
             type: Boolean,
             default: false
         }
     },
-    {
-        timestamps: true
-    }
 )
 
 export default mongoose.model("User", userSchema)
