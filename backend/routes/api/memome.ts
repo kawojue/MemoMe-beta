@@ -1,11 +1,11 @@
 import express, { Router } from 'express'
-import { addMemo, countViews } from '../../controllers/memome'
 import { msgLimiter } from '../../middlewares/limiter'
+import { addMemo, countViews } from '../../controllers/memome'
 
 const apiRoute: Router = express.Router()
 
-apiRoute.get('/:user', countViews)
-apiRoute.post('/:user', msgLimiter, addMemo)
-
+apiRoute.route('/:user')
+    .get(countViews)
+    .post(msgLimiter, addMemo)
 
 export default apiRoute
