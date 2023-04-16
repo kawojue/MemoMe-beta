@@ -5,12 +5,9 @@ import cors from 'cors'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import dbCOnn from './config/DBConn'
+import rootRoute from './routes/root'
 import corsOptions from './config/corsOptions'
-import errorHandler from './middlewares/errorHandler'
-import express, { Application, Response, Request } from 'express'
-
-// import routes
-import accountRoute from './routes/account'
+import express, { Application } from 'express'
 
 const app: Application = express()
 const PORT = process.env.PORT || 1707
@@ -18,18 +15,13 @@ const PORT = process.env.PORT || 1707
 dbCOnn(process.env.DB_URI as string)
 
 // set middlewares
-app.use(errorHandler)
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: false }))
 
-// set routes
-app.use('/account', accountRoute)
-
-app.get('/', (req: Request, res: Response) => {
-    res.status(200).send("MemoMe")
-})
+// set route
+app.use('/', rootRoute)
 
 mongoose.connection.once('open', () => {
     console.log("Connect to MongoDB!")
