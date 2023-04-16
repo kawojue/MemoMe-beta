@@ -18,20 +18,21 @@ const jwtVerify = asyncHandler(async (req: any, res: Response, next: NextFunctio
     }
 
     const token: string = authHeader.split(' ')[1]
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string)
-
-    console.log(decoded)
-
-    if (!decoded) {
-        return res.status(403).json({
-            success: false,
-            action: "error",
-            msg: "Forbidden"
-        })
-    }
-
-    req.user = await User.findOne({ user: decoded.user }).select('-password').exec()
-    next()
+    jwt.verify(
+        token,
+        process.env.JWT_SECRET as string,
+        async (err: any, decoded: any) => {
+            if (err) {
+                return res.status(403).json({
+                success: false,
+                action: "error",
+                msg: "Forbidden"
+                })
+            }
+            req.user = await User.findOne({ user: decoded.user }).select('-password').exec()
+            next()
+        }
+    )
 })
 
 export default jwtVerify
