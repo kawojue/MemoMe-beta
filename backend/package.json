@@ -40,7 +40,8 @@
     "rimraf": "^5.0.0",
     "text-encryption": "^1.5.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -54,6 +55,7 @@
     "@types/mongoose-sequence": "^3.0.7",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.15.11",
-    "@types/nodemailer": "^6.4.7"
+    "@types/nodemailer": "^6.4.7",
+    "@types/uuid": "^9.0.1"
   }
 }
