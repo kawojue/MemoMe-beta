@@ -30,7 +30,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     const account: any = await User.findOne({ user }).exec()
 
     if (!account) {
-        return res.status(400).json({
+        return res.status(404).json({
             success: false,
             action: "error",
             msg: "User does not exist."
@@ -77,6 +77,41 @@ const countViews = asyncHandler(async (req: Request, res: Response) => {
     return res.sendStatus(200)
 })
 
-// get memos
+const getMemos = asyncHandler(async (req: any, res: Response) => {
+    const account: any = await User.findOne({ user: req.user?.user })
+    .select('-password -token').exec()
 
-export { addMemo, countViews }
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            msg: "Account not found"
+        })
+    }
+
+    if (account.body === false) {
+        return res.status(204).json({
+            success: true,
+            action: "success",
+            body: []
+        })
+    }
+
+    const memos: any = await MemoMe.findOne({ user: account.id }).exec()
+
+    if (!memos) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            msg: "Something went wrong.."
+        })
+    }
+
+    return res.status(200).json({
+        success: true,
+        action: "success",
+        body: [account, memos]
+    })
+})
+
+export { addMemo, countViews, getMemos }
