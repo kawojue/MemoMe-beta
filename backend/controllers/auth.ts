@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
-import User from '../models/UserModel'
 import { ICheckMail } from '../type'
+import User from '../models/UserModel'
 import jwt, { Secret } from 'jsonwebtoken'
 import checkMail from '../config/checkMail'
 import { Request, Response } from 'express'
