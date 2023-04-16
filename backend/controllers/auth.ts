@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User from '../models/User'
+import User from '../models/UserModel'
 import { ICheckMail } from '../type'
 import jwt, { Secret } from 'jsonwebtoken'
 import checkMail from '../config/checkMail'
@@ -115,7 +115,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     const token: Secret = jwt.sign(
         { "user": account.user },
         process.env.JWT_SECRET as string,
-        { expiresIn: '10d' }
+        { expiresIn: '90d' }
     )
 
     account.token = token
@@ -123,11 +123,10 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     await account.save()
 
     return res.status(200).json({
+        token,
         success: true,
         action: "success",
         msg: "Login successful.",
-        token,
-        user: account.user as string,
     })
 })
 
