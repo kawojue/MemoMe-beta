@@ -20,4 +20,22 @@ const limiter: RateLimitRequestHandler = rateLimit({
     legacyHeaders: false,
 })
 
+const msgTimerArr = [4, 5, 7]
+export const msgLimiter: RateLimitRequestHandler = rateLimit({
+    max: 1, // max attempt
+    windowMs: msgTimerArr[Math.floor(Math.random() * msgTimerArr.length)] * 1000, // try again in
+    message: {
+        message: 'Duplicate Message Detected.'
+    },
+    handler: (req: Request, res: Response, next: NextFunction, options: Options) => {
+        res.status(options.statusCode).json({
+            success: false,
+            action: "warning",
+            msg: options.message
+        })
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+})
+
 export default limiter
