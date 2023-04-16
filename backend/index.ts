@@ -4,7 +4,7 @@ dotenv.config()
 import cors from 'cors'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
-import dbCOnn from './config/DBConn'
+import DBConn from './config/DBConn'
 import rootRoute from './routes/root'
 import corsOptions from './config/corsOptions'
 import express, { Application } from 'express'
@@ -12,7 +12,7 @@ import express, { Application } from 'express'
 const app: Application = express()
 const PORT = process.env.PORT || 1707
 
-dbCOnn(process.env.DB_URI as string)
+DBConn(process.env.DB_URI as string)
 
 // set middlewares
 app.use(morgan('dev'))
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', rootRoute)
 
 mongoose.connection.once('open', () => {
-    console.log("Connect to MongoDB!")
+    console.log("Connected to MongoDB!")
     app.listen(PORT, () => {
         console.log(`Server is running at http://localhost:${PORT}`)
     })
