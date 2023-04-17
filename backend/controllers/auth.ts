@@ -1,13 +1,16 @@
 import bcrypt from 'bcrypt'
-import { ICheckMail } from '../type'
+import { IGenOTP } from '../type'
+import mailer from '../config/mailer'
+import genOTP from '../config/genOTP'
 import User from '../models/UserModel'
 import jwt, { Secret } from 'jsonwebtoken'
 import checkMail from '../config/checkMail'
 import { Request, Response } from 'express'
+import { ICheckMail, IMailer } from '../type'
 const asyncHandler = require('express-async-handler')
 
 // handle account creation
-const createUser = asyncHandler(async (req: Request, res: Response) => {
+const createUser = asyncHandler(async (req: any, res: Response) => {
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
@@ -130,10 +133,56 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
+
+const otpHandler = asyncHandler(async (req: Request, res: Response) => {
+    let { email } = req.body
+    email = email?.trim()?.toLowerCase()
+
+    const { totp, totpDate }: IGenOTP = genOTP()
+
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "Invalid email"
+        })
+    }
+
+    const account: any = await User.findOne({ 'mail.email': email }).exec()
+    if (!account) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "There is no account associated with this email."
+        })
+    }
+
+    console.log(account)
+
+    account.OTP.totp = totp
+    account.OTP.totpDate = totpDate
+    await account.save()
+
+    const transportMail: IMailer = {
+        senderName: "Kawojue Raheem - Admin",
+        to: email,
+        subject: "Verification Code",
+        text: `Code: ${totp}`
+    }
+
+    await mailer(transportMail)
+
+    res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "OTP has been sent to your email."
+    })
+})
+
 // change username
 
 // reset password
 
 // verify OTP
 
-export { createUser, login }
+export { createUser, login, otpHandler }
