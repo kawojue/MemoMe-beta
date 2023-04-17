@@ -229,10 +229,10 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
 
 const logout = asyncHandler(async (req: any, res: Response) => {
     const authHeader = req.headers?.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
         return res.sendStatus(204)
     }
-    
+
     const token: string = authHeader.split(' ')[1]
     const account: any = await User.findOne({ token })
 
