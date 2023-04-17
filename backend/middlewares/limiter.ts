@@ -25,7 +25,7 @@ export const msgLimiter: RateLimitRequestHandler = rateLimit({
     max: 1, // max attempt
     windowMs: msgTimerArr[Math.floor(Math.random() * msgTimerArr.length)] * 1000, // try again in
     message: {
-        message: 'Duplicate Message Detected.'
+        message: 'Too much requests sent.'
     },
     handler: (req: Request, res: Response, next: NextFunction, options: Options) => {
         res.status(options.statusCode).json({
