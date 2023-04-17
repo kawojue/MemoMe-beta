@@ -13,6 +13,7 @@ const loginLimiter = {
     timerArr: [23, 32, 19, 52, 42],
     msg: "Too many attempts. Please, try again later."
 };
+accountRoute.get('/logout', auth_1.logout);
 accountRoute.post('/signup', auth_1.createUser);
 accountRoute.post('/edit', jwtVerify_1.default, auth_1.usernameHandler);
 accountRoute.post('/login', (0, limiter_1.default)(loginLimiter), auth_1.login);

@@ -37,7 +37,7 @@ const userSchema = new mongoose_1.Schema({
             unique: true,
             sparse: true,
         },
-        isVerified: {
+        verified: {
             type: Boolean,
             default: false
         }
@@ -49,7 +49,6 @@ const userSchema = new mongoose_1.Schema({
     token: String,
     lastLogin: String,
     createdAt: String,
-    lastLogout: String,
     profileViews: {
         type: Number,
         default: 0

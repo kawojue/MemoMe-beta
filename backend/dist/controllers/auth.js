@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usernameHandler = exports.otpHandler = exports.login = exports.createUser = void 0;
+exports.usernameHandler = exports.otpHandler = exports.logout = exports.login = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
@@ -23,7 +23,7 @@ const asyncHandler = require('express-async-handler');
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    let { email, pswd, pswd2 } = req.body;
+    let { email, pswd, pswd2, createdAt } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     const { valid, validators } = yield (0, checkMail_1.default)(email);
     if (!email || !pswd || !pswd2) {
@@ -69,6 +69,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
         user,
         password: pswd,
         'mail.email': email,
+        createdAt
     });
     res.status(201).json({
         success: true,
@@ -202,3 +203,19 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
     });
 }));
 exports.usernameHandler = usernameHandler;
+const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _f;
+    const authHeader = (_f = req.headers) === null || _f === void 0 ? void 0 : _f.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        return res.sendStatus(204);
+    }
+    const token = authHeader.split(' ')[1];
+    const account = yield UserModel_1.default.findOne({ token });
+    if (!account) {
+        return res.sendStatus(204);
+    }
+    account.token = "";
+    yield account.save();
+    return res.sendStatus(204);
+}));
+exports.logout = logout;
