@@ -1,11 +1,11 @@
 import express, { Router } from 'express'
-import { msgLimiter } from '../../middlewares/limiter'
+import limiter from '../../middlewares/limiter'
 import { addMemo, countViews } from '../../controllers/memome'
 
 const apiRoute: Router = express.Router()
 
 apiRoute.route('/:user')
     .get(countViews)
-    .post(msgLimiter, addMemo)
+    .post(limiter({max: 1, timerArr: [4, 5, 7]}), addMemo)
 
 export default apiRoute
