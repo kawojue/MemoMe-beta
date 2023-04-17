@@ -226,13 +226,23 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     })
 })
 
-// reset password
+const logout = asyncHandler(async (req: any, res: Response) => {
+    const account: any = await User.findOne({ token: req.user?.token })
+    if (!account) {
+        return res.sendStatus(204)
+    }
 
-// logout
+    account.token = ""
+    await account.save()
+    return res.sendStatus(204)
+})
+
+// reset password
 
 // verify OTP
 
 export {
     createUser, login,
+    logout,
     otpHandler, usernameHandler,
 }
