@@ -69,7 +69,7 @@ const countViews = asyncHandler(async (req: Request, res: Response) => {
         return res.status(404).json({
             success: false,
             action: "error",
-            message: "User does not exist."
+            msg: "User does not exist."
         })
     }
     account.profileViews += 1
