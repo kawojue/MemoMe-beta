@@ -125,7 +125,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     account.lastLogin = lastLogin
     await account.save()
 
-    return res.status(200).json({
+    res.status(200).json({
         token,
         success: true,
         action: "success",
@@ -220,7 +220,7 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     account.user = newUser
     await account.save()
 
-    return res.status(200).json({
+    res.status(200).json({
         success: true,
         action: "success",
         msg: "You've successfully changed your username."
@@ -242,15 +242,55 @@ const logout = asyncHandler(async (req: any, res: Response) => {
 
     account.token = ""
     await account.save()
-    return res.sendStatus(204)
+    res.sendStatus(204)
 })
 
 // reset password
 
 // verify OTP
+const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
+    const { otp, email, otpDate }: any = req.body
+
+    if (!otp || !email || otpDate) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required."
+        })
+    }
+
+    const account: any = await User.findOne({ 'mail.email': email })
+    const totp = account.OTP.totp
+    const totpDate = account.OTP.totpDate
+    const expiry: number = totpDate + (60 * 60 * 1000) // after 1hr
+
+    if (expiry < Date.now()) {
+        account.OTP = {}
+        await account.save()
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "OTP Expired."
+        })
+    }
+
+    if (totp !== otp) {
+        return res.status(401).json({
+            success: false,
+            action: "error",
+            msg: "Incorrect OTP"
+        })
+    }
+
+    res.status(200).json({
+        verified: true,
+        email,
+        user: account.user
+    })
+})
 
 export {
     createUser, login,
-    logout,
+    logout, verifyOTP,
     otpHandler, usernameHandler,
 }
