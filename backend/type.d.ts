@@ -16,4 +16,13 @@ interface IGenOTP {
     totpDate: number
 }
 
-export { IMailer, ICheckMail, IGenOTP }
+interface ILimiter {
+    max: number
+    timerArr: number[]
+    msg?: string
+}
+
+export {
+    IMailer, ICheckMail,
+    IGenOTP, ILimiter
+}
