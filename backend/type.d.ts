@@ -11,4 +11,9 @@ interface IMailer {
     text: string
 }
 
-export { IMailer, ICheckMail }
+interface IGenOTP {
+    totp: string
+    totpDate: number
+}
+
+export { IMailer, ICheckMail, IGenOTP }
