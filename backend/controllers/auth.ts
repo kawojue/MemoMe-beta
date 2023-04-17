@@ -10,7 +10,7 @@ import { ICheckMail, IMailer, IGenOTP } from '../type'
 
 // handle account creation
 const createUser = asyncHandler(async (req: any, res: Response) => {
-    let { email, pswd, pswd2 }: any = req.body
+    let { email, pswd, pswd2, createdAt }: any = req.body
     email = email?.toLowerCase()?.trim()
 
     const { valid, validators }: ICheckMail = await checkMail(email)
@@ -68,6 +68,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
         user,
         password: pswd as string,
         'mail.email': email as string,
+        createdAt
     })
 
     res.status(201).json({
@@ -227,7 +228,14 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
 })
 
 const logout = asyncHandler(async (req: any, res: Response) => {
-    const account: any = await User.findOne({ token: req.user?.token })
+    const authHeader = req.headers?.authorization
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.sendStatus(204)
+    }
+    
+    const token: string = authHeader.split(' ')[1]
+    const account: any = await User.findOne({ token })
+
     if (!account) {
         return res.sendStatus(204)
     }
