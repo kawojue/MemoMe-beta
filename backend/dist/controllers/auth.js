@@ -12,8 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.createUser = void 0;
+exports.usernameHandler = exports.otpHandler = exports.login = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const mailer_1 = __importDefault(require("../config/mailer"));
+const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const checkMail_1 = __importDefault(require("../config/checkMail"));
@@ -117,3 +119,86 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     });
 }));
 exports.login = login;
+// send otp to user
+const otpHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
+    let { email } = req.body;
+    email = (_c = email === null || email === void 0 ? void 0 : email.trim()) === null || _c === void 0 ? void 0 : _c.toLowerCase();
+    const { totp, totpDate } = (0, genOTP_1.default)();
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "Invalid email"
+        });
+    }
+    const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
+    if (!account) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "There is no account associated with this email."
+        });
+    }
+    account.OTP.totp = totp;
+    account.OTP.totpDate = totpDate;
+    yield account.save();
+    const transportMail = {
+        senderName: "Kawojue Raheem - Admin",
+        to: email,
+        subject: "Verification Code",
+        text: `Code: ${totp}`
+    };
+    yield (0, mailer_1.default)(transportMail);
+    res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "OTP has been sent to your email."
+    });
+}));
+exports.otpHandler = otpHandler;
+// change username
+const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d, _e;
+    let { pswd, newUser } = req.body;
+    newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+    if (!newUser || !pswd) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required"
+        });
+    }
+    const account = yield UserModel_1.default.findOne({ user: (_e = req.user) === null || _e === void 0 ? void 0 : _e.user });
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            msg: "Sorry, something went wrong. Try logging out then login."
+        });
+    }
+    const userExists = yield UserModel_1.default.findOne({ user: newUser });
+    if (userExists) {
+        return res.status(409).json({
+            success: false,
+            action: "info",
+            msg: "Username has been taken."
+        });
+    }
+    const match = yield bcrypt_1.default.compare(pswd, account.password);
+    if (!match) {
+        return res.status(401).json({
+            success: false,
+            action: "error",
+            msg: "Incorrect password."
+        });
+    }
+    account.user = newUser;
+    yield account.save();
+    return res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "You've successfully changed your username."
+    });
+}));
+exports.usernameHandler = usernameHandler;

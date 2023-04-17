@@ -75,7 +75,7 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(404).json({
             success: false,
             action: "error",
-            message: "User does not exist."
+            msg: "User does not exist."
         });
     }
     account.profileViews += 1;

@@ -11,6 +11,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const DBConn_1 = __importDefault(require("./config/DBConn"));
 const root_1 = __importDefault(require("./routes/root"));
 const corsOptions_1 = __importDefault(require("./config/corsOptions"));
+const { auth } = require('express-openid-connect');
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 1707;
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 1707;
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions_1.default));
+// app.use(auth(auth0Config))
 app.use(express_1.default.urlencoded({ extended: false }));
 // set route
 app.use('/', root_1.default);

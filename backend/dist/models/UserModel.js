@@ -57,6 +57,10 @@ const userSchema = new mongoose_1.Schema({
     body: {
         type: Boolean,
         default: false
+    },
+    OTP: {
+        totp: String,
+        totpDate: Number
     }
 });
 exports.default = mongoose_1.default.model("User", userSchema);
