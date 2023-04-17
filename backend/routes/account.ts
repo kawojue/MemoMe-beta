@@ -2,6 +2,7 @@ import express, { Router } from 'express'
 import limiter from '../middlewares/limiter'
 import { 
     createUser, login,
+    logout,
     otpHandler, usernameHandler
 } from '../controllers/auth'
 import { ILimiter } from '../type'
@@ -16,6 +17,7 @@ const loginLimiter: ILimiter = {
 }
 
 accountRoute.post('/signup', createUser)
+accountRoute.get('/logout', jwtVerify, logout)
 accountRoute.post('/edit', jwtVerify, usernameHandler)
 accountRoute.post('/login', limiter(loginLimiter), login)
 accountRoute.post('/req-otp', limiter({max: 1, timerArr: [30, 60, 90]}), otpHandler)
