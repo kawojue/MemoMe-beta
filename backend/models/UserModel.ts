@@ -34,8 +34,12 @@ const userSchema = new Schema(
         body: {
             type: Boolean,
             default: false
+        },
+        OTP: {
+            totp: String,
+            totpDate: Number
         }
-    },
+    }
 )
 
 export default mongoose.model("User", userSchema)
