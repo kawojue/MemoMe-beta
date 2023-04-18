@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usernameHandler = exports.otpHandler = exports.logout = exports.login = exports.createUser = void 0;
+exports.usernameHandler = exports.resetpswd = exports.otpHandler = exports.verifyOTP = exports.logout = exports.login = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
@@ -112,7 +112,7 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     account.token = token;
     account.lastLogin = lastLogin;
     yield account.save();
-    return res.status(200).json({
+    res.status(200).json({
         token,
         success: true,
         action: "success",
@@ -195,8 +195,9 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
         });
     }
     account.user = newUser;
+    account.token = "";
     yield account.save();
-    return res.status(200).json({
+    res.status(200).json({
         success: true,
         action: "success",
         msg: "You've successfully changed your username."
@@ -216,6 +217,97 @@ const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, func
     }
     account.token = "";
     yield account.save();
-    return res.sendStatus(204);
+    res.sendStatus(204);
 }));
 exports.logout = logout;
+// verify OTP
+const verifyOTP = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { otp, email } = req.body;
+    if (!otp || !email) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required."
+        });
+    }
+    const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
+    const totp = account.OTP.totp;
+    const totpDate = account.OTP.totpDate;
+    const expiry = totpDate + (60 * 60 * 1000); // after 1hr
+    if (expiry < Date.now()) {
+        account.OTP = {};
+        yield account.save();
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "OTP Expired."
+        });
+    }
+    if (totp !== otp) {
+        return res.status(401).json({
+            success: false,
+            action: "error",
+            msg: "Incorrect OTP"
+        });
+    }
+    account.OTP = {};
+    yield account.save();
+    res.status(200).json({
+        verified: true,
+        email,
+        user: account.user
+    });
+}));
+exports.verifyOTP = verifyOTP;
+// reset password
+const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { verified, email, newPswd, newPswd2 } = req.body;
+    if (!verified) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "You're not eligible to reset your password."
+        });
+    }
+    if (!email || !newPswd) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required."
+        });
+    }
+    if (newPswd !== newPswd2) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Password does not match."
+        });
+    }
+    const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            msg: "Account does not exist."
+        });
+    }
+    const compare = yield bcrypt_1.default.compare(newPswd, account.password);
+    if (compare) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "You input your current passowrd"
+        });
+    }
+    const salt = yield bcrypt_1.default.genSalt(10);
+    const hasedPswd = yield bcrypt_1.default.hash(newPswd, salt);
+    account.password = hasedPswd;
+    account.token = "";
+    yield account.save();
+    res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "Password has been reset successfully."
+    });
+}));
+exports.resetpswd = resetpswd;

@@ -80,7 +80,7 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     account.profileViews += 1;
     yield account.save();
-    return res.sendStatus(200);
+    res.sendStatus(200);
 }));
 exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -101,18 +101,17 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
             body: []
         });
     }
-    const memos = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
+    let memos = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
     if (!memos) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "Something went wrong.."
-        });
+        memos = [];
     }
-    return res.status(200).json({
+    res.status(200).json({
         success: true,
         action: "success",
-        body: [account, memos]
+        body: {
+            account,
+            memos
+        }
     });
 }));
 exports.getMemos = getMemos;
