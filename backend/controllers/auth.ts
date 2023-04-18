@@ -245,8 +245,6 @@ const logout = asyncHandler(async (req: any, res: Response) => {
     res.sendStatus(204)
 })
 
-// reset password
-
 // verify OTP
 const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
     const { otp, email, otpDate }: any = req.body
@@ -259,7 +257,7 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    const account: any = await User.findOne({ 'mail.email': email })
+    const account: any = await User.findOne({ 'mail.email': email }).exec()
     const totp = account.OTP.totp
     const totpDate = account.OTP.totpDate
     const expiry: number = totpDate + (60 * 60 * 1000) // after 1hr
@@ -287,6 +285,60 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
         email,
         user: account.user
     })
+})
+
+// reset password
+
+const resetpswd = asyncHandler(async (req: Request, res: Response) => {
+    const { verified, email, newPswd, newPswd2 }: any = req.body
+
+    if (!verified) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "You're not eligible to reset your password."
+        })
+    }
+
+    if (!email || !newPswd) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "All fields are required."
+        })
+    }
+
+    if (newPswd !== newPswd2) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Password does not match."
+        })
+    }
+
+    const account: any = await User.findOne({ 'mail.email': email }).exec()
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: "error",
+            msg: "Account does not exist."
+        })
+    }
+
+    const compare = await bcrypt.compare(newPswd, account.password)
+    if (compare) {
+        return res.status(404).json({
+            success: false,
+            action: "warning",
+            msg: "You input your current passowrd"
+        })
+    }
+
+    const salt: string = await bcrypt.genSalt(10)
+    const hasedPswd: string = await bcrypt.hash(newPswd, salt)
+
+    account.password = hasedPswd
+    await account.save()
 })
 
 export {
