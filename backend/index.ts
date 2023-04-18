@@ -9,7 +9,7 @@ import rootRoute from './routes/root'
 import corsOptions from './config/corsOptions'
 const { auth } = require('express-openid-connect')
 import express, { Application } from 'express'
-import { auth0Config } from './config/auth0Config'
+import { auth0Config } from './config/auth0'
 
 const app: Application = express()
 const PORT = process.env.PORT || 1707
