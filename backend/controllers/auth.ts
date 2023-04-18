@@ -29,7 +29,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             action: "warning",
             msg: "Passwords does not match."
         })
-        
+
     }
 
     if (validators.regex.valid === false) {
@@ -38,7 +38,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             action: "error",
             msg: "Email Regex is not valid."
         })
-        
+
     }
 
     if (valid === false) {
@@ -47,7 +47,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             action: "error",
             msg: validators.smtp.reason
         })
-        
+
     }
 
     const user: string = email.split('@')[0]
@@ -95,7 +95,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
     const account: any = await User.findOne(
         EMAIL_REGEX.test(userId) ?
-        { 'mail.email': userId } : { user: userId }
+            { 'mail.email': userId } : { user: userId }
     ).exec()
 
     if (!account) {
@@ -114,7 +114,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
             msg: "Incorrect password."
         })
     }
-    
+
     const token: Secret = jwt.sign(
         { "user": account.user },
         process.env.JWT_SECRET as string,
@@ -218,6 +218,7 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     }
 
     account.user = newUser
+    account.token = ""
     await account.save()
 
     res.status(200).json({
@@ -247,9 +248,9 @@ const logout = asyncHandler(async (req: any, res: Response) => {
 
 // verify OTP
 const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
-    const { otp, email, otpDate }: any = req.body
+    const { otp, email }: any = req.body
 
-    if (!otp || !email || otpDate) {
+    if (!otp || !email) {
         return res.status(400).json({
             success: false,
             action: "error",
@@ -280,6 +281,9 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
+    account.OTP = {}
+    await account.save()
+
     res.status(200).json({
         verified: true,
         email,
@@ -288,7 +292,6 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // reset password
-
 const resetpswd = asyncHandler(async (req: Request, res: Response) => {
     const { verified, email, newPswd, newPswd2 }: any = req.body
 
@@ -327,7 +330,7 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
 
     const compare = await bcrypt.compare(newPswd, account.password)
     if (compare) {
-        return res.status(404).json({
+        return res.status(400).json({
             success: false,
             action: "warning",
             msg: "You input your current passowrd"
@@ -338,7 +341,14 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
     const hasedPswd: string = await bcrypt.hash(newPswd, salt)
 
     account.password = hasedPswd
+    account.token = ""
     await account.save()
+
+    res.status(200).json({
+        success: true,
+        action: "success",
+        msg: "Password has been reset successfully."
+    })
 })
 
 export {
