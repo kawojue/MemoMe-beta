@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+
+body {
+    @apply bg-clr-0;
+}
+
+.trans {
+    @apply transition-all duration-200 ease-linear;
+}
+
+.hamburger {
+    @apply w-[25px] h-[25px] relative cursor-pointer;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+    @apply absolute top-0 left-0 w-[25px] h-[2.75px] bg-white transform rotate-0;
+}
+
+.hamburger-middle {
+    @apply transform translate-y-[7px];
+}
+
+.hamburger-bottom {
+    @apply transform translate-y-[14px];
+}
+
+.open {
+    @apply transform rotate-[90deg] translate-y-0;
+}
+
+.open .hamburger-top {
+    transform: rotate(45deg) translateY(6px) translate(6px);
+}
+
+.open .hamburger-middle {
+    @apply hidden;
+}
+
+.open .hamburger-bottom {
+    transform: rotate(-45deg) translateY(6px) translate(-6px);
+}
+
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
