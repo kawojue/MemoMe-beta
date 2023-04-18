@@ -1,11 +1,12 @@
-import express, { Router } from 'express'
-import limiter from '../middlewares/limiter'
 import { 
     createUser, login,
-    logout,
-    otpHandler, usernameHandler
+    logout, otpHandler,
+    usernameHandler
 } from '../controllers/auth'
 import { ILimiter } from '../type'
+import password from './api/password'
+import express, { Router } from 'express'
+import limiter from '../middlewares/limiter'
 import jwtVerify from '../middlewares/jwtVerify'
 
 const accountRoute: Router = express.Router()
@@ -17,6 +18,7 @@ const loginLimiter: ILimiter = {
 }
 
 accountRoute.get('/logout', logout)
+accountRoute.use('/password', password)
 accountRoute.post('/signup', createUser)
 accountRoute.post('/edit', jwtVerify, usernameHandler)
 accountRoute.post('/login', limiter(loginLimiter), login)
