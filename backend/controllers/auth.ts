@@ -344,5 +344,6 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
 export {
     createUser, login,
     logout, verifyOTP,
-    otpHandler, usernameHandler,
+    otpHandler, resetpswd,
+    usernameHandler,
 }
