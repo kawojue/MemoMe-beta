@@ -97,20 +97,19 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const memos: any = await MemoMe.findOne({ user: account.id }).exec()
+    let memos: any = await MemoMe.findOne({ user: account.id }).exec()
 
     if (!memos) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "Something went wrong.."
-        })
+        memos = []
     }
 
     res.status(200).json({
         success: true,
         action: "success",
-        body: [account, memos]
+        body: {
+            account,
+            memos
+        }
     })
 })
 
