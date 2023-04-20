@@ -3,13 +3,16 @@ import User from '../models/UserModel'
 import MemoMe from '../models/MemoMeModel'
 import { Request, Response } from 'express'
 const textCrypt = require('text-encryption')
+import cloudinary from '../config/cloudinary'
 const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
     let { user }: any = req.params
-    let { content }: any = req.body
+    let { content, image }: any = req.body
     user = user?.toLowerCase()?.trim()
     content = content?.toLowerCase()?.trim()
+    let imageRes: any
+    let encryptContent: any
 
     if (!user) {
         return res.status(400).json({
@@ -19,11 +22,11 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    if (!content) {
+    if (!content && !image) {
         return res.status(400).json({
             success: false,
             action: "warning",
-            msg: "Content cannot be blank"
+            msg: "Credentials cannot be blank"
         })
     }
 
@@ -37,13 +40,25 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    const encryptContent: string = textCrypt.encrypt(content, process.env.STRING_KEY as string)
+    if (image) {
+        imageRes = await cloudinary.uploader.upload(image, { folder: account.id as string })
+    }
+
+    if (content) {
+        encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY as string)
+    }
+
 
     if (account.body) {
         const memome: any = await MemoMe.findOne({ user: account.id }).exec()
         memome.body = [...memome.body, {
             idx: uuid(),
-            content: encryptContent
+            content: encryptContent as string,
+            time: new Date().toISOString() as string,
+            image: {
+                public_id: imageRes.public_id,
+                secure_url: imageRes.secure_url
+            }
         }]
         await memome.save()
         return res.sendStatus(200)
@@ -53,7 +68,12 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         user: account.id,
         body: [{
             idx: uuid(),
-            content: encryptContent
+            content: encryptContent as string,
+            time: new Date().toISOString() as string,
+            image: {
+                public_id: imageRes.public_id,
+                secure_url: imageRes.secure_url
+            }
         }]
     })
     account.body = true
