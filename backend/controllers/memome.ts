@@ -7,12 +7,15 @@ import cloudinary from '../config/cloudinary'
 const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
-    let { user }: any = req.params
-    let { content, image }: any = req.body
-    user = user?.toLowerCase()?.trim()
-    content = content?.toLowerCase()?.trim()
     let imageRes: any
     let encryptContent: any
+
+    let { user }: any = req.params
+    let { content, image }: any = req.body
+
+    user = user?.toLowerCase()?.trim()
+    content = content?.toLowerCase()?.trim()
+
 
     if (!user) {
         return res.status(400).json({
