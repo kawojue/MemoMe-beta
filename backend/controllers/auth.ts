@@ -186,7 +186,8 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     const restrictedUser: string[] = [
         "profile", "admin", "account",
         "api", "root", "wp-admin", "user",
-        "id"
+        "id", "signup", "login", "edit",
+        "password", "reset", "logout" 
     ]
 
     if (!newUser || !pswd) {
