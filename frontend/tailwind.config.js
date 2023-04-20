@@ -9,7 +9,9 @@ module.exports = {
     extend: {
       colors: {
         "clr-0": "rgb(51, 51, 51)",
-        "clr-1": "rgb(100, 92, 255)"
+        "clr-1": "rgb(100, 92, 255)",
+        "clr-2": "rgb(100, 92, 255, 0.5)",
+        "clr-3": "rgb(255, 248, 240)"
       },
       fontFamily: {
         kaushan: ["Kaushan Script", 'cursive'],
