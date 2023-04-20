@@ -181,12 +181,27 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     let { pswd, newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
+    const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
+
+    const restrictedUser: string[] = [
+        "profile", "admin", "account",
+        "api", "root", "wp-admin", "user",
+        "id"
+    ]
 
     if (!newUser || !pswd) {
         return res.status(400).json({
             success: false,
             action: "error",
             msg: "All fields are required"
+        })
+    }
+
+    if (restrictedUser.includes(newUser) || !USER_REGEX.test(newUser)) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Username is not allowed."
         })
     }
 
