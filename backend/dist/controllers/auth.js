@@ -163,6 +163,13 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
     var _d, _e;
     let { pswd, newUser } = req.body;
     newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+    const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
+    const restrictedUser = [
+        "profile", "admin", "account",
+        "api", "root", "wp-admin", "user",
+        "id", "signup", "login", "edit",
+        "password", "reset", "logout"
+    ];
     if (!newUser || !pswd) {
         return res.status(400).json({
             success: false,
@@ -170,12 +177,19 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
             msg: "All fields are required"
         });
     }
+    if (restrictedUser.includes(newUser) || !USER_REGEX.test(newUser)) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Username is not allowed."
+        });
+    }
     const account = yield UserModel_1.default.findOne({ user: (_e = req.user) === null || _e === void 0 ? void 0 : _e.user });
     if (!account) {
         return res.status(404).json({
             success: false,
             action: "error",
-            msg: "Sorry, something went wrong. Try logging out then login."
+            msg: "Sorry, something went wrong. Try logging out then login again."
         });
     }
     const userExists = yield UserModel_1.default.findOne({ user: newUser });
@@ -251,6 +265,7 @@ const verifyOTP = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     account.OTP = {};
+    account.mail.verifed = true;
     yield account.save();
     res.status(200).json({
         verified: true,

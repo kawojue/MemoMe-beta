@@ -17,11 +17,14 @@ const uuid_1 = require("uuid");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const MemoMeModel_1 = __importDefault(require("../models/MemoMeModel"));
 const textCrypt = require('text-encryption');
+const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 const asyncHandler = require('express-async-handler');
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
+    let imageRes;
+    let encryptContent;
     let { user } = req.params;
-    let { content } = req.body;
+    let { content, image } = req.body;
     user = (_a = user === null || user === void 0 ? void 0 : user.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     content = (_b = content === null || content === void 0 ? void 0 : content.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
     if (!user) {
@@ -31,11 +34,11 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "Invalid params"
         });
     }
-    if (!content) {
+    if (!content && !image) {
         return res.status(400).json({
             success: false,
             action: "warning",
-            msg: "Content cannot be blank"
+            msg: "Credentials cannot be blank"
         });
     }
     const account = yield UserModel_1.default.findOne({ user }).exec();
@@ -46,12 +49,22 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "User does not exist."
         });
     }
-    const encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY);
+    if (image) {
+        imageRes = yield cloudinary_1.default.uploader.upload(image, { folder: account.id });
+    }
+    if (content) {
+        encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY);
+    }
     if (account.body) {
         const memome = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
         memome.body = [...memome.body, {
                 idx: (0, uuid_1.v4)(),
-                content: encryptContent
+                content: encryptContent,
+                time: new Date().toISOString(),
+                image: {
+                    public_id: imageRes.public_id,
+                    secure_url: imageRes.secure_url
+                }
             }];
         yield memome.save();
         return res.sendStatus(200);
@@ -60,7 +73,12 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         user: account.id,
         body: [{
                 idx: (0, uuid_1.v4)(),
-                content: encryptContent
+                content: encryptContent,
+                time: new Date().toISOString(),
+                image: {
+                    public_id: imageRes.public_id,
+                    secure_url: imageRes.secure_url
+                }
             }]
     });
     account.body = true;

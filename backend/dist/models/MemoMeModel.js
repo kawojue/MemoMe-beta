@@ -32,8 +32,15 @@ const MemoMeSchema = new mongoose_1.Schema({
     },
     body: [{
             idx: String,
-            image: String,
-            content: String
+            image: {
+                sucure_url: String,
+                public_id: String
+            },
+            content: String,
+            time: {
+                type: String,
+                required: true
+            }
         }]
 });
 exports.default = mongoose_1.default.model("MemoMe", MemoMeSchema);
