@@ -210,7 +210,7 @@ const usernameHandler = asyncHandler(async (req: any, res: Response) => {
         return res.status(404).json({
             success: false,
             action: "error",
-            msg: "Sorry, something went wrong. Try logging out then login."
+            msg: "Sorry, something went wrong. Try logging out then login again."
         })
     }
 
