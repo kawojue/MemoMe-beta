@@ -16,7 +16,6 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     user = user?.toLowerCase()?.trim()
     content = content?.toLowerCase()?.trim()
 
-
     if (!user) {
         return res.status(400).json({
             success: false,
