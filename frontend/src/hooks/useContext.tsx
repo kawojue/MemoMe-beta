@@ -1,8 +1,15 @@
+"use client"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
 const Context = createContext({})
 
 export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+    const [auth, setAuth] = useState<any>({})
+
+    useEffect(() => {
+        setAuth(JSON.parse(localStorage.getItem("token") as any) || {})
+    }, [])
+
     return (
         <Context.Provider value={{
 
