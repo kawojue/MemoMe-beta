@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Kaushan+Script&display=swap');
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+body {
+  @apply bg-clr-0;
+}
+
+.trans {
+  @apply transition-all duration-200 ease-linear;
+}
+
+.hamburger {
+  @apply w-[25px] h-[25px] relative cursor-pointer;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+  @apply absolute top-0 left-0 w-[25px] h-[2.75px] bg-white transform rotate-0;
+}
+
+.hamburger-middle {
+  @apply transform translate-y-[7px];
+}
+
+.hamburger-bottom {
+  @apply transform translate-y-[14px];
+}
+
+.open {
+  @apply transform rotate-[90deg] translate-y-0;
+}
+
+.open .hamburger-top {
+  transform: rotate(45deg) translateY(6px) translate(6px);
+}
+
+.open .hamburger-middle {
+  @apply hidden;
+}
+
+.open .hamburger-bottom {
+  transform: rotate(-45deg) translateY(6px) translate(-6px);
+}
+
+.loading-spin {
+  animation: dis-appear 2s ease-in-out infinite;
+}
+
+.spin-sector {
+  border: 15px solid transparent;
+  animation: rotate var(--duration) var(--timing) infinite;
+  @apply absolute w-full h-full mix-blend-overlay rounded-[50%] pointer-events-none;
+}
+
+.spin-sector-1 {
+  border-top-color: lightblue;
+  --timing: ease-in-out;
+  --duration: 0.75s;
+}
+
+.spin-sector-2 {
+  border-left-color: purple;
+  --timing: ease-in-out;
+  --duration: 1.25s;
+}
+
+.spin-sector-3 {
+  border-right-color: lightcoral;
+  --timing: ease-in-out;
+  --duration: 1.5s;
+}
+
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dis-appear {
+
+  0%,
+  100% {
+    color: rgba(201, 198, 198, 1);
+  }
+
+  25%,
+  75% {
+    color: rgba(201, 198, 198, 0.5);
+  }
+
+  50% {
+    color: rgba(201, 198, 198, 0.1);
+  }
+}
