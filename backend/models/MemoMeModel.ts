@@ -8,8 +8,15 @@ const MemoMeSchema = new Schema({
     },
     body: [{
         idx: String,
-        image: String,
-        content: String
+        image: {
+            sucure_url: String,
+            public_id: String
+        },
+        content: String,
+        time: {
+            type: String,
+            required: true
+        }
     }]
 })
 
