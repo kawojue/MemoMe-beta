@@ -7,7 +7,7 @@ const User = ({ data }: { data: any }) => {
     const router: NextRouter = useRouter()
 
     useEffect(() => {
-        if (data.err) {
+        if (!data.err) {
             router.push("/404")
         }
     }, [router, data])
