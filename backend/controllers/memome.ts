@@ -7,11 +7,11 @@ import cloudinary from '../config/cloudinary'
 const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
-    let imageRes: any
+    let mediaRes: any
     let encryptContent: any
 
     let { user }: any = req.params
-    let { content, image }: any = req.body
+    let { content, media }: any = req.body
 
     user = user?.toLowerCase()?.trim()
     content = content?.toLowerCase()?.trim()
@@ -24,7 +24,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    if (!content && !image) {
+    if (!content && !media) {
         return res.status(400).json({
             success: false,
             action: "warning",
@@ -42,8 +42,8 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    if (image) {
-        imageRes = await cloudinary.uploader.upload(image, { folder: account.id as string })
+    if (media) {
+        mediaRes = await cloudinary.uploader.upload(media, { folder: account.id as string })
     }
 
     if (content) {
@@ -57,9 +57,9 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             idx: uuid(),
             content: encryptContent as string,
             time: new Date().toISOString() as string,
-            image: {
-                public_id: imageRes.public_id,
-                secure_url: imageRes.secure_url
+            media: {
+                public_id: mediaRes.public_id,
+                secure_url: mediaRes.secure_url
             }
         }]
         await memome.save()
@@ -72,9 +72,9 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             idx: uuid(),
             content: encryptContent as string,
             time: new Date().toISOString() as string,
-            image: {
-                public_id: imageRes.public_id,
-                secure_url: imageRes.secure_url
+            media: {
+                public_id: mediaRes.public_id,
+                secure_url: mediaRes.secure_url
             }
         }]
     })
