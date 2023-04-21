@@ -96,7 +96,9 @@ const countViews = asyncHandler(async (req: Request, res: Response) => {
     }
     account.profileViews += 1
     await account.save()
-    res.sendStatus(200)
+    res.status(200).json({
+        user
+    })
 })
 
 const getMemos = asyncHandler(async (req: any, res: Response) => {
