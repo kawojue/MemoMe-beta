@@ -1,20 +1,75 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client"
+import { toast } from 'react-toastify'
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
 const Context: any = createContext({})
 
 export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+    const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
+
+    const userRef = useRef<HTMLInputElement>(null)
+    const emailRef = useRef<HTMLInputElement>(null)
+
     const [auth, setAuth] = useState<any>({})
     const [aside, setAside] = useState<boolean>(false)
+    const [showPswd, setShowPswd] = useState<boolean>(false)
+
+    const [email, setEmail] = useState<string>('')
+    const [validEmail, setValidEmail] = useState<boolean>(false)
+    const [emailFocus, setEmailFocus] = useState<boolean>(false)
+
+    const [pswd, setPswd] = useState<string>('')
+    const [pswdFocus, setPswdFocus] = useState<boolean>(false)
+
+    const [confirmPswd, setConfirmPswd] = useState<string>('')
+    const [validConfirm, setValidConfirm] = useState<boolean>(false)
+    const [confirmFocus, setConfirmFocus] = useState<boolean>(false)
+
+    useEffect(() => {
+        const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        // email validation
+        const resEmail: boolean = EMAIL_REGEX.test(email)
+        setValidEmail(resEmail)
+
+        // password validation
+        if (pswd) {
+            const confirm: boolean = pswd === confirmPswd
+            setValidConfirm(confirm)
+        }
+    }, [email, pswd, confirmPswd])
 
     useEffect(() => {
         setAuth(JSON.parse(localStorage.getItem("token") as any) || {})
     }, [])
 
+
+    const errorModal = (action: string, msg: string) => {
+        if (action === "success") {
+            toast.success(msg, {
+                position: toast.POSITION.TOP_RIGHT
+            })
+        }
+        if (action === "warning") {
+            toast.warning(msg, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        }
+        if (action === "error") {
+            toast.error(msg, {
+                position: toast.POSITION.BOTTOM_LEFT
+            })
+        }
+    }
+
     return (
         <Context.Provider value={{
-            auth, aside, setAside
+            auth, aside, setAside, email, setEmail,
+            validEmail, confirmFocus, setConfirmFocus,
+            confirmPswd, setConfirmPswd, validConfirm,
+            pswdFocus, setPswdFocus, pswd, setPswd,
+            emailFocus, setEmailFocus, emailRef,
+            showPswd, setShowPswd, USER_REGEX, userRef,
+            errorModal
         }}>
             {children}
         </Context.Provider>
