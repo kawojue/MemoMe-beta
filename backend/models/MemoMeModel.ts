@@ -8,7 +8,7 @@ const MemoMeSchema = new Schema({
     },
     body: [{
         idx: String,
-        image: {
+        media: {
             sucure_url: String,
             public_id: String
         },
