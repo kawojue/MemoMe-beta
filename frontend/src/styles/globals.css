@@ -4,6 +4,10 @@
 @tailwind utilities;
 @tailwind components;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply bg-clr-0;
 }
@@ -74,6 +78,50 @@ body {
   --timing: ease-in-out;
   --duration: 1.5s;
 }
+
+.settings,
+.close-sidebar {
+  @apply text-clr-4;
+}
+
+.settings {
+  @apply text-[20px]
+}
+
+.close-sidebar {
+  @apply text-[25px];
+}
+
+.sidebar {
+  @apply fixed top-0 h-screen w-screen place-items-center bg-clr-z hidden;
+}
+
+.sidebar.show {
+  @apply grid
+}
+
+#sidebar.show.overlay {
+  @apply bg-clr-z;
+}
+
+#sidebar {
+  @apply fixed top-0 z-[100] trans grid place-items-end h-screen w-screen overlay;
+}
+
+#aside {
+  @apply relative bg-clr-5 max-w-[300px] w-[90vw] h-full trans overflow-x-hidden;
+}
+
+#sidebar,
+#aside {
+  transform: translate(100%);
+}
+
+#sidebar.show,
+#aside.show {
+  transform: translate(0);
+}
+
 
 
 @keyframes bounce {
