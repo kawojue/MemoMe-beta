@@ -1,6 +1,8 @@
-import Link from 'next/link'
+import useAuth from '@/hooks/useAuth'
 
 const HeaderB = () => {
+    const { aside, setAside }: any = useAuth()
+
     return (
         <header className="w-full">
             <nav className="flex justify-between items-center mx-auto md:px-10 px-7 py-5">
@@ -10,13 +12,14 @@ const HeaderB = () => {
                 </div>
                 <ul className="md:flex gap-10 hidden">
                     <li>
-                        <Link href="/logout"
+                        <button type="button"
                         className="text-xl text-white bg-red-500 rounded-lg px-3 py-1 font-poppins hover:bg-red-600 hover:text-clr-3 trans tracking-wider">
                             Logout
-                        </Link>
+                        </button>
                     </li>
                 </ul>
-                <button type="button" className="block hamburger md:hidden focus:outline-none trans">
+                <button type="button" onClick={() => setAside(!aside)}
+                className={`${aside ? 'open' : ''} block hamburger md:hidden focus:outline-none trans`}>
                     <span className="hamburger-top trans"></span>
                     <span className="hamburger-middle trans"></span>
                     <span className="hamburger-bottom trans"></span>
