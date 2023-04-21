@@ -1,13 +1,17 @@
 import Head from "next/head"
 
 interface IMeta {
-    title: string,
+    title?: string,
     description?: string,
     keywords?: string,
 
 }
 
-const Meta = ({ keywords, title, description }: IMeta) => {
+const Meta: React.FC<IMeta> = ({
+    title = 'MemoMe',
+    keywords = 'anonymous, send, share, secure',
+    description = 'Send and Recieve Anonymous Messages.'
+}) => {
     return (
         <Head>
             <title>{title}</title>
@@ -19,12 +23,6 @@ const Meta = ({ keywords, title, description }: IMeta) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
     )
-}
-
-Meta.defaultProps = {
-    title: 'MemoMe',
-    keywords: 'anonymous, send, share, secure',
-    description: 'Send and Recieve Anonymous Messages.'
 }
 
 export default Meta
