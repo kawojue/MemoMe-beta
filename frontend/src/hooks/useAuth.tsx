@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     }, [])
 
 
-    const errorModal = (action: string, msg: string) => {
+    const notify = (action: string, msg: string) => {
         if (action === "success") {
             toast.success(msg, {
                 position: toast.POSITION.TOP_RIGHT
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             pswdFocus, setPswdFocus, pswd, setPswd,
             emailFocus, setEmailFocus, emailRef,
             showPswd, setShowPswd, USER_REGEX, userRef,
-            errorModal
+            notify
         }}>
             {children}
         </Context.Provider>
