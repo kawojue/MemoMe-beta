@@ -8,6 +8,15 @@ import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 import { ICheckMail, IMailer, IGenOTP } from '../type'
 
+const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
+const restrictedUser: string[] = [
+        "profile", "admin", "account",
+        "api", "root", "wp-admin", "user",
+        "id", "signup", "login", "edit",
+        "password", "reset", "logout",
+        "memome"
+]
+
 // handle account creation
 const createUser = asyncHandler(async (req: any, res: Response) => {
     let { email, pswd, pswd2, createdAt }: any = req.body
@@ -29,7 +38,6 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             action: "warning",
             msg: "Passwords does not match."
         })
-
     }
 
     if (validators.regex.valid === false) {
@@ -52,6 +60,14 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
 
     const user: string = email.split('@')[0]
     const account: any = await User.findOne({ 'mail.email': email }).exec()
+
+    if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Username is not allowed."
+        })
+    }
 
     if (account) {
         return res.status(409).json({
@@ -181,14 +197,6 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 const usernameHandler = asyncHandler(async (req: any, res: Response) => {
     let { pswd, newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
-    const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
-
-    const restrictedUser: string[] = [
-        "profile", "admin", "account",
-        "api", "root", "wp-admin", "user",
-        "id", "signup", "login", "edit",
-        "password", "reset", "logout" 
-    ]
 
     if (!newUser || !pswd) {
         return res.status(400).json({
