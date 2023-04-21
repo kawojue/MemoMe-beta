@@ -32,8 +32,8 @@ const MemoMeSchema = new mongoose_1.Schema({
     },
     body: [{
             idx: String,
-            image: {
-                sucure_url: String,
+            media: {
+                secure_url: String,
                 public_id: String
             },
             content: String,

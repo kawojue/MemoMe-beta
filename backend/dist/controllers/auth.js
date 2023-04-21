@@ -20,6 +20,14 @@ const UserModel_1 = __importDefault(require("../models/UserModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const checkMail_1 = __importDefault(require("../config/checkMail"));
 const asyncHandler = require('express-async-handler');
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
+const restrictedUser = [
+    "profile", "admin", "account",
+    "api", "root", "wp-admin", "user",
+    "id", "signup", "login", "edit",
+    "password", "reset", "logout",
+    "memome"
+];
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -56,6 +64,13 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     const user = email.split('@')[0];
     const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
+    if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {
+        return res.status(400).json({
+            success: false,
+            action: "warning",
+            msg: "Username is not allowed."
+        });
+    }
     if (account) {
         return res.status(409).json({
             success: false,
@@ -163,13 +178,6 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
     var _d, _e;
     let { pswd, newUser } = req.body;
     newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
-    const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
-    const restrictedUser = [
-        "profile", "admin", "account",
-        "api", "root", "wp-admin", "user",
-        "id", "signup", "login", "edit",
-        "password", "reset", "logout"
-    ];
     if (!newUser || !pswd) {
         return res.status(400).json({
             success: false,

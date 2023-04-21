@@ -21,10 +21,10 @@ const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 const asyncHandler = require('express-async-handler');
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    let imageRes;
+    let mediaRes;
     let encryptContent;
     let { user } = req.params;
-    let { content, image } = req.body;
+    let { content, media } = req.body;
     user = (_a = user === null || user === void 0 ? void 0 : user.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     content = (_b = content === null || content === void 0 ? void 0 : content.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
     if (!user) {
@@ -34,7 +34,7 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "Invalid params"
         });
     }
-    if (!content && !image) {
+    if (!content && !media) {
         return res.status(400).json({
             success: false,
             action: "warning",
@@ -49,8 +49,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "User does not exist."
         });
     }
-    if (image) {
-        imageRes = yield cloudinary_1.default.uploader.upload(image, { folder: account.id });
+    if (media) {
+        mediaRes = yield cloudinary_1.default.uploader.upload(media, { folder: `MemoMe/${account.id}` });
     }
     if (content) {
         encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY);
@@ -60,10 +60,10 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         memome.body = [...memome.body, {
                 idx: (0, uuid_1.v4)(),
                 content: encryptContent,
-                time: new Date().toISOString(),
-                image: {
-                    public_id: imageRes.public_id,
-                    secure_url: imageRes.secure_url
+                time: `${new Date().toISOString()}`,
+                media: {
+                    public_id: mediaRes.public_id,
+                    secure_url: mediaRes.secure_url
                 }
             }];
         yield memome.save();
@@ -74,10 +74,10 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         body: [{
                 idx: (0, uuid_1.v4)(),
                 content: encryptContent,
-                time: new Date().toISOString(),
-                image: {
-                    public_id: imageRes.public_id,
-                    secure_url: imageRes.secure_url
+                time: `${new Date().toISOString()}`,
+                media: {
+                    public_id: mediaRes.public_id,
+                    secure_url: mediaRes.secure_url
                 }
             }]
     });
@@ -98,7 +98,9 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     account.profileViews += 1;
     yield account.save();
-    res.sendStatus(200);
+    res.status(200).json({
+        user
+    });
 }));
 exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
