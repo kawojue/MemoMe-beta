@@ -43,7 +43,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     }
 
     if (media) {
-        mediaRes = await cloudinary.uploader.upload(media, { folder: account.id as string })
+        mediaRes = await cloudinary.uploader.upload(media, { folder: `MemoMe/${account.id}` })
     }
 
     if (content) {
@@ -56,7 +56,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         memome.body = [...memome.body, {
             idx: uuid(),
             content: encryptContent as string,
-            time: new Date().toISOString() as string,
+            time: `${new Date().toISOString()}`,
             media: {
                 public_id: mediaRes.public_id,
                 secure_url: mediaRes.secure_url
@@ -71,7 +71,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         body: [{
             idx: uuid(),
             content: encryptContent as string,
-            time: new Date().toISOString() as string,
+            time: `${new Date().toISOString()}`,
             media: {
                 public_id: mediaRes.public_id,
                 secure_url: mediaRes.secure_url
