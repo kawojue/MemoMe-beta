@@ -5,7 +5,7 @@ import axios from '@/pages/api/instance'
 import { ToastContainer } from "react-toastify"
 
 const User: React.FC<{ user: string }> = ({ user }) => {
-    const { errorModal }: any = useAuth()
+    const { notify }: any = useAuth()
 
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
@@ -26,10 +26,10 @@ const User: React.FC<{ user: string }> = ({ user }) => {
     const handleMessage = async () => {
         await axios.post(`/api/${user}`, JSON.stringify({ media, content }))
         .then((res: any) => {
-            errorModal(res.data.action, res.data.msg)
+            notify(res.data.action, res.data.msg)
         })
         .catch((err: any) => {
-            errorModal(err.response.data.action, err.response.data.msg)
+            notify(err.response.data.action, err.response.data.msg)
         })
     }
 
