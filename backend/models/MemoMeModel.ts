@@ -9,7 +9,7 @@ const MemoMeSchema = new Schema({
     body: [{
         idx: String,
         media: {
-            sucure_url: String,
+            secure_url: String,
             public_id: String
         },
         content: String,
