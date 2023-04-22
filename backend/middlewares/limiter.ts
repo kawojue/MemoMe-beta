@@ -13,7 +13,7 @@ export default function limiterFunc({ max, timerArr, msg = "Too many requests se
             res.status(options.statusCode).json({
                 success: false,
                 action: "warning",
-                msg: options.message
+                msg: options.message?.message
             })
         },
         standardHeaders: true,
