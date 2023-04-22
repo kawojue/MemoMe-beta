@@ -22,6 +22,6 @@ accountRoute.use('/password', password)
 accountRoute.post('/signup', createUser)
 accountRoute.post('/edit', jwtVerify, usernameHandler)
 accountRoute.post('/login', limiter(loginLimiter), login)
-accountRoute.post('/req-otp', limiter({max: 1, timerArr: [30, 60, 90]}), otpHandler)
+accountRoute.post('/req-otp', limiter({max: 1, timerArr: [20, 30, 45]}), otpHandler)
 
 export default accountRoute
