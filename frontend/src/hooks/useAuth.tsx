@@ -56,12 +56,12 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         }
         if (action === "warning") {
             toast.warning(msg, {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: toast.POSITION.TOP_LEFT
             })
         }
         if (action === "error") {
             toast.error(msg, {
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.TOP_LEFT
             })
         }
     }
@@ -93,10 +93,24 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         await axios.post('/account/login',
         JSON.stringify({ userId, pswd }))
         .then((res: any) => {
-
+            const { token, action, msg }: any = res?.data
+            setPswd("")
+            setUserId("")
+            notify(action, msg)
+            localStorage.setItem('token', JSON.stringify(token))
+            setTimeout(() => {
+                router.push('/profile')
+            }, 1500)
         })
         .catch((err: any) => {
-
+            const errMsg: string = err.response?.data?.msg
+            const action: string = err.response?.data?.action
+            if (err.code === 'ERR_NETWORK') {
+                notify("error", "Something went wrong")
+            } else {
+                notify(action, errMsg)
+            }
+            setBtnLoading(false)
         })
     }
 
