@@ -31,7 +31,7 @@ const restrictedUser = [
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    let { email, pswd, pswd2, createdAt } = req.body;
+    let { email, pswd, pswd2 } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     const { valid, validators } = yield (0, checkMail_1.default)(email);
     if (!email || !pswd || !pswd2) {
@@ -84,7 +84,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
         user,
         password: pswd,
         'mail.email': email,
-        createdAt
+        createdAt: `${new Date()}`
     });
     res.status(201).json({
         success: true,
@@ -97,7 +97,7 @@ exports.createUser = createUser;
 const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let { userId, pswd, lastLogin } = req.body;
+    let { userId, pswd } = req.body;
     userId = (_b = userId === null || userId === void 0 ? void 0 : userId.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
     if (!userId || !pswd) {
         return res.status(400).json({
@@ -125,7 +125,7 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     }
     const token = jsonwebtoken_1.default.sign({ "user": account.user }, process.env.JWT_SECRET, { expiresIn: '90d' });
     account.token = token;
-    account.lastLogin = lastLogin;
+    account.lastLogin = `${new Date()}`;
     yield account.save();
     res.status(200).json({
         token,
