@@ -33,7 +33,6 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     }
 
     const account: any = await User.findOne({ user }).exec()
-
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -58,8 +57,8 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             content: encryptContent as string,
             time: `${new Date().toISOString()}`,
             media: {
-                public_id: mediaRes.public_id,
-                secure_url: mediaRes.secure_url
+                public_id: mediaRes?.public_id,
+                secure_url: mediaRes?.secure_url
             }
         }]
         await memome.save()
@@ -73,8 +72,8 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             content: encryptContent as string,
             time: `${new Date().toISOString()}`,
             media: {
-                public_id: mediaRes.public_id,
-                secure_url: mediaRes.secure_url
+                public_id: mediaRes?.public_id,
+                secure_url: mediaRes?.secure_url
             }
         }]
     })
@@ -84,7 +83,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     res.sendStatus(200)
 })
 
-const countViews = asyncHandler(async (req: Request, res: Response) => {
+const getUser = asyncHandler(async (req: Request, res: Response) => {
     const { user } = req.params
     const account: any = await User.findOne({ user }).select('-password').exec()
     if (!account) {
@@ -137,4 +136,4 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
     })
 })
 
-export { addMemo, countViews, getMemos }
+export { addMemo, getUser, getMemos }
