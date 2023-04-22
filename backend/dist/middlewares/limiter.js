@@ -12,10 +12,11 @@ function limiterFunc({ max, timerArr, msg = "Too many requests sent." }) {
             message: msg
         },
         handler: (req, res, next, options) => {
+            var _a;
             res.status(options.statusCode).json({
                 success: false,
                 action: "warning",
-                msg: options.message
+                msg: (_a = options.message) === null || _a === void 0 ? void 0 : _a.message
             });
         },
         standardHeaders: true,

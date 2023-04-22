@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMemos = exports.countViews = exports.addMemo = void 0;
+exports.getMemos = exports.getUser = exports.addMemo = void 0;
 const uuid_1 = require("uuid");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const MemoMeModel_1 = __importDefault(require("../models/MemoMeModel"));
@@ -62,8 +62,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
                 content: encryptContent,
                 time: `${new Date().toISOString()}`,
                 media: {
-                    public_id: mediaRes.public_id,
-                    secure_url: mediaRes.secure_url
+                    public_id: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.public_id,
+                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url
                 }
             }];
         yield memome.save();
@@ -76,8 +76,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
                 content: encryptContent,
                 time: `${new Date().toISOString()}`,
                 media: {
-                    public_id: mediaRes.public_id,
-                    secure_url: mediaRes.secure_url
+                    public_id: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.public_id,
+                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url
                 }
             }]
     });
@@ -86,7 +86,7 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
     res.sendStatus(200);
 }));
 exports.addMemo = addMemo;
-const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req.params;
     const account = yield UserModel_1.default.findOne({ user }).select('-password').exec();
     if (!account) {
@@ -102,7 +102,7 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
         user
     });
 }));
-exports.countViews = countViews;
+exports.getUser = getUser;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c;
     const account = yield UserModel_1.default.findOne({ user: (_c = req.user) === null || _c === void 0 ? void 0 : _c.user })

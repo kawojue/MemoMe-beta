@@ -19,5 +19,5 @@ accountRoute.use('/password', password_1.default);
 accountRoute.post('/signup', auth_1.createUser);
 accountRoute.post('/edit', jwtVerify_1.default, auth_1.usernameHandler);
 accountRoute.post('/login', (0, limiter_1.default)(loginLimiter), auth_1.login);
-accountRoute.post('/req-otp', (0, limiter_1.default)({ max: 1, timerArr: [30, 60, 90] }), auth_1.otpHandler);
+accountRoute.post('/req-otp', (0, limiter_1.default)({ max: 1, timerArr: [20, 30, 45] }), auth_1.otpHandler);
 exports.default = accountRoute;
