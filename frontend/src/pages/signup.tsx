@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
 import HeaderA from "@/components/HeaderA"
+import PswdButton from '@/components/PswdBtn'
 
 function signup() {
     const {
@@ -40,24 +41,26 @@ function signup() {
                     </div>
                     <div className="form-group">
                         <label>Password</label>
-                        <div>
+                        <div className="pswd-container">
                             <input max={32} value={pswd}
                             onChange={(e) => setPswd(e.target.value)}
+                            type={`${showPswd ? 'text': 'password'}`}
                             className={`border-2 ${validPswd ?
                             'border-green-400' : 'border-2 border-red-400'}`}
                             aria-invalid={validPswd ? "false" : "true"}
                             aria-describedby="uidnote" />
+                            <PswdButton get={showPswd} set={setShowPswd} />
                         </div>
                     </div>
                     <div className="form-group">
                         <label>Confirm Password</label>
-                        <div>
+                        <div className="pswd-container">
                             <input max={32} value={confirmPswd}
+                            type='password' aria-describedby="uidnote"
                             onChange={(e) => setConfirmPswd(e.target.value)}
                             className={`border-2 ${validPswd ?
                             'border-green-400' : 'border-2 border-red-400'}`}
-                            aria-invalid={validPswd ? "false" : "true"}
-                            aria-describedby="uidnote" />
+                            aria-invalid={validPswd ? "false" : "true"} />
                         </div>
                     </div>
                     <button className="submit-btn">
