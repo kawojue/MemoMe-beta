@@ -19,7 +19,7 @@ const restrictedUser: string[] = [
 
 // handle account creation
 const createUser = asyncHandler(async (req: any, res: Response) => {
-    let { email, pswd, pswd2, createdAt }: any = req.body
+    let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
     const { valid, validators }: ICheckMail = await checkMail(email)
@@ -84,7 +84,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
         user,
         password: pswd as string,
         'mail.email': email as string,
-        createdAt
+        createdAt: `${new Date()}`
     })
 
     res.status(201).json({
@@ -98,7 +98,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
 const login = asyncHandler(async (req: Request, res: Response) => {
     const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    let { userId, pswd, lastLogin }: any = req.body
+    let { userId, pswd }: any = req.body
     userId = userId?.toLowerCase()?.trim()
 
     if (!userId || !pswd) {
@@ -138,7 +138,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     )
 
     account.token = token
-    account.lastLogin = lastLogin
+    account.lastLogin = `${new Date()}`
     await account.save()
 
     res.status(200).json({
