@@ -18,7 +18,8 @@ module.exports = {
       },
       fontFamily: {
         kaushan: ["Kaushan Script", 'cursive'],
-        poppins: ["Poppins", 'san-serif']
+        poppins: ["Poppins", 'san-serif'],
+        cabin: ['Cabin', 'sans-serif'],
       },
       screens: {
         sm: "600px",
