@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
 import Header from "@/components/HeaderA"
