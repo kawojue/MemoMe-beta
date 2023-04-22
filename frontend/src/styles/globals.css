@@ -127,7 +127,7 @@ body {
 }
 
 .form-center {
-  @apply flex flex-col gap-5
+  @apply flex flex-col gap-4
 }
 
 .form-group {
