@@ -12,11 +12,12 @@ const User: React.FC<{ user: string }> = ({ user }) => {
 
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
-    const [textCounter, setTextCounter]= useState<number>(650)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [textCounter, setTextCounter]= useState<number>(890)
 
     const handleContent = (e: any): void => {
         const value: string = e.target.value
-        if (value.length <= 650) {
+        if (value.length <= 890) {
             setContent(value)
         }
     }
@@ -58,17 +59,22 @@ const User: React.FC<{ user: string }> = ({ user }) => {
     }, [content])
 
     const handleMessage = async () => {
-        await axios.post(`/api/${user}`, JSON.stringify({ media, content }))
+        setLoading(true)
+        await axios.post(
+            `/api/${user}`,
+            JSON.stringify({ media, content })
+        )
         .then((res: any) => {
-            setContent("")
             setMedia("")
-            const { action, msg }: any = res?.data
-            notify(action, msg)
+            setContent("")
+            setLoading(false)
+            notify("success", "Shush!! Message sent.")
             setTimeout(() => {
                 router.push('/profile')
-            }, 1000)
+            }, 1500)
         })
         .catch((err: any) => {
+            setLoading(false)
             const { action, msg }: any = err.response?.data
             notify(action, msg)
         })
@@ -81,12 +87,12 @@ const User: React.FC<{ user: string }> = ({ user }) => {
             <form className="" onSubmit={(e) => e.preventDefault()}>
                 <h1>Send anonymous message to <span>{user}</span></h1>
                 <article>
-                    <textarea className="resize-none" maxLength={650}
+                    <textarea className="resize-none" maxLength={890}
                     value={content} onChange={(e) => handleContent(e)} />
                     <input type="file" onChange={(e) => handleMedia(e)} />
                 </article>
                 <button onClick={async () => await handleMessage()}>
-                    Send
+                    {`${loading ? 'Sending..': 'Send'}`}
                 </button>
             </form>
         </>
