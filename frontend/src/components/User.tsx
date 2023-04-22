@@ -4,9 +4,11 @@ import useAuth from "@/hooks/useAuth"
 import axios from '@/pages/api/instance'
 import { useState, useEffect } from 'react'
 import { ToastContainer } from "react-toastify"
+import { useRouter, NextRouter } from "next/router"
 
 const User: React.FC<{ user: string }> = ({ user }) => {
     const { notify }: any = useAuth()
+    const router: NextRouter = useRouter()
 
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
@@ -58,7 +60,13 @@ const User: React.FC<{ user: string }> = ({ user }) => {
     const handleMessage = async () => {
         await axios.post(`/api/${user}`, JSON.stringify({ media, content }))
         .then((res: any) => {
-            notify(res?.data.action, res?.data.msg)
+            setContent("")
+            setMedia("")
+            const { action, msg }: any = res?.data
+            notify(action, msg)
+            setTimeout(() => {
+                router.push('/profile')
+            }, 1000)
         })
         .catch((err: any) => {
             const { action, msg }: any = err.response?.data
