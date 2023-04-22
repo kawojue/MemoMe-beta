@@ -122,6 +122,58 @@ body {
   transform: translate(0);
 }
 
+.signup {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.form-center {
+  @apply flex flex-col gap-5
+}
+
+.form-group {
+  @apply flex flex-col gap-2;
+}
+
+.form-group input {
+  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg;
+}
+
+.form-group input:focus {
+  @apply outline-none;
+}
+
+.form-group label {
+  @apply text-clr-3 text-xl tracking-wide font-medium;
+}
+
+.pswd-container {
+  @apply relative;
+}
+
+.eye {
+  @apply absolute top-3 right-3 text-clr-0 text-xl;
+}
+
+.btn-container {
+  @apply w-full mt-5 font-cabin;
+}
+
+.btn {
+  @apply py-1.5 w-full rounded-lg text-clr-5 bg-clr-1 text-xl tracking-widest font-cabin font-medium;
+}
+
+.btn:focus {
+  @apply outline-none;
+}
+
+.btn:hover:not([disabled]) {
+  @apply bg-clr-2 text-black trans;
+}
+
+.btn:disabled {
+  @apply opacity-[50%] cursor-not-allowed;
+}
+
 
 
 @keyframes bounce {
