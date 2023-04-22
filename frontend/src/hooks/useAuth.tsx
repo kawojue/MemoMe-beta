@@ -157,7 +157,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         setBtnLoading(true)
         await axios.post('/account/password/reset',
         JSON.stringify({
-            verify: eligle, email,
+            verified: eligle, email,
             newPswd: pswd, newPswd2: confirmPswd
         }))
         .then((res: any) => {
