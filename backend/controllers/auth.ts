@@ -90,7 +90,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
     res.status(201).json({
         success: true,
         action: "success",
-        msg: "Account creation successful."
+        msg: "Account creation was successful."
     })
 })
 
