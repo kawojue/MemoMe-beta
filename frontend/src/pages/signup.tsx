@@ -2,25 +2,29 @@
 import { useEffect } from 'react'
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
-import HeaderA from "@/components/HeaderA"
+import Header from "@/components/HeaderA"
 import PswdButton from '@/components/PswdBtn'
+import { ToastContainer } from 'react-toastify'
 
 function signup() {
     const {
         email, setEmail, showPswd, pswd,
         setPswd, validEmail, setShowPswd,
         confirmPswd, setConfirmPswd, emailRef,
-        validPswd,
+        validPswd, handleSignup, btnLoading
     }: any = useAuth()
 
     useEffect(() => {
         emailRef.current?.focus()
     }, [emailRef])
+
+    const isValid: boolean = validEmail && validPswd
     
     return (
         <>
             <Meta title="Sign Up" />
-            <HeaderA />
+            <Header />
+            <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
             className="mx-auto w-[90vw] max-w-[500px] rounded-md mt-12 signup py-5 px-6">
                 <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
@@ -63,8 +67,10 @@ function signup() {
                             aria-invalid={validPswd ? "false" : "true"} />
                         </div>
                     </div>
-                    <button className="submit-btn">
-                        Submit
+                    <button
+                    className="btn" disabled={!isValid}
+                    onClick={async () => await handleSignup()}>
+                        {btnLoading ? 'Checking...' : 'Submit'}
                     </button>
                 </article>
             </form>
