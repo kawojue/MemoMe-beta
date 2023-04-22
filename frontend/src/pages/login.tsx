@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import Link from 'next/link'
 import { useEffect } from 'react'
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
@@ -47,6 +48,12 @@ const login = () => {
                             <PswdButton get={showPswd} set={setShowPswd} />
                         </div>
                     </div>
+                    <article className="flex justify-end">
+                        <Link href="/password/reset"
+                        className="text-clr-3 hover:text-clr-5 trans">
+                            Forgot Password?
+                        </Link>
+                    </article>
                     <button
                     className="btn" disabled={!isValid}
                     onClick={async () => await handleLogin()}>
