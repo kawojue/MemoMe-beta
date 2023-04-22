@@ -19,44 +19,37 @@ const User: React.FC<{ user: string }> = ({ user }) => {
         }
     }
 
-    const handleMedia = (e: any): void => {
-        const imageFile = e.target.files[0]
-        setMedia(imageFile)
-        const formData: FormData = new FormData()
-        formData.append('image', media)
+    const checkFile = (file: any) => {
+        if (!file) {
+            return false
+        }
+        const maxSize: number = 5242880 // 5MB
+        const { name, size }: any = file
+        const allowedFormats: string[] = ['jpg', 'jpeg', 'png', 'heif']
+        const split: string[] = name.split('.')
+        const format = split[split.length - 1]
+        if (allowedFormats.includes(format) && size <= maxSize) {
+            return true
+        }
+        return false
     }
 
-    // This works but for smaller files
-    // const checkFile = (file: any) => {
-    //     if (!file) {
-    //         return false
-    //     }
-    //     const maxSize: number = 5242880 // 5MB
-    //     const { name, size }: any = file
-    //     const allowedFormats: string[] = ['jpg', 'jpeg', 'png', 'heif']
-    //     const getFormat = name.split('.')[1]
-    //     if (allowedFormats.includes(getFormat) && size <= maxSize) {
-    //         return true
-    //     }
-    //     return false
-    // }
+    const convertFile = (file: any): void => {
+        const reader: FileReader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+            setMedia(reader.result as string)
+        }
+    }
 
-    // const convertFile = (file: any): void => {
-    //     const reader: FileReader = new FileReader()
-    //     reader.readAsDataURL(file)
-    //     reader.onload = () => {
-    //         setMedia(reader.result as string)
-    //     }
-    // }
-
-    // const handleMedia = (e: any): void => {
-    //     const file: any = e.target.files[0]
-    //     if (checkFile(file)) {
-    //         convertFile(file)
-    //     } else {
-    //         notify('warning', "File format or size is not allowed.")
-    //     }
-    // }
+    const handleMedia = (e: any): void => {
+        const file: any = e.target.files[0]
+        if (checkFile(file)) {
+            convertFile(file)
+        } else {
+            notify('warning', "File format or size is not allowed.")
+        }
+    }
 
     useEffect(() => {
         setTextCounter(textCounter - 1)
@@ -68,7 +61,8 @@ const User: React.FC<{ user: string }> = ({ user }) => {
             notify(res?.data.action, res?.data.msg)
         })
         .catch((err: any) => {
-            notify(err.response?.data?.action, err.response?.data?.msg)
+            const { action, msg }: any = err.response?.data
+            notify(action, msg)
         })
     }
 
