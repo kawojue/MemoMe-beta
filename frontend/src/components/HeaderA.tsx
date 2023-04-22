@@ -10,7 +10,7 @@ const HeaderA = ({ get = "login" }: { get?: string }) => {
                 </div>
                 <ul>
                     <li>
-                        <Link href={`/${get}`}
+                        <Link href={`/${get.replace(" ", "")}`}
                         className="text-xl text-white bg-clr-2 rounded-lg px-3 py-1 font-poppins hover:bg-clr-1 hover:text-clr-3 trans">
                             {`${get.charAt(0).toUpperCase()}${get.slice(1)}`}
                         </Link>
