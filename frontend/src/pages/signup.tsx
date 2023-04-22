@@ -37,7 +37,7 @@ function signup() {
                             autoComplete="off"
                             placeholder="abc@mail.com"
                             className={`border-2 ${validEmail ?
-                            'border-green-400' : 'border-2 border-red-400'}`}
+                            'border-green-400' : 'border-red-400'}`}
                             value={email} ref={emailRef}
                             onChange={e => setEmail(e.target.value)}
                             aria-invalid={validEmail ? "false" : "true"}
@@ -50,7 +50,7 @@ function signup() {
                             onChange={(e) => setPswd(e.target.value)}
                             type={`${showPswd ? 'text': 'password'}`}
                             className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-2 border-red-400'}`}
+                            'border-green-400' : 'border-red-400'}`}
                             aria-invalid={validPswd ? "false" : "true"}
                             aria-describedby="uidnote" />
                             <PswdButton get={showPswd} set={setShowPswd} />
@@ -63,7 +63,7 @@ function signup() {
                             type='password' aria-describedby="uidnote"
                             onChange={(e) => setConfirmPswd(e.target.value)}
                             className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-2 border-red-400'}`}
+                            'border-green-400' : 'border-red-400'}`}
                             aria-invalid={validPswd ? "false" : "true"} />
                         </div>
                     </div>
