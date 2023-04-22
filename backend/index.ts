@@ -6,10 +6,9 @@ import morgan from 'morgan'
 import mongoose from 'mongoose'
 import DBConn from './config/DBConn'
 import rootRoute from './routes/root'
+import fileUpload from 'express-fileupload'
 import corsOptions from './config/corsOptions'
-const { auth } = require('express-openid-connect')
 import express, { Application } from 'express'
-import { auth0Config } from './config/auth0'
 
 const app: Application = express()
 const PORT = process.env.PORT || 1707
@@ -17,10 +16,10 @@ const PORT = process.env.PORT || 1707
 DBConn(process.env.DB_URI as string)
 
 // set middlewares
+app.use(fileUpload())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cors(corsOptions))
-// app.use(auth(auth0Config))
 app.use(express.urlencoded({ extended: false }))
 
 
