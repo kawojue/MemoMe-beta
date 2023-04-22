@@ -11,17 +11,15 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const DBConn_1 = __importDefault(require("./config/DBConn"));
 const root_1 = __importDefault(require("./routes/root"));
 const corsOptions_1 = __importDefault(require("./config/corsOptions"));
-const { auth } = require('express-openid-connect');
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 1707;
 (0, DBConn_1.default)(process.env.DB_URI);
 // set middlewares
 app.use((0, morgan_1.default)('dev'));
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: '10mb' }));
 app.use((0, cors_1.default)(corsOptions_1.default));
-// app.use(auth(auth0Config))
-app.use(express_1.default.urlencoded({ extended: false }));
+app.use(express_1.default.urlencoded({ limit: '10mb', extended: true }));
 // set route
 app.use('/', root_1.default);
 mongoose_1.default.connection.once('open', () => {

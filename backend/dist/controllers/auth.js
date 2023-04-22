@@ -89,7 +89,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     res.status(201).json({
         success: true,
         action: "success",
-        msg: "Account creation successful."
+        msg: "Account creation was successful."
     });
 }));
 exports.createUser = createUser;
