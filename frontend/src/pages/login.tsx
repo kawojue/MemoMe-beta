@@ -7,20 +7,20 @@ import PswdButton from '@/components/PswdBtn'
 import { ToastContainer } from 'react-toastify'
 
 const login = () => {
-  const {
+    const {
         userRef, userId, setUserId,
         pswd, setPswd, handleLogin,
         btnLoading, showPswd,
         setShowPswd
-  }: any = useAuth()
+    }: any = useAuth()
 
-  useEffect(() => {
-        userRef.current?.focus()
-  }, [userRef])
+    useEffect(() => {
+            userRef.current?.focus()
+    }, [userRef])
 
     const isValid: boolean = userId && pswd
 
-  return (
+    return (
         <>
             <Meta title="Login" />
             <Header get='sign up'/>
@@ -50,7 +50,7 @@ const login = () => {
                     <button
                     className="btn" disabled={!isValid}
                     onClick={async () => await handleLogin()}>
-                        {btnLoading ? 'Checking...' : 'Submit'}
+                        {btnLoading ? 'Authenticating...' : 'Login'}
                     </button>
                 </article>
             </form>
