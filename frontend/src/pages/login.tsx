@@ -27,7 +27,7 @@ const login = () => {
             <Header get='sign up'/>
             <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
-            className="mx-auto w-[90vw] max-w-[500px] rounded-md mt-12 signup py-5 px-6">
+            className="form-itself">
                 <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
                     Login
                 </h1>
