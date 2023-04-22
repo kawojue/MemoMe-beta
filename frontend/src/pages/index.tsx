@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Header from '@/components/HeaderA'
-import SideBar from '@/components/Sidebar'
 import { BsFillRocketTakeoffFill } from 'react-icons/bs'
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
           <BsFillRocketTakeoffFill />
         </Link>
       </main>
-      <SideBar />
     </>
   )
 }
