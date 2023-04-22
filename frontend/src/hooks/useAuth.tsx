@@ -16,14 +16,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     const [email, setEmail] = useState<string>('')
     const [validEmail, setValidEmail] = useState<boolean>(false)
-    const [emailFocus, setEmailFocus] = useState<boolean>(false)
 
     const [pswd, setPswd] = useState<string>('')
-    const [pswdFocus, setPswdFocus] = useState<boolean>(false)
-
     const [confirmPswd, setConfirmPswd] = useState<string>('')
-    const [validConfirm, setValidConfirm] = useState<boolean>(false)
-    const [confirmFocus, setConfirmFocus] = useState<boolean>(false)
+    const [validPswd, setValidPswd] = useState<boolean>(false)
+
 
     useEffect(() => {
         const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -34,7 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         // password validation
         if (pswd) {
             const confirm: boolean = pswd === confirmPswd
-            setValidConfirm(confirm)
+            setValidPswd(confirm)
         }
     }, [email, pswd, confirmPswd])
 
@@ -64,12 +61,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     return (
         <Context.Provider value={{
             auth, aside, setAside, email, setEmail,
-            validEmail, confirmFocus, setConfirmFocus,
-            confirmPswd, setConfirmPswd, validConfirm,
-            pswdFocus, setPswdFocus, pswd, setPswd,
-            emailFocus, setEmailFocus, emailRef,
-            showPswd, setShowPswd, USER_REGEX, userRef,
-            notify
+            validEmail,
+            confirmPswd, setConfirmPswd,
+            pswd, setPswd,
+            emailRef, showPswd, setShowPswd,
+            USER_REGEX, userRef, notify, validPswd, setValidPswd
         }}>
             {children}
         </Context.Provider>
@@ -79,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 const useAuth: any = () => {
     const context:any = useContext(Context)
     if (context ===  undefined) {
-        throw new Error("___");
+        throw new Error("___")
     }
     return context
 }
