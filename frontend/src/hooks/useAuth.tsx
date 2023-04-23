@@ -13,7 +13,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const userRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
 
-    const [userId, setUserId] = useState<string>("")
+    const [userId, setUserId] = useState<string>('')
     const [aside, setAside] = useState<boolean>(false)
     const [showPswd, setShowPswd] = useState<boolean>(false)
 
@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const [user, setUser] = useState<string>('')
     const [validUser, setValidUser] = useState<boolean>(false)
 
-    const [otp, setOtp] = useState<string>("")
+    const [otp, setOtp] = useState<string>('')
     const [eligle, setEligible] = useState<boolean>(false)
 
     const [pswd, setPswd] = useState<string>('')
@@ -105,12 +105,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             }, 1500)
         })
         .catch((err: any) => {
-            const errMsg: string = err.response?.data?.msg
-            const action: string = err.response?.data?.action
             if (err.code === 'ERR_NETWORK') {
                 notify("error", "Something went wrong")
             } else {
-                notify(action, errMsg)
+                const { action, msg }: any = err.response?.data
+                notify(action, msg)
             }
             setBtnLoading(false)
         })
@@ -178,9 +177,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             validEmail, handleSignup, otp, setOtp,
             confirmPswd, setConfirmPswd, handleLogin,
             pswd, setPswd, btnLoading, setBtnLoading,
-            emailRef, showPswd, setShowPswd, userId, setUserId,
-            userRef, notify, validPswd, setValidPswd,
-            handlePswdReset, handleOtpReq, handlePswdVerify,
+            emailRef, showPswd, setShowPswd, userId,
+            setUserId, userRef, notify, validPswd,
+            setValidPswd, handlePswdReset, handleOtpReq,
+            handlePswdVerify,
         }}>
             {children}
         </Context.Provider>
