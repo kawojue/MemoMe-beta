@@ -86,20 +86,27 @@ const User: React.FC<{ user: string }> = ({ user }) => {
             <ToastContainer />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center text-lg font-medium">
-                    Send
+                    {`Tell`}
                     <span className="text-clr-1 font-semibold tracking-wide">
                         {` @${user} `}
                     </span>
-                    an Anonymous Message.
+                    {`what's on your mind. They won't know who sent it.`}
                 </h1>
-                <article>
-                    <textarea className="resize-none" maxLength={890}
-                    value={content} onChange={(e) => handleContent(e)} />
-                    <input type="file" onChange={(e) => handleMedia(e)} />
-                </article>
-                <button onClick={async () => await handleMessage()}>
-                    {`${loading ? 'Shh!! Uploading..': 'Send'}`}
-                </button>
+                <section className="mt-6">
+                    <article>
+                        <textarea className="resize-none" maxLength={890}
+                        value={content} onChange={(e) => handleContent(e)} />
+                        <div>
+                            <input type="file" accept="image/*"
+                            onChange={(e) => handleMedia(e)} />
+                        </div>
+                    </article>
+                    <div className="btn-container">
+                        <button onClick={async () => await handleMessage()}>
+                            {`${loading ? 'Shh!! Uploading..': 'Send'}`}
+                        </button>
+                    </div>
+                </section>
             </form>
         </>
     )
