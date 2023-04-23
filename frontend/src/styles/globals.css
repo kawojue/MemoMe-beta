@@ -175,7 +175,43 @@ body {
   @apply opacity-[50%] cursor-not-allowed;
 }
 
+.content-container {
+  @apply flex flex-col gap-1 mb-3;
+}
 
+.content-counter {
+  @apply text-clr-5 text-xs tracking-wide text-end;
+}
+
+.content {
+  @apply w-full h-32 rounded-lg p-2 outline-none font-medium font-cabin text-lg resize-none;
+}
+
+.drop-container {
+  @apply relative flex flex-col gap-3 justify-center items-center h-32 p-3 border-2 border-dashed border-[#555] text-[#444] cursor-pointer rounded-lg w-full;
+  transition: background .2s ease-in-out, border .2s ease-in-out;
+}
+
+.drop-container:hover {
+  @apply bg-[#eee] border-2 border-[#111]
+}
+
+.drop-container:hover .drop-title {
+  @apply text-[#222]
+}
+
+.drop-title {
+  @apply text-[#444] text-[xl] font-medium text-center trans;
+}
+
+input[type=file]::file-selector-button {
+  @apply mr-3 border-none bg-[#084cdf] py-2 px-3 text-clr-3 cursor-pointer rounded-md;
+  transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+  @apply bg-[#0d45a5]
+}
 
 @keyframes bounce {
   0% {
