@@ -16,39 +16,12 @@ body {
   @apply transition-all duration-200 ease-linear;
 }
 
-.hamburger {
-  @apply w-[25px] h-[25px] relative cursor-pointer;
-  animation: bounce 2s ease-in-out infinite;
+.nav {
+  @apply flex justify-between items-center mx-auto px-7 py-5;
 }
 
-.hamburger-top,
-.hamburger-middle,
-.hamburger-bottom {
-  @apply absolute top-0 left-0 w-[25px] h-[2.75px] bg-white transform rotate-0;
-}
-
-.hamburger-middle {
-  @apply transform translate-y-[7px];
-}
-
-.hamburger-bottom {
-  @apply transform translate-y-[14px];
-}
-
-.open {
-  @apply transform rotate-[90deg] translate-y-0;
-}
-
-.open .hamburger-top {
-  transform: rotate(45deg) translateY(6px) translate(6px);
-}
-
-.open .hamburger-middle {
-  @apply hidden;
-}
-
-.open .hamburger-bottom {
-  transform: rotate(-45deg) translateY(6px) translate(-6px);
+.nav-btn {
+  @apply text-xl rounded-lg px-3 py-1 font-poppins text-clr-5 tracking-wider;
 }
 
 .loading-spin {
