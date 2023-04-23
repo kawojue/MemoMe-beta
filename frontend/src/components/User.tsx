@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Header from "./HeaderA"
+import { useState } from 'react'
 import useAuth from "@/hooks/useAuth"
 import axios from '@/pages/api/instance'
-import { useState, useEffect } from 'react'
 import { ToastContainer } from "react-toastify"
 import { useRouter, NextRouter } from "next/router"
 
@@ -19,6 +19,10 @@ const User: React.FC<{ user: string }> = ({ user }) => {
         const value: string = e.target.value
         if (value.length <= 890) {
             setContent(value)
+            setTextCounter(890 - value.length)
+            if (textCounter === 0) {
+                setTextCounter(0)
+            }
         }
     }
 
@@ -54,10 +58,6 @@ const User: React.FC<{ user: string }> = ({ user }) => {
         }
     }
 
-    useEffect(() => {
-        setTextCounter(textCounter - 1)
-    }, [content])
-
     const handleMessage = async () => {
         setLoading(true)
         await axios.post(
@@ -68,24 +68,30 @@ const User: React.FC<{ user: string }> = ({ user }) => {
             setMedia("")
             setContent("")
             setLoading(false)
-            notify("success", "Shush!! Message sent.")
+            notify("success", "Shhh!! Message sent.")
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
         })
         .catch((err: any) => {
             setLoading(false)
-            const { action, msg }: any = err.response?.data
-            notify(action, msg)
+            if (err.code === 'ERR_NETWORK') {
+                notify("error", "Failed! Network failure.")
+            } else {
+                const { action, msg }: any = err.response?.data
+                notify(action, msg)
+            }
         })
     }
+
+    const isValid: boolean = Boolean(content) || Boolean(media)
 
     return (
         <>
             <Header />
             <ToastContainer />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
-                <h1 className="text-clr-5 text-center text-lg font-medium">
+                <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
                     {`Tell`}
                     <span className="text-clr-1 font-semibold tracking-wide">
                         {` @${user} `}
@@ -94,15 +100,24 @@ const User: React.FC<{ user: string }> = ({ user }) => {
                 </h1>
                 <section className="mt-6">
                     <article>
-                        <textarea className="resize-none" maxLength={890}
-                        value={content} onChange={(e) => handleContent(e)} />
-                        <div>
-                            <input type="file" accept="image/*"
-                            onChange={(e) => handleMedia(e)} />
+                        <div className="content-container">
+                            <p className="content-counter md:text-sm">
+                                {textCounter} characters remaining.
+                            </p>
+                            <textarea className="content md:text-xl" maxLength={890}
+                            placeholder="Type your message here..."
+                            value={content} onChange={(e) => handleContent(e)} />
                         </div>
+                        <label htmlFor="image" className="drop-container">
+                            <span className="drop-title">Select an image (Optional)</span>
+                            <input type="file" id="image"
+                            accept="image/*" onChange={(e) => handleMedia(e)}/>
+                        </label>
                     </article>
                     <div className="btn-container">
-                        <button onClick={async () => await handleMessage()}>
+                        <button className="btn"
+                        onClick={async () => await handleMessage()}
+                        disabled={!isValid}>
                             {`${loading ? 'Shh!! Uploading..': 'Send'}`}
                         </button>
                     </div>
