@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { toast } from 'react-toastify'
 import axios from '@/pages/api/instance'
+import decrypt from '@/utils/decryption'
 import { useRouter, NextRouter } from "next/router"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
@@ -12,7 +13,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const userRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
 
-    const [auth, setAuth] = useState<any>({})
     const [userId, setUserId] = useState<string>("")
     const [aside, setAside] = useState<boolean>(false)
     const [showPswd, setShowPswd] = useState<boolean>(false)
@@ -31,10 +31,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const [validPswd, setValidPswd] = useState<boolean>(false)
 
     const [btnLoading, setBtnLoading] = useState<boolean>(false)
-
-    useEffect(() => {
-        setAuth(JSON.parse(localStorage.getItem("token") as any) || {})
-    }, [])
 
     useEffect(() => {
         // email validation
@@ -129,7 +125,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify("success", "OTP has been sent to your email.")
         })
         .catch((err: any) => {
-            console.log(err.response?.data)
             const { action, msg }: any = err.response?.data
             notify(action, msg)
         })
@@ -179,7 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     return (
         <Context.Provider value={{
-            auth, aside, setAside, email, setEmail,
+            aside, setAside, email, setEmail,
             validEmail, handleSignup, otp, setOtp,
             confirmPswd, setConfirmPswd, handleLogin,
             pswd, setPswd, btnLoading, setBtnLoading,
