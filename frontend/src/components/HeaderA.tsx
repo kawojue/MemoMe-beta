@@ -4,10 +4,10 @@ const HeaderA = ({ get = "login" }: { get?: string }) => {
     return (
         <header className="w-full">
             <nav className="flex justify-between items-center mx-auto md:px-10 px-7 py-5">
-                <div className="text-4xl md:text-5xl font-kaushan">
+                <Link href="/" className="text-4xl md:text-5xl font-kaushan">
                     <span className="text-clr-1">Memo</span>
                     <span className="text-black">Me</span>
-                </div>
+                </Link>
                 <ul>
                     <li>
                         <Link href={`/${get.replace(" ", "")}`}
