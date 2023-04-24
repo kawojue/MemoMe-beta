@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useEffect } from 'react'
 import axios from './api/instance'
 import Meta from '@/components/Meta'
 import Profile from '@/components/Profile'
 import Spinner from '@/components/Spinner'
+import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { useRouter, NextRouter } from 'next/router'
 
