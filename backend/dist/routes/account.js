@@ -17,7 +17,7 @@ const loginLimiter = {
 accountRoute.get('/logout', auth_1.logout);
 accountRoute.use('/password', password_1.default);
 accountRoute.post('/signup', auth_1.createUser);
-accountRoute.post('/edit', jwtVerify_1.default, auth_1.usernameHandler);
+accountRoute.post('/edit', jwtVerify_1.default, auth_1.editUsername);
 accountRoute.post('/login', (0, limiter_1.default)(loginLimiter), auth_1.login);
 accountRoute.post('/req-otp', (0, limiter_1.default)({ max: 1, timerArr: [20, 30, 45] }), auth_1.otpHandler);
 exports.default = accountRoute;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usernameHandler = exports.resetpswd = exports.otpHandler = exports.verifyOTP = exports.logout = exports.login = exports.createUser = void 0;
+exports.editUsername = exports.resetpswd = exports.otpHandler = exports.verifyOTP = exports.logout = exports.login = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
@@ -185,7 +185,7 @@ const otpHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.otpHandler = otpHandler;
 // change username
-const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _d, _e;
     let { pswd, newUser } = req.body;
     newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
@@ -236,7 +236,7 @@ const usernameHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
         msg: "You've successfully changed your username."
     });
 }));
-exports.usernameHandler = usernameHandler;
+exports.editUsername = editUsername;
 const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _f;
     const authHeader = (_f = req.headers) === null || _f === void 0 ? void 0 : _f.authorization;
