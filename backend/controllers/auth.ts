@@ -206,7 +206,7 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // change username
-const usernameHandler = asyncHandler(async (req: any, res: Response) => {
+const editUsername = asyncHandler(async (req: any, res: Response) => {
     let { pswd, newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
 
@@ -391,5 +391,5 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
 
 export {
     createUser, login, logout, verifyOTP,
-    otpHandler, resetpswd, usernameHandler,
+    otpHandler, resetpswd, editUsername,
 }
