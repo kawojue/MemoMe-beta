@@ -98,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setPswd("")
             setUserId("")
             notify(action, msg)
+            setBtnLoading(false)
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
