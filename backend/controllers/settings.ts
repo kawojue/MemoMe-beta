@@ -4,7 +4,7 @@ import User from '../models/UserModel'
 const asyncHandler = require('express-async-handler')
 
 const editPswd = asyncHandler(async (req: any, res: Response) => {
-    const { currentPswd, pswd, pswd2 } = req.body
+    const { currentPswd, pswd, pswd2 }: any = req.body
 
     if (!currentPswd) {
         return res.status(400).json({
@@ -62,7 +62,9 @@ const editPswd = asyncHandler(async (req: any, res: Response) => {
 })
 
 const toggleDisability = asyncHandler(async (req: any, res: Response) => {
-    const account = await User.findOne({ user: req?.user }).exec()
+    const { tgDisability }: any = req.body
+
+    const account: any = await User.findOne({ user: req?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -70,10 +72,16 @@ const toggleDisability = asyncHandler(async (req: any, res: Response) => {
             msg: 'Something went wrong..'
         })
     }
+
+    account.disbality = tgDisability as boolean
+    await account.save()
+    res.sendStatus(200)
 })
 
 const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
-    const account = await User.findOne({ user: req?.user }).exec()
+    const { tgPbMedia }: any = req.body
+
+    const account: any = await User.findOne({ user: req?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -81,10 +89,16 @@ const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
             msg: 'Something went wrong..'
         })
     }
+
+    account.pbMedia = tgPbMedia as boolean
+    await account.save()
+    res.sendStatus(200)
 })
 
 const togglePbContent = asyncHandler(async (req: any, res: Response) => {
-    const account = await User.findOne({ user: req?.user }).exec()
+    const { tgPbContent }: any = req.body
+
+    const account: any = await User.findOne({ user: req?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -92,6 +106,39 @@ const togglePbContent = asyncHandler(async (req: any, res: Response) => {
             msg: 'Something went wrong..'
         })
     }
+
+    account.pbContent = tgPbContent as boolean
+    await account.save()
+    res.sendStatus(200)
 })
 
-export { editPswd }
+const toggleMessage = asyncHandler(async (req: any, res: Response) => {
+    const { pbMsg }: any = req.body
+
+    if (pbMsg?.length > 50) {
+        return res.status(400).json({
+            success: false,
+            action: 'warning',
+            msg: 'Lmao..! Not saved!'
+        })
+    }
+
+    const account: any = await User.findOne({ user: req?.user }).exec()
+    if (!account) {
+        return res.status(404).json({
+            success: false,
+            action: 'error',
+            msg: 'Something went wrong..'
+        })
+    }
+
+    account.pbMsg = pbMsg as string
+    await account.save()
+    res.sendStatus(200)
+})
+
+export {
+    editPswd, toggleDisability,
+    togglePbMedia, togglePbContent,
+    toggleMessage,
+}
