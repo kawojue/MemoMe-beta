@@ -6,7 +6,7 @@ import axios from '@/pages/api/instance'
 import { ToastContainer } from "react-toastify"
 import { useRouter, NextRouter } from "next/router"
 
-const User: React.FC<{ user: string }> = ({ user }) => {
+const User: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
     const router: NextRouter = useRouter()
 
@@ -61,7 +61,7 @@ const User: React.FC<{ user: string }> = ({ user }) => {
     const handleMessage = async () => {
         setLoading(true)
         await axios.post(
-            `/api/${user}`,
+            `/api/${data?.user}`,
             JSON.stringify({ media, content })
         )
         .then((res: any) => {
@@ -92,35 +92,33 @@ const User: React.FC<{ user: string }> = ({ user }) => {
             <ToastContainer />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
-                    {`Tell`}
-                    <span className="text-clr-1 font-semibold tracking-wide">
-                        {` @${user} `}
-                    </span>
-                    {`what's on your mind. They won't know who sent it.`}
+                    {data?.temporary ?
+                    <span>{`${data?.user} ${data?.msg}`}</span> :
+                    <span>{`${data?.pbMsg}`}</span>}
                 </h1>
                 <section className="mt-6">
                     <article>
-                        <div className="content-container">
+                        {data?.pbContent && <div className="content-container">
                             <p className="content-counter md:text-sm">
                                 {textCounter} characters remaining.
                             </p>
                             <textarea className="content md:text-xl" maxLength={890}
                             placeholder="Type your message here..."
                             value={content} onChange={(e) => handleContent(e)} />
-                        </div>
-                        <label htmlFor="image" className="drop-container">
+                        </div>}
+                        {data?.pbMedia && <label htmlFor="image" className="drop-container">
                             <span className="drop-title">Select an image (Optional)</span>
                             <input type="file" id="image"
                             accept="image/*" onChange={(e) => handleMedia(e)}/>
-                        </label>
+                        </label>}
                     </article>
-                    <div className="btn-container">
+                    {!data?.temporary && <div className="btn-container">
                         <button className="btn"
                         onClick={async () => await handleMessage()}
                         disabled={!isValid}>
                             {`${loading ? 'Shh!! Uploading..': 'Send'}`}
                         </button>
-                    </div>
+                    </div>}
                 </section>
             </form>
         </>
