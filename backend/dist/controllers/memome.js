@@ -90,16 +90,30 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
     const { user } = req.params;
     const account = yield UserModel_1.default.findOne({ user }).select('-password').exec();
     if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "User does not exist."
+        return res.sendStatus(404);
+    }
+    if (account.disabled) {
+        return res.sendStatus(400);
+    }
+    if (!account.pbMedia && !account.pbContent) {
+        account.profileViews += 1;
+        yield account.save();
+        return res.status(200).json({
+            user,
+            temporary: true,
+            success: true,
+            action: "warning",
+            msg: "is unable to recieve Media and Content."
         });
     }
     account.profileViews += 1;
     yield account.save();
     res.status(200).json({
-        user
+        user,
+        disabled: account.disabled,
+        pbContent: account.pbContent,
+        pbMedia: account.pbMedia,
+        pbMsg: account.pbMsg
     });
 }));
 exports.getUser = getUser;
@@ -114,16 +128,19 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
             msg: "Account not found"
         });
     }
-    if (account.body === false) {
-        return res.status(204).json({
-            success: true,
-            action: "success",
-            body: []
-        });
-    }
     let memos = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
     if (!memos) {
         memos = [];
+    }
+    if (account.body === false) {
+        return res.status(200).json({
+            success: true,
+            action: "success",
+            body: {
+                account,
+                memos
+            }
+        });
     }
     res.status(200).json({
         success: true,

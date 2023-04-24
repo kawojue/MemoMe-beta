@@ -60,6 +60,22 @@ const userSchema = new mongoose_1.Schema({
     OTP: {
         totp: String,
         totpDate: Number
+    },
+    disabled: {
+        type: Boolean,
+        default: false
+    },
+    pbContent: {
+        type: Boolean,
+        default: true
+    },
+    pbMedia: {
+        type: Boolean,
+        default: true
+    },
+    pbMsg: {
+        type: String,
+        default: "Tell me what is on your mind?"
     }
 });
 exports.default = mongoose_1.default.model("User", userSchema);

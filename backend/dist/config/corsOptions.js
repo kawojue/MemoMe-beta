@@ -8,7 +8,7 @@ exports.allowedOrigins = [
 const corsOptions = {
     credentials: true,
     optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     origin: (origin, callback) => {
         if (exports.allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);

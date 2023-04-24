@@ -28,6 +28,16 @@ const restrictedUser = [
     "password", "reset", "logout",
     "memome"
 ];
+const newCookie = process.env.NODE_ENV === 'production' ? {
+    httpOnly: true,
+    maxAge: 90 * 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    secure: true
+} : {
+    httpOnly: true,
+    maxAge: 5 * 60 * 1000,
+    secure: false // 5 mins
+};
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -127,6 +137,7 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     account.token = token;
     account.lastLogin = `${new Date()}`;
     yield account.save();
+    res.cookie('auth', token, newCookie);
     res.status(200).json({
         token,
         success: true,
@@ -239,6 +250,7 @@ const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, func
     }
     account.token = "";
     yield account.save();
+    res.clearCookie('auth', { httpOnly: true });
     res.sendStatus(204);
 }));
 exports.logout = logout;
