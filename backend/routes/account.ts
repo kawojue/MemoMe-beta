@@ -1,7 +1,6 @@
 import { 
-    createUser, login,
-    logout, otpHandler,
-    usernameHandler
+    createUser, login, logout,
+    otpHandler, editUsername
 } from '../controllers/auth'
 import { ILimiter } from '../type'
 import password from './api/password'
@@ -20,7 +19,7 @@ const loginLimiter: ILimiter = {
 accountRoute.get('/logout', logout)
 accountRoute.use('/password', password)
 accountRoute.post('/signup', createUser)
-accountRoute.post('/edit', jwtVerify, usernameHandler)
+accountRoute.post('/edit', jwtVerify, editUsername)
 accountRoute.post('/login', limiter(loginLimiter), login)
 accountRoute.post('/req-otp', limiter({max: 1, timerArr: [20, 30, 45]}), otpHandler)
 
