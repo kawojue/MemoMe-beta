@@ -6,8 +6,9 @@ import axios from "@/pages/api/instance"
 const Profile: React.FC<{ token?: string }> = ({ token }) => {
 
     return (
-        <section>
-        </section>
+        <article>
+            <p>Profile</p>
+        </article>
     )
 }
 
