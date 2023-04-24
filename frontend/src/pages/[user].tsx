@@ -13,7 +13,7 @@ const User = ({ data }: { data: any }) => {
     }, [router, data])
 
     return (
-        <IsUser user={data.user} />
+        <IsUser data={data} />
     )
 }
 
