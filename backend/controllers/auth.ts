@@ -4,7 +4,7 @@ import genOTP from '../config/genOTP'
 import User from '../models/UserModel'
 import jwt, { Secret } from 'jsonwebtoken'
 import checkMail from '../config/checkMail'
-import { Request, Response } from 'express'
+import { CookieOptions, Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 import { ICheckMail, IMailer, IGenOTP } from '../type'
 
@@ -16,6 +16,17 @@ const restrictedUser: string[] = [
         "password", "reset", "logout",
         "memome"
 ]
+
+const newCookie: CookieOptions = process.env.NODE_ENV === 'production' ? {
+    httpOnly: true,
+    maxAge: 90 * 24 * 60 * 60 * 1000, // 90days
+    sameSite: 'none',
+    secure: true
+} : {
+    httpOnly: true,
+    maxAge: 5 * 60 * 1000,
+    secure: false // 5 mins
+}
 
 // handle account creation
 const createUser = asyncHandler(async (req: any, res: Response) => {
@@ -141,6 +152,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     account.lastLogin = `${new Date()}`
     await account.save()
 
+    res.cookie('auth', token, newCookie)
     res.status(200).json({
         token,
         success: true,
@@ -267,6 +279,7 @@ const logout = asyncHandler(async (req: any, res: Response) => {
 
     account.token = ""
     await account.save()
+    res.clearCookie('auth', { httpOnly: true })
     res.sendStatus(204)
 })
 
