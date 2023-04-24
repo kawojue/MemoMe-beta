@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from './api/instance'
 import Meta from '@/components/Meta'
+import useAuth from '@/hooks/useAuth'
+import Header from "@/components/HeaderB"
 import Profile from '@/components/Profile'
 import Spinner from '@/components/Spinner'
 import { useState, useEffect } from 'react'
@@ -28,6 +30,7 @@ export const getServerSideProps = async (context: any) => {
 }
 
 const profile: React.FC<{ data: any }> = ({ data }) => {
+  const { notify }: any = useAuth()
   const router: NextRouter = useRouter()
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -44,10 +47,24 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
     return <Spinner />
   }
 
+  const handleLogout = async (): Promise<void> => {
+      await axios.get('/account/logout', {
+          headers: {
+              'Authorization': `Bearer ${data.auth}`
+          }
+      }).then((res: any) => {
+          localStorage.clear()
+          router.push("/")
+      }).catch((err: any) => {
+          notify("error", err.code)
+      })
+  }
+
   return (
     <>
       <ToastContainer />
       <Meta title="Profile" />
+      <Header logout={handleLogout} />
       <main>
         <Profile token={data.auth} />
       </main>
