@@ -37,6 +37,22 @@ const userSchema = new Schema(
         OTP: {
             totp: String,
             totpDate: Number
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        pbContent: {
+            type: Boolean,
+            default: true
+        },
+        pbMedia: {
+            type: Boolean,
+            default: true
+        },
+        pbMsg: {
+            type: String,
+            default: "Tell me what is on your mind?"
         }
     }
 )
