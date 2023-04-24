@@ -87,16 +87,33 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
     const { user } = req.params
     const account: any = await User.findOne({ user }).select('-password').exec()
     if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "User does not exist."
+        return res.sendStatus(404)
+    }
+
+    if (account.disabled) {
+        return res.sendStatus(400)
+    }
+
+    if (!account.pbMedia && !account.pbContent) {
+        account.profileViews += 1
+        await account.save()
+        return res.status(200).json({
+            user,
+            temporary: true,
+            success: true,
+            action: "warning",
+            msg: "is unable to recieve Media and Content."
         })
     }
+
     account.profileViews += 1
     await account.save()
     res.status(200).json({
-        user
+        user,
+        disabled: account.disabled,
+        pbContent: account.pbContent,
+        pbMedia: account.pbMedia,
+        pbMsg: account.pbMsg
     })
 })
 
