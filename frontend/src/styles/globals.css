@@ -186,6 +186,42 @@ input[type=file]::file-selector-button:hover {
   @apply bg-[#0d45a5]
 }
 
+.menu {
+  @apply grid grid-cols-1 w-[95vw] max-w-[1200px] justify-start trans px-5 gap-12;
+}
+
+.tabs {
+  @apply flex justify-between mt-8;
+}
+
+.tab {
+  @apply rounded-md text-white bg-clr-1 px-5 py-2 trans;
+}
+
+.tab:hover {
+  @apply bg-clr-2;
+}
+
+.tab.active {
+  @apply bg-[#084cdf];
+}
+
+@media screen and (min-width: 900px) {
+  .menu {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .tabs {
+    @apply flex-col gap-5 mt-20;
+  }
+
+  .tab {
+    @apply w-full rounded-md px-3;
+  }
+}
+
+
+
 @keyframes bounce {
   0% {
     transform: scale(1);
