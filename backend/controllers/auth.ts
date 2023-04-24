@@ -154,7 +154,11 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
     res.cookie('auth', token, newCookie)
     res.status(200).json({
-        token,
+        toggles: {
+            disabled: account.disabled,
+            pbMedia: account.pbMedia,
+            pbContent: account.pbContent
+        },
         success: true,
         action: "success",
         msg: "Login successful.",
