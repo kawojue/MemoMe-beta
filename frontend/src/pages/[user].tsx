@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import IsUser from '@/components/User'
 import axios from '@/pages/api/instance'
 import { useRouter, NextRouter } from 'next/router'
@@ -6,11 +5,9 @@ import { useRouter, NextRouter } from 'next/router'
 const User = ({ data }: { data: any }) => {
     const router: NextRouter = useRouter()
 
-    useEffect(() => {
-        if (data.err === "") {
-            router.push("/404")
-        }
-    }, [router, data])
+    if (data?.err === "") {
+        router.push("/404")
+    }
 
     return (
         <IsUser data={data} />
@@ -24,7 +21,7 @@ export const getServerSideProps = async (query: any) => {
         data = res.data
     })
     .catch((err: any) => {
-        data = {err: ""}
+        data = { err: err?.code || '' }
     })
 
     return {
