@@ -8,7 +8,7 @@ export const allowedOrigins: string[] = [
 const corsOptions: CorsOptions = {
     credentials: true,
     optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     origin: (origin, callback) => {
         if (allowedOrigins.indexOf(origin as string) !== -1 || !origin) {
             callback(null, true)
