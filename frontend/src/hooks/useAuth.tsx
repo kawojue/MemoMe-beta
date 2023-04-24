@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { toast } from 'react-toastify'
 import axios from '@/pages/api/instance'
-import decrypt from '@/utils/decryption'
 import { useRouter, NextRouter } from "next/router"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
@@ -95,11 +94,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         await axios.post('/account/login',
         JSON.stringify({ userId, pswd }))
         .then((res: any) => {
-            const { token, action, msg }: any = res?.data
+            const { action, msg }: any = res?.data
             setPswd("")
             setUserId("")
             notify(action, msg)
-            localStorage.setItem('token', JSON.stringify(token))
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
@@ -180,7 +178,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             emailRef, showPswd, setShowPswd, userId,
             setUserId, userRef, notify, validPswd,
             setValidPswd, handlePswdReset, handleOtpReq,
-            handlePswdVerify,
+            handlePswdVerify
         }}>
             {children}
         </Context.Provider>
