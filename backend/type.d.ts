@@ -1,9 +1,3 @@
-interface ICheckMail {
-    valid: boolean
-    validators: any
-    reason?: string
-}
-
 interface IMailer {
     senderName: string
     to: string
@@ -22,7 +16,4 @@ interface ILimiter {
     msg?: string
 }
 
-export {
-    IMailer, ICheckMail,
-    IGenOTP, ILimiter
-}
+export { IMailer, IGenOTP, ILimiter }
