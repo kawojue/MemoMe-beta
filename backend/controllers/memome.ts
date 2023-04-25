@@ -95,8 +95,6 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
     }
 
     if (!account.pbMedia && !account.pbContent) {
-        account.profileViews += 1
-        await account.save()
         return res.status(200).json({
             user,
             temporary: true,
@@ -106,8 +104,6 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    account.profileViews += 1
-    await account.save()
     res.status(200).json({
         user,
         disabled: account.disabled,
@@ -115,6 +111,29 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
         pbMedia: account.pbMedia,
         pbMsg: account.pbMsg
     })
+})
+
+const countViews = asyncHandler(async (req: Request, res: Response) => {
+    const { user }: any = req.body
+
+    const account: any = await User.findOne({ user }).select('-password').exec()
+    if (!account) {
+        return res.sendStatus(404)
+    }
+
+    if (account.disabled) {
+        return res.sendStatus(400)
+    }
+
+    if (!account.pbMedia && !account.pbContent) {
+        account.profileViews += 1
+        await account.save()
+        return res.sendStatus(200)
+    }
+
+    account.profileViews += 1
+    await account.save()
+    res.sendStatus(200)
 })
 
 const getMemos = asyncHandler(async (req: any, res: Response) => {
@@ -156,4 +175,4 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
     })
 })
 
-export { addMemo, getUser, getMemos }
+export { addMemo, getUser, getMemos, countViews }
