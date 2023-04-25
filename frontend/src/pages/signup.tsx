@@ -70,7 +70,7 @@ function signup() {
                     <button
                     className="btn" disabled={!isValid}
                     onClick={async () => await handleSignup()}>
-                        {btnLoading ? 'Checking...' : 'Signup'}
+                        {btnLoading ? 'Creating...' : 'Signup'}
                     </button>
                 </article>
             </form>
