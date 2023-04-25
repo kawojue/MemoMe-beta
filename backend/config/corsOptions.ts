@@ -3,6 +3,7 @@ import { CorsOptions } from 'cors'
 export const allowedOrigins: string[] = [
     'https://memome-one.vercel.app',
     "http://localhost:3000",
+    'https://www.memome.one'
 ]
 
 const corsOptions: CorsOptions = {
