@@ -4,6 +4,7 @@ exports.allowedOrigins = void 0;
 exports.allowedOrigins = [
     'https://memome-one.vercel.app',
     "http://localhost:3000",
+    'https://www.memome.one'
 ];
 const corsOptions = {
     origin: (origin, callback) => {
