@@ -213,14 +213,13 @@ input[type=file]::file-selector-button:hover {
   }
 
   .tabs {
-    @apply flex-col gap-5 mt-20;
+    @apply flex-col gap-5 mt-20 h-36;
   }
 
   .tab {
     @apply w-full rounded-md px-3;
   }
 }
-
 
 
 @keyframes bounce {
