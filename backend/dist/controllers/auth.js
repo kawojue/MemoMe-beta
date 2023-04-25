@@ -19,15 +19,6 @@ const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const asyncHandler = require('express-async-handler');
-const newCookie = process.env.NODE_ENV === 'production' ? {
-    httpOnly: true,
-    maxAge: 90 * 24 * 60 * 60 * 1000,
-    secure: false
-} : {
-    httpOnly: true,
-    maxAge: 5 * 60 * 1000,
-    secure: false // 5 mins
-};
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
 const restrictedUser = [
@@ -128,7 +119,6 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     account.token = token;
     account.lastLogin = `${new Date()}`;
     yield account.save();
-    res.cookie('auth', token, newCookie);
     res.status(200).json({
         token,
         toggles: {
@@ -246,7 +236,6 @@ const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, func
     }
     account.token = "";
     yield account.save();
-    res.clearCookie('auth', { httpOnly: true });
     res.sendStatus(204);
 }));
 exports.logout = logout;
@@ -338,7 +327,7 @@ const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
     res.status(200).json({
         success: true,
         action: "success",
-        msg: "Password has been reset successfully."
+        msg: "Password updated successfully."
     });
 }));
 exports.resetpswd = resetpswd;
