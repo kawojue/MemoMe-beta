@@ -19,6 +19,15 @@ const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const asyncHandler = require('express-async-handler');
+const newCookie = process.env.NODE_ENV === 'production' ? {
+    httpOnly: true,
+    maxAge: 90 * 24 * 60 * 60 * 1000,
+    secure: false
+} : {
+    httpOnly: true,
+    maxAge: 5 * 60 * 1000,
+    secure: false // 5 mins
+};
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
 const restrictedUser = [
@@ -28,16 +37,6 @@ const restrictedUser = [
     "password", "reset", "logout",
     "memome"
 ];
-const newCookie = process.env.NODE_ENV === 'production' ? {
-    httpOnly: true,
-    maxAge: 90 * 24 * 60 * 60 * 1000,
-    sameSite: 'none',
-    secure: false
-} : {
-    httpOnly: true,
-    maxAge: 5 * 60 * 1000,
-    secure: false // 5 mins
-};
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -131,6 +130,7 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     yield account.save();
     res.cookie('auth', token, newCookie);
     res.status(200).json({
+        token,
         toggles: {
             disabled: account.disabled,
             pbMedia: account.pbMedia,
