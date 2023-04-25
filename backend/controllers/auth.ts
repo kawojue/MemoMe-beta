@@ -3,10 +3,9 @@ import mailer from '../config/mailer'
 import genOTP from '../config/genOTP'
 import User from '../models/UserModel'
 import jwt, { Secret } from 'jsonwebtoken'
-import checkMail from '../config/checkMail'
 import { CookieOptions, Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
-import { ICheckMail, IMailer, IGenOTP } from '../type'
+import { IMailer, IGenOTP } from '../type'
 
 const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
@@ -22,7 +21,7 @@ const newCookie: CookieOptions = process.env.NODE_ENV === 'production' ? {
     httpOnly: true,
     maxAge: 90 * 24 * 60 * 60 * 1000, // 90days
     sameSite: 'none',
-    secure: true
+    secure: false
 } : {
     httpOnly: true,
     maxAge: 5 * 60 * 1000,
@@ -33,8 +32,6 @@ const newCookie: CookieOptions = process.env.NODE_ENV === 'production' ? {
 const createUser = asyncHandler(async (req: any, res: Response) => {
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
-
-    // const { valid, validators }: ICheckMail = await checkMail(email)
 
     if (!email || !pswd || !pswd2) {
         return res.status(400).json({
@@ -59,14 +56,6 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             msg: "Email Regex is not valid."
         })
     }
-
-    // if (valid === false) {
-    //     return res.status(400).json({
-    //         success: false,
-    //         action: "error",
-    //         msg: validators.smtp.reason
-    //     })
-    // }
 
     const user: string = email.split('@')[0]
     const account: any = await User.findOne({ 'mail.email': email }).exec()
