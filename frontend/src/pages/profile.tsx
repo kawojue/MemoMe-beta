@@ -37,6 +37,8 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
   const router: NextRouter = useRouter()
   const [loading, setLoading] = useState<boolean>(true)
 
+  console.log(data)
+
   useEffect(() => {
     if (data?.success === false) {
       router.push('/login')
