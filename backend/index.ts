@@ -4,11 +4,12 @@ dotenv.config()
 import cors from 'cors'
 import logger from 'morgan'
 import mongoose from 'mongoose'
+import cookie from 'cookie-parser'
 import DBConn from './config/DBConn'
 import rootRoute from './routes/root'
-import credentials from './middlewares/credentials'
 import corsOptions from './config/corsOptions'
 import express, { Application } from 'express'
+import credentials from './middlewares/credentials'
 
 const app: Application = express()
 const PORT = process.env.PORT || 1707
@@ -18,6 +19,7 @@ DBConn(process.env.DB_URI as string)
 // set middlewares
 app.use(credentials)
 app.use(express.json({ limit: '10mb'}))
+app.use(cookie())
 app.use(logger('dev'))
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ limit: '10mb', extended: true }))
