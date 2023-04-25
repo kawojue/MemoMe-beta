@@ -18,8 +18,8 @@ const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const checkMail_1 = __importDefault(require("../config/checkMail"));
 const asyncHandler = require('express-async-handler');
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
 const restrictedUser = [
     "profile", "admin", "account",
@@ -43,7 +43,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     var _a;
     let { email, pswd, pswd2 } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
-    const { valid, validators } = yield (0, checkMail_1.default)(email);
+    // const { valid, validators }: ICheckMail = await checkMail(email)
     if (!email || !pswd || !pswd2) {
         return res.status(400).json({
             success: false,
@@ -58,20 +58,20 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
             msg: "Passwords does not match."
         });
     }
-    if (validators.regex.valid === false) {
+    if (EMAIL_REGEX.test(email) === false) {
         return res.status(400).json({
             success: false,
             action: "error",
             msg: "Email Regex is not valid."
         });
     }
-    if (valid === false) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: validators.smtp.reason
-        });
-    }
+    // if (valid === false) {
+    //     return res.status(400).json({
+    //         success: false,
+    //         action: "error",
+    //         msg: validators.smtp.reason
+    //     })
+    // }
     const user = email.split('@')[0];
     const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
     if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {

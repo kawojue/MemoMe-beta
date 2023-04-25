@@ -69,7 +69,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     const handleSignup = async (): Promise<void> => {
         setBtnLoading(true)
-        notify("warning", "This may take awhile. Our system is checking for valid emails.")
         await axios.post('/account/signup',
         JSON.stringify({ email, pswd, pswd2: confirmPswd }))
         .then((res: any) => {
