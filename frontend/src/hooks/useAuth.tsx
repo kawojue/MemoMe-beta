@@ -94,12 +94,13 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         await axios.post('/account/login',
         JSON.stringify({ userId, pswd }))
         .then((res: any) => {
-            const { action, msg, toggles }: any = res?.data
+            const { action, msg, toggles, token }: any = res?.data
             setPswd("")
             setUserId("")
             notify(action, msg)
             setBtnLoading(false)
             localStorage.setItem('toggles', JSON.stringify(toggles))
+            localStorage.setItem('token', JSON.stringify(token))
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
