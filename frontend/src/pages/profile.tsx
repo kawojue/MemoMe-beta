@@ -13,7 +13,7 @@ import { useRouter, NextRouter } from 'next/router'
 
 
 export const getServerSideProps = async (context: any) => {
-  const { auth } = context.req.cookies
+  const { auth } = context.req.cookies // on this
   let data: any = {}
   await axios.get('/profile', {
     headers: {
@@ -45,7 +45,7 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
     }
     setTimeout(() => {
       setLoading(false)
-    }, 2000);
+    }, 2000)
   }, [data, router])
 
   if (loading) {
@@ -64,8 +64,6 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
           notify("error", err.code)
       })
   }
-
-  console.log(data)
 
   return (
     <>
