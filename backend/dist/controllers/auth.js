@@ -32,7 +32,7 @@ const newCookie = process.env.NODE_ENV === 'production' ? {
     httpOnly: true,
     maxAge: 90 * 24 * 60 * 60 * 1000,
     sameSite: 'none',
-    secure: true
+    secure: false
 } : {
     httpOnly: true,
     maxAge: 5 * 60 * 1000,
@@ -43,7 +43,6 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     var _a;
     let { email, pswd, pswd2 } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
-    // const { valid, validators }: ICheckMail = await checkMail(email)
     if (!email || !pswd || !pswd2) {
         return res.status(400).json({
             success: false,
@@ -65,13 +64,6 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
             msg: "Email Regex is not valid."
         });
     }
-    // if (valid === false) {
-    //     return res.status(400).json({
-    //         success: false,
-    //         action: "error",
-    //         msg: validators.smtp.reason
-    //     })
-    // }
     const user = email.split('@')[0];
     const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
     if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {

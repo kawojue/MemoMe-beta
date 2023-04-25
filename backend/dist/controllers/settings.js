@@ -17,6 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const asyncHandler = require('express-async-handler');
 const editPswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { currentPswd, pswd, pswd2 } = req.body;
     if (!currentPswd) {
         return res.status(400).json({
@@ -39,7 +40,7 @@ const editPswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
             msg: 'Your Old and New Passowrds are matched.'
         });
     }
-    const account = yield UserModel_1.default.findOne({ user: req === null || req === void 0 ? void 0 : req.user }).exec();
+    const account = yield UserModel_1.default.findOne({ user: (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -67,8 +68,9 @@ const editPswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 exports.editPswd = editPswd;
 const toggleDisability = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
     const { tgDisability } = req.body;
-    const account = yield UserModel_1.default.findOne({ user: req === null || req === void 0 ? void 0 : req.user }).exec();
+    const account = yield UserModel_1.default.findOne({ user: (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -82,8 +84,9 @@ const toggleDisability = asyncHandler((req, res) => __awaiter(void 0, void 0, vo
 }));
 exports.toggleDisability = toggleDisability;
 const togglePbMedia = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
     const { tgPbMedia } = req.body;
-    const account = yield UserModel_1.default.findOne({ user: req === null || req === void 0 ? void 0 : req.user }).exec();
+    const account = yield UserModel_1.default.findOne({ user: (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -97,8 +100,9 @@ const togglePbMedia = asyncHandler((req, res) => __awaiter(void 0, void 0, void 
 }));
 exports.togglePbMedia = togglePbMedia;
 const togglePbContent = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
     const { tgPbContent } = req.body;
-    const account = yield UserModel_1.default.findOne({ user: req === null || req === void 0 ? void 0 : req.user }).exec();
+    const account = yield UserModel_1.default.findOne({ user: (_d = req === null || req === void 0 ? void 0 : req.user) === null || _d === void 0 ? void 0 : _d.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -112,6 +116,7 @@ const togglePbContent = asyncHandler((req, res) => __awaiter(void 0, void 0, voi
 }));
 exports.togglePbContent = togglePbContent;
 const toggleMessage = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _e;
     const { pbMsg } = req.body;
     if ((pbMsg === null || pbMsg === void 0 ? void 0 : pbMsg.length) > 50) {
         return res.status(400).json({
@@ -120,7 +125,7 @@ const toggleMessage = asyncHandler((req, res) => __awaiter(void 0, void 0, void 
             msg: 'Lmao..! Not saved!'
         });
     }
-    const account = yield UserModel_1.default.findOne({ user: req === null || req === void 0 ? void 0 : req.user }).exec();
+    const account = yield UserModel_1.default.findOne({ user: (_e = req === null || req === void 0 ? void 0 : req.user) === null || _e === void 0 ? void 0 : _e.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
