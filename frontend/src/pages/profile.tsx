@@ -36,14 +36,11 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
   const { notify }: any = useAuth()
   const router: NextRouter = useRouter()
   const [loading, setLoading] = useState<boolean>(true)
-  const [tabs, setTabs] = useState<any>({
-
-  })
 
   useEffect(() => {
-    // if (data?.success === false) {
-    //   router.push('/login')
-    // }
+    if (data?.success === false) {
+      router.push('/login')
+    }
     setTimeout(() => {
       setLoading(false)
     }, 2000);
@@ -66,6 +63,8 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
       })
   }
 
+  console.log(data)
+
   return (
     <>
       <ToastContainer />
@@ -78,9 +77,9 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
           <button className="tab">Account</button>
         </section>
         <section>
-          <Profile token={data.auth} />
-          <Settings />
-          <Account />
+          <Profile data={data} />
+          {/* <Settings />
+          <Account /> */}
         </section>
       </main>
     </>
