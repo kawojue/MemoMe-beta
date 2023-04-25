@@ -10,4 +10,5 @@ const apiRoute = express_1.default.Router();
 apiRoute.route('/:user')
     .get(memome_1.getUser)
     .post((0, limiter_1.default)({ max: 1, timerArr: [4, 5, 7] }), memome_1.addMemo);
+apiRoute.post('/user/count-views', memome_1.countViews);
 exports.default = apiRoute;

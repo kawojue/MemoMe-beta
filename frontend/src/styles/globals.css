@@ -161,7 +161,7 @@ body {
 }
 
 .drop-container {
-  @apply relative flex flex-col gap-3 justify-center items-center h-32 p-3 border-2 border-dashed border-[#555] text-[#444] cursor-pointer rounded-lg w-full;
+  @apply relative flex flex-col gap-3 justify-center items-center text-center h-32 p-3 border-2 border-dashed border-[#555] text-[#444] cursor-pointer rounded-lg w-full;
   transition: background .2s ease-in-out, border .2s ease-in-out;
 }
 
@@ -174,7 +174,7 @@ body {
 }
 
 .drop-title {
-  @apply text-[#444] text-[xl] font-medium text-center trans;
+  @apply text-[#444] text-[xl] font-medium trans;
 }
 
 input[type=file]::file-selector-button {

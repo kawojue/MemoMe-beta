@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMemos = exports.getUser = exports.addMemo = void 0;
+exports.countViews = exports.getMemos = exports.getUser = exports.addMemo = void 0;
 const uuid_1 = require("uuid");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const MemoMeModel_1 = __importDefault(require("../models/MemoMeModel"));
@@ -96,8 +96,6 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.sendStatus(400);
     }
     if (!account.pbMedia && !account.pbContent) {
-        account.profileViews += 1;
-        yield account.save();
         return res.status(200).json({
             user,
             temporary: true,
@@ -106,8 +104,6 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "is unable to recieve Media and Content."
         });
     }
-    account.profileViews += 1;
-    yield account.save();
     res.status(200).json({
         user,
         disabled: account.disabled,
@@ -117,6 +113,25 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
     });
 }));
 exports.getUser = getUser;
+const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { user } = req.body;
+    const account = yield UserModel_1.default.findOne({ user }).select('-password').exec();
+    if (!account) {
+        return res.sendStatus(404);
+    }
+    if (account.disabled) {
+        return res.sendStatus(400);
+    }
+    if (!account.pbMedia && !account.pbContent) {
+        account.profileViews += 1;
+        yield account.save();
+        return res.sendStatus(200);
+    }
+    account.profileViews += 1;
+    yield account.save();
+    res.sendStatus(200);
+}));
+exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c;
     const account = yield UserModel_1.default.findOne({ user: (_c = req.user) === null || _c === void 0 ? void 0 : _c.user })

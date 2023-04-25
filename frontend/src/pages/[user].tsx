@@ -33,7 +33,7 @@ export const getServerSideProps = async (query: any) => {
         data = { user: res?.data.user, tempData: res.data }
     })
     .catch((err: any) => {
-        data = { err: err?.code || '' }
+        data = { err: '' }
     })
 
     return {
