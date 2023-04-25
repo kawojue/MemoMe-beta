@@ -30,7 +30,7 @@ const editPswd = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const account: any = await User.findOne({ user: req?.user }).exec()
+    const account: any = await User.findOne({ user: req?.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -64,7 +64,7 @@ const editPswd = asyncHandler(async (req: any, res: Response) => {
 const toggleDisability = asyncHandler(async (req: any, res: Response) => {
     const { tgDisability }: any = req.body
 
-    const account: any = await User.findOne({ user: req?.user }).exec()
+    const account: any = await User.findOne({ user: req?.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -81,7 +81,7 @@ const toggleDisability = asyncHandler(async (req: any, res: Response) => {
 const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
     const { tgPbMedia }: any = req.body
 
-    const account: any = await User.findOne({ user: req?.user }).exec()
+    const account: any = await User.findOne({ user: req?.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -98,7 +98,7 @@ const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
 const togglePbContent = asyncHandler(async (req: any, res: Response) => {
     const { tgPbContent }: any = req.body
 
-    const account: any = await User.findOne({ user: req?.user }).exec()
+    const account: any = await User.findOne({ user: req?.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -123,7 +123,7 @@ const toggleMessage = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const account: any = await User.findOne({ user: req?.user }).exec()
+    const account: any = await User.findOne({ user: req?.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
