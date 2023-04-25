@@ -7,10 +7,6 @@ import { useRouter, NextRouter } from 'next/router'
 const User = ({ data }: { data: any }) => {
     const router: NextRouter = useRouter()
 
-    if (data?.err === "") {
-        router.push("/404")
-    }
-
     const countViews = async ():Promise<void> => {
         await axios.post('/api/user/count-views', JSON.stringify({ user: data.user }))
         .then((res: any) => {})
@@ -18,8 +14,11 @@ const User = ({ data }: { data: any }) => {
     }
 
     useEffect(() => {
+        if (data?.err === "") {
+            router.push("/404")
+        }
         (async () => await countViews())()
-    }, [])
+    }, [router])
 
     return (
         <IsUser data={data.tempData} />
