@@ -139,7 +139,11 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
     yield account.save();
     res.cookie('auth', token, newCookie);
     res.status(200).json({
-        token,
+        toggles: {
+            disabled: account.disabled,
+            pbMedia: account.pbMedia,
+            pbContent: account.pbContent
+        },
         success: true,
         action: "success",
         msg: "Login successful.",

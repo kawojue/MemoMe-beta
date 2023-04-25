@@ -2,7 +2,7 @@ import { CorsOptions } from 'cors'
 
 export const allowedOrigins: string[] = [
     "http://localhost:3000",
-    "https://memome-beta.vercel.app"
+    "https://memome-one.vercel.app"
 ]
 
 const corsOptions: CorsOptions = {
