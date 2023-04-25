@@ -1,21 +1,20 @@
 import { CorsOptions } from 'cors'
 
 export const allowedOrigins: string[] = [
+    'https://memome-one.vercel.app',
     "http://localhost:3000",
-    "https://memome-one.vercel.app"
 ]
 
 const corsOptions: CorsOptions = {
-    credentials: true,
-    optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     origin: (origin, callback) => {
         if (allowedOrigins.indexOf(origin as string) !== -1 || !origin) {
             callback(null, true)
         } else {
             callback(new Error('Not allowed by CORS'))
         }
-    }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
 }
 
 export default corsOptions

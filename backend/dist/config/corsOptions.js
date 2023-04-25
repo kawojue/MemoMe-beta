@@ -2,13 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.allowedOrigins = void 0;
 exports.allowedOrigins = [
+    'https://memome-one.vercel.app',
     "http://localhost:3000",
-    "https://memome-one.vercel.app"
 ];
 const corsOptions = {
-    credentials: true,
-    optionsSuccessStatus: 200,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     origin: (origin, callback) => {
         if (exports.allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
@@ -16,6 +13,8 @@ const corsOptions = {
         else {
             callback(new Error('Not allowed by CORS'));
         }
-    }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
 };
 exports.default = corsOptions;
