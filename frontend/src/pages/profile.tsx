@@ -55,7 +55,7 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
   const handleLogout = async (): Promise<void> => {
       await axios.get('/account/logout', {
           headers: {
-              'Authorization': `Bearer ${data.auth}`
+              'Authorization': `Bearer ${data?.auth}`
           }
       }).then((res: any) => {
           localStorage.clear()
@@ -77,7 +77,7 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
           <button className="tab">Account</button>
         </section>
         <section>
-          <Profile data={data} />
+          <Profile data={data?.data?.body} />
           {/* <Settings />
           <Account /> */}
         </section>
