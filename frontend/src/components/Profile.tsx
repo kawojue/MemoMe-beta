@@ -10,12 +10,12 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
     const router: NextRouter = useRouter()
     const [user, setUser] = useState<string>('')
-    const [memos, setMemos] = useState<any>([])
+    const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
     const [copy, setCopy] = useState<any>(<FaShare />)
     
     useEffect(() => {
-        setMemos(data?.memos?.body)
+        setMemos(data?.memos?.body.reverse())
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
     }, [data])
@@ -35,18 +35,26 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <main className="mt-5 mb-10 relative">
-            <div className="flex flex-col gap-2 mb-10 items-center justify-center">
-                <h1 className="text-center font-semibold text-2xl md:text-3xl tracking-wider text-clr-3 font-poppins">
+            <div className="flex items-center mb-7 justify-between">
+                <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
                     Messages
                 </h1>
-                <div className="w-32 h-1.5 bg-clr-2 rounded-md"></div>
+                <button onClick={async () => await onCopy(`www.memome.one/${user}`)}
+                className="text-clr-0 px-5 py-2 bg-clr-1 rounded-md trans hover:bg-clr-2 hover:text-clr-5">{copy}</button>
             </div>
-            <button className="absolute top-0 text-clr-0 md:right-2 right-6 px-5 py-2 bg-clr-1 rounded-md trans hover:bg-clr-2 hover:text-clr-5"
-            onClick={async () => await onCopy(`www.memome.one/${user}`)}>{copy}</button>
-            <p className="flex items-center gap-3 px-2 py-1 bg-clr-6 w-fit rounded-md">
-                <AiFillEye />
-                <span>{views}</span>
-            </p>
+            <div className="flex items-center mb-7 justify-between">
+                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 rounded-lg font-medium">
+                    <span>Profile Views</span>
+                    <span className="flex items-center justify-around gap-3 text-lg"><AiFillEye className="" /> {views}</span>
+                </p>
+                <p className="bg-clr-6 px-3 py-1 rounded-lg text-lg font-medium">
+                    <span>Total Msg: {memos?.length}</span>
+                </p>
+            </div>
+            {memos?.length === 0 ?
+            <p>
+                {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
+            </p> :
             <section className="profile-msgs text-left">
                 {memos?.map((memo: any) => (
                     <article key={memo.idx} className="profile-msg">
@@ -72,7 +80,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         </div>}
                     </article>
                 ))}
-            </section>
+            </section>}
         </main>
     )
 }
