@@ -4,6 +4,7 @@ import { FaShare } from 'react-icons/fa'
 import decrypt from '@/utils/decryption'
 import axios from "@/pages/api/instance"
 import { useState, useEffect } from 'react'
+import { useRouter, NextRouter } from 'next/router'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
@@ -11,8 +12,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const [memos, setMemos] = useState<any[]>(data?.memos?.body)
     const [user, setUser] = useState<string>(data?.account.user)
     const [views, setViews] = useState<number>(data?.account.profileViews)
-
-    console.log(memos)
 
     const onCopy = async (value: any) => {
         try {
@@ -33,14 +32,14 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
             <button className="absolute top-0 text-clr-0 md:right-2 right-6 px-5 py-2 bg-clr-1 rounded-md trans hover:bg-clr-2 hover:text-clr-5"
             onClick={async () => await onCopy(`www.memome.one/${user}`)}>{copy}</button>
             <section>
-                {memos.map((memo: any) => (
+                {/* {memos.map((memo: any) => (
                     <article key={memo.idx}>
                         {memo?.media && <img
                         src={memo?.media?.secure_url}
                         alt={memo?.idx}/>}
                         {memo?.content && <p>{decrypt(memo?.content || '')}</p>}
                     </article>
-                ))}
+                ))} */}
             </section>
         </main>
     )
