@@ -34,7 +34,8 @@ const MemoMeSchema = new mongoose_1.Schema({
             idx: String,
             media: {
                 secure_url: String,
-                public_id: String
+                public_id: String,
+                public_url: String
             },
             content: String,
             time: {

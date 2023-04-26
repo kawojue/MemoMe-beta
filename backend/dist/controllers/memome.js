@@ -22,6 +22,7 @@ const asyncHandler = require('express-async-handler');
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     let mediaRes;
+    let url;
     let encryptContent;
     let { user } = req.params;
     let { content, media } = req.body;
@@ -50,7 +51,13 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     if (media) {
-        mediaRes = yield cloudinary_1.default.uploader.upload(media, { folder: `MemoMe/${account.id}` });
+        mediaRes = yield cloudinary_1.default.uploader.upload(media, {
+            folder: `MemoMe/${account.id}`,
+        });
+        url = yield cloudinary_1.default.url(mediaRes.public_id, {
+            attachment: true,
+            download: true
+        });
     }
     if (content) {
         encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY);
@@ -63,7 +70,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
                 time: `${new Date().toISOString()}`,
                 media: {
                     public_id: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.public_id,
-                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url
+                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url,
+                    public_url: url
                 }
             }];
         yield memome.save();
@@ -77,7 +85,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
                 time: `${new Date().toISOString()}`,
                 media: {
                     public_id: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.public_id,
-                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url
+                    secure_url: mediaRes === null || mediaRes === void 0 ? void 0 : mediaRes.secure_url,
+                    public_url: url
                 }
             }]
     });
