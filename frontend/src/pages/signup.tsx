@@ -41,7 +41,7 @@ function signup() {
                             value={email} ref={emailRef}
                             onChange={e => setEmail(e.target.value)}
                             aria-invalid={validEmail ? "false" : "true"}
-                            aria-describedby="uidnote" max={23} />
+                            aria-describedby="uidnote" max={89} />
                     </div>
                     <div className="form-group">
                         <label>Password</label>
