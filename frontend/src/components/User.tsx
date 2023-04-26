@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import Header from "./HeaderA"
 import { useState } from 'react'
@@ -10,6 +11,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
     const router: NextRouter = useRouter()
 
+    const [image, setImage] = useState<any>()
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
@@ -45,6 +47,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         const reader: FileReader = new FileReader()
         reader.readAsDataURL(file)
         reader.onload = () => {
+            setImage(reader.result)
             setMedia(reader.result as string)
         }
     }
@@ -110,6 +113,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                             <span className="drop-title">Select an image (Optional)</span>
                             <input type="file" id="image"
                             accept="image/*" onChange={(e) => handleMedia(e)}/>
+                            <img src={image} alt="" width={30} className="smallie"/>
                         </label>}
                     </article>
                     {!data?.temporary && <div className="btn-container">
