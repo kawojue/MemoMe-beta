@@ -20,8 +20,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setViews(data?.account?.profileViews)
     }, [data])
 
-    console.log(data)
-
     const onCopy = async (value: any) => {
         try {
             await navigator.clipboard.writeText(value)
