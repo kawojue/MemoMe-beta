@@ -8,6 +8,7 @@ const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
     let mediaRes: any
+    let url: any
     let encryptContent: any
 
     let { user }: any = req.params
@@ -42,7 +43,13 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     }
 
     if (media) {
-        mediaRes = await cloudinary.uploader.upload(media, { folder: `MemoMe/${account.id}` })
+        mediaRes = await cloudinary.uploader.upload(media, {
+            folder: `MemoMe/${account.id}`,
+        })
+        url = await cloudinary.url(mediaRes.public_id, {
+            attachment: true,
+            download: true
+        })
     }
 
     if (content) {
@@ -58,7 +65,8 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             time: `${new Date().toISOString()}`,
             media: {
                 public_id: mediaRes?.public_id,
-                secure_url: mediaRes?.secure_url
+                secure_url: mediaRes?.secure_url,
+                public_url: url
             }
         }]
         await memome.save()
@@ -73,7 +81,8 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
             time: `${new Date().toISOString()}`,
             media: {
                 public_id: mediaRes?.public_id,
-                secure_url: mediaRes?.secure_url
+                secure_url: mediaRes?.secure_url,
+                public_url: url
             }
         }]
     })
