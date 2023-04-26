@@ -16,7 +16,6 @@ const profile: React.FC = () => {
   const router: NextRouter = useRouter()
   const [data, setData] = useState<any>({})
   const [token, setToken] = useState<any>(null)
-  const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -37,17 +36,15 @@ const profile: React.FC = () => {
         }).then((res: any) => {
           setData(res?.data)
         }).catch((err: any) => {
-          setError(true)
           notify(err.response?.data?.action, err.response?.data?.msg)
         })
-      } else {
-        router.push('/login')
       }
-    }
+    };
+    
+    (async () => await handleProfile())();
 
     const timeout = setTimeout(() => {
-      setLoading(false);
-      (async () => await handleProfile())()
+      setLoading(false)
     }, 2000)
 
     return () => clearTimeout(timeout)
@@ -55,6 +52,10 @@ const profile: React.FC = () => {
 
   if (loading) {
     return <Spinner />
+  }
+
+  if (!token) {
+    router.push('/login')
   }
 
   const handleLogout = async (): Promise<void> => {
