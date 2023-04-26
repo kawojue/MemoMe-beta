@@ -10,7 +10,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
     const router: NextRouter = useRouter()
     const [user, setUser] = useState<string>('')
-    const [memos, setMemos] = useState<any[]>([])
+    const [memos, setMemos] = useState<any>([])
     const [views, setViews] = useState<number>(0)
     const [copy, setCopy] = useState<any>(<FaShare />)
     
@@ -65,10 +65,10 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         </div>}
                         {memo?.media &&
                         <div className="mt-2 flex justify-center">
-                            <a href="https://res.cloudinary.com/kawojue/image/upload/v1682526539/MemoMe/6449383785ef04c71e27edf9/qrkyp2ofnjl5bwnxfwuf.jpg" download
+                            <button
                             className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins">
                                 Download original Image
-                            </a>
+                            </button>
                         </div>}
                     </article>
                 ))}
