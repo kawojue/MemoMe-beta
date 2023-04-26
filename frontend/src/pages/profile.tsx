@@ -11,58 +11,62 @@ import Settings from '@/components/Settings'
 import { ToastContainer } from 'react-toastify'
 import { useRouter, NextRouter } from 'next/router'
 
-
-export const getServerSideProps = async (context: any) => {
-  const { auth } = context.req.cookies // on this
-  let data: any = {}
-  await axios.get('/profile', {
-    headers: {
-      'Authorization': `Bearer ${auth}`
-    }
-  }).then((res: any) => {
-    data = { auth, data: res?.data }
-  }).catch((err: any) => {
-    data = err.response?.data
-  })
-
-  return {
-    props: {
-      data
-    }
-  }
-}
-
-const profile: React.FC<{ data: any }> = ({ data }) => {
+const profile: React.FC = () => {
   const { notify }: any = useAuth()
   const router: NextRouter = useRouter()
+  const [data, setData] = useState<any>({})
+  const [token, setToken] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
-  console.log(data)
+  useEffect(() => {
+    const storedToken = JSON.parse(localStorage.getItem('token') as string)
+    if (storedToken) {
+      setToken(storedToken)
+    }
+  }, [])
 
   useEffect(() => {
-    if (data?.success === false) {
-      router.push('/login')
+    setLoading(true)
+    const handleProfile = async (): Promise<void> => {
+      if (token) {
+        await axios.get('/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        }).then((res: any) => {
+          setData(res?.data)
+        }).catch((err: any) => {
+          router.push('/login')
+        })
+      } else {
+        router.push('/login')
+      }
     }
-    setTimeout(() => {
-      setLoading(false)
+
+    const timeout = setTimeout(() => {
+      setLoading(false);
+      (async () => await handleProfile())()
     }, 2000)
-  }, [data, router])
+
+    return () => clearTimeout(timeout)
+  }, [token, router])
 
   if (loading) {
     return <Spinner />
   }
 
   const handleLogout = async (): Promise<void> => {
-      await axios.get('/account/logout', {
-          headers: {
-              'Authorization': `Bearer ${data?.auth}`
-          }
-      }).then((res: any) => {
-          localStorage.clear()
-          router.push("/")
-      }).catch((err: any) => {
-          notify("error", err.code)
-      })
+    await axios.get('/account/logout', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then((res: any) => {
+      setToken('')
+      localStorage.removeItem('token')
+      router.push("/")
+    }).catch((err: any) => {
+      notify("error", err.code)
+    })
   }
 
   return (
@@ -77,7 +81,7 @@ const profile: React.FC<{ data: any }> = ({ data }) => {
           <button className="tab">Account</button>
         </section>
         <section>
-          <Profile data={data?.data?.body} />
+          <Profile data={data?.body} />
           {/* <Settings />
           <Account /> */}
         </section>
