@@ -165,6 +165,10 @@ body {
   transition: background .2s ease-in-out, border .2s ease-in-out;
 }
 
+.smallie {
+  @apply rounded-sm absolute top-10 right-3;
+}
+
 .drop-container:hover {
   @apply bg-[#eee] border-2 border-[#111]
 }
@@ -175,6 +179,10 @@ body {
 
 .drop-title {
   @apply text-[#444] text-[xl] font-medium trans;
+}
+
+input[type=file] {
+  @apply hidden;
 }
 
 input[type=file]::file-selector-button {
@@ -218,6 +226,10 @@ input[type=file]::file-selector-button:hover {
 
   .tab {
     @apply w-full rounded-md px-3;
+  }
+
+  input[type=file] {
+    @apply block;
   }
 }
 
