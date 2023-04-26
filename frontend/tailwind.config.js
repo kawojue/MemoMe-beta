@@ -14,6 +14,7 @@ module.exports = {
         "clr-3": "rgb(255, 248, 240)",
         "clr-4": "rgb(97, 125, 152)",
         "clr-5": "rgb(241, 245, 248)",
+        "clr-6": "#084cdf",
         "clr-z": "rgba(0, 0, 0, 0.5)",
       },
       fontFamily: {
