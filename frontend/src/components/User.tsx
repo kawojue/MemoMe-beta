@@ -13,20 +13,20 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
-    const [textCounter, setTextCounter]= useState<number>(890)
+    const [textCounter, setTextCounter]= useState<number>(445)
 
     const handleContent = (e: any): void => {
         const value: string = e.target.value
-        if (value.length <= 890) {
+        if (value.length <= 445) {
             setContent(value)
-            setTextCounter(890 - value.length)
+            setTextCounter(445 - value.length)
             if (textCounter === 0) {
                 setTextCounter(0)
             }
         }
     }
 
-    const checkFile = (file: any) => {
+    const checkFile = (file: any): boolean => {
         if (!file) {
             return false
         }
@@ -102,7 +102,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                             <p className="content-counter md:text-sm">
                                 {textCounter} characters remaining.
                             </p>
-                            <textarea className="content md:text-xl" maxLength={890}
+                            <textarea className="content md:text-xl" maxLength={445}
                             placeholder="Type your message here..."
                             value={content} onChange={(e) => handleContent(e)} />
                         </div>}
