@@ -13,7 +13,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const emailRef = useRef<HTMLInputElement>(null)
 
     const [userId, setUserId] = useState<string>('')
-    const [aside, setAside] = useState<boolean>(false)
     const [showPswd, setShowPswd] = useState<boolean>(false)
 
     const [email, setEmail] = useState<string>('')
@@ -174,14 +173,13 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     return (
         <Context.Provider value={{
-            aside, setAside, email, setEmail,
-            validEmail, handleSignup, otp, setOtp,
+            email, setEmail, validEmail, handleSignup,
             confirmPswd, setConfirmPswd, handleLogin,
             pswd, setPswd, btnLoading, setBtnLoading,
             emailRef, showPswd, setShowPswd, userId,
             setUserId, userRef, notify, validPswd,
-            setValidPswd, handlePswdReset, handleOtpReq,
-            handlePswdVerify
+            setValidPswd, handlePswdReset, setOtp,
+            handleOtpReq, otp, handlePswdVerify
         }}>
             {children}
         </Context.Provider>
