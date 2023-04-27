@@ -2,8 +2,8 @@ import { v4 as uuid } from 'uuid'
 import User from '../models/UserModel'
 import MemoMe from '../models/MemoMeModel'
 import { Request, Response } from 'express'
-const textCrypt = require('text-encryption')
 import cloudinary from '../config/cloudinary'
+const textCrypt = require('text-encryption')
 const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
@@ -160,7 +160,9 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
     let memos: any = await MemoMe.findOne({ user: account.id }).exec()
 
     if (!memos) {
-        memos = []
+        memos = {
+            body: []
+        }
     }
 
     if (account.body === false) {
