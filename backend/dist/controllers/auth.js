@@ -155,12 +155,13 @@ const otpHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     account.OTP.totp = totp;
     account.OTP.totpDate = totpDate;
+    account.mail.verified = false;
     yield account.save();
     const transportMail = {
-        senderName: "Kawojue Raheem - Admin",
+        senderName: "Muyiwa at MemoMe",
         to: email,
         subject: "Verification Code",
-        text: `Code: ${totp}`
+        text: `Code: ${totp}\nIf you did not request for this OTP. Please, ignore.`
     };
     yield (0, mailer_1.default)(transportMail);
     res.status(200).json({
@@ -282,13 +283,6 @@ exports.verifyOTP = verifyOTP;
 // reset password
 const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { verified, email, newPswd, newPswd2 } = req.body;
-    if (!verified) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "You're not eligible to reset your password."
-        });
-    }
     if (!email || !newPswd) {
         return res.status(400).json({
             success: false,
@@ -311,6 +305,13 @@ const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
             msg: "Account does not exist."
         });
     }
+    if (!verified || !account.mail.verified) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "You're not eligible to reset your password."
+        });
+    }
     const compare = yield bcrypt_1.default.compare(newPswd, account.password);
     if (compare) {
         return res.status(400).json({
@@ -321,8 +322,9 @@ const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
     }
     const salt = yield bcrypt_1.default.genSalt(10);
     const hasedPswd = yield bcrypt_1.default.hash(newPswd, salt);
-    account.password = hasedPswd;
     account.token = "";
+    account.password = hasedPswd;
+    account.mail.verified = false;
     yield account.save();
     res.status(200).json({
         success: true,
