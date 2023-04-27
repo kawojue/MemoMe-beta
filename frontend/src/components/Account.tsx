@@ -1,6 +1,4 @@
-import React from 'react'
-
-const Account = () => {
+const Account: React.FC<{ data: any }> = ({ data }) => {
   return (
     <div>Account</div>
   )
