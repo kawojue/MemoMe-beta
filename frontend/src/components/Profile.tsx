@@ -31,6 +31,10 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         }
     }
 
+    const defaultImg = (e: any):void => {
+        e.target.src = ""
+    }
+
     return (
         <main className="mt-3 mb-10">
             <div className="flex items-center mb-7 justify-between">
@@ -58,7 +62,8 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     <article key={memo.idx} className="profile-msg">
                         <div className="media">
                             {memo?.media && <img
-                            className="image"
+                            className="image" loading="lazy"
+                            onError={(e) => defaultImg(e)}
                             src={memo?.media?.secure_url}
                             alt={memo?.idx}/>}
                         </div>
