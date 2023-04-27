@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import useAuth from "@/hooks/useAuth"
 import { FaShare } from 'react-icons/fa'
-import decrypt from '@/utils/decryption'
+import decryption from '@/utils/decryption'
 import { AiFillEye } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
+import { formatDistanceToNow, parseISO } from "date-fns"
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
@@ -15,7 +16,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     useEffect(() => {
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
-        setMemos(data?.memos?.body.reverse())
+        setMemos(data?.memos?.body?.reverse())
     }, [data])
 
     const onCopy = async (value: any) => {
@@ -35,6 +36,16 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         e.target.src = ""
     }
 
+    const getPeriod = (timestamp: string): string => {
+        let period = ''
+        if (timestamp) {
+            const date = parseISO(timestamp)
+            const timePeriod = formatDistanceToNow(date)
+            period = `${timePeriod} ago`
+        }
+        return period
+    }
+
     return (
         <main className="mt-3 mb-10">
             <div className="flex items-center mb-7 justify-between">
@@ -42,24 +53,25 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     Messages
                 </h1>
                 <button onClick={async () => await onCopy(`www.memome.one/${user}`)}
-                className="text-clr-0 px-5 py-2 bg-clr-1 rounded-md trans hover:bg-clr-2 hover:text-clr-5">{copy}</button>
+                className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}</button>
             </div>
             <div className="flex items-center mb-7 justify-between">
-                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 rounded-lg font-medium">
+                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 text-clr-3 rounded-lg font-medium">
                     <span>Profile Views</span>
                     <span className="flex items-center justify-around gap-3 text-lg"><AiFillEye className="" /> {views}</span>
                 </p>
-                <p className="bg-clr-6 px-3 py-1 rounded-lg text-lg font-medium">
+                <p className="bg-clr-6 px-3 py-1 text-clr-3 rounded-lg text-lg font-medium">
                     <span>Total Msg: {memos?.length}</span>
                 </p>
             </div>
             {memos?.length === 0 ?
-            <p>
+            <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
                 {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
             </p> :
             <section className="profile-msgs text-left">
                 {memos?.map((memo: any) => (
-                    <article key={memo.idx} className="profile-msg">
+                    <article key={memo.idx} className="profile-msg relative">
+                        <p className="period">{getPeriod(memo?.time)}</p>
                         <div className="media">
                             {memo?.media && <img
                             className="image" loading="lazy"
@@ -69,7 +81,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         </div>
                         {memo?.content &&
                         <div className="content flex flex-col gap-0.5">
-                            {decrypt(memo?.content || '').split('\n')?.map(
+                            {decryption(memo?.content || '')?.split('\n')?.map(
                                 (content: string, index: number) => (
                                     <span className="texts" key={index}>{String(content)}</span>
                             ))}
