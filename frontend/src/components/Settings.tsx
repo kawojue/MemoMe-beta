@@ -1,6 +1,4 @@
-import React from 'react'
-
-const Settings = () => {
+const Settings: React.FC<{ data: any }> = ({ data }) => {
   return (
     <div>Settings</div>
   )
