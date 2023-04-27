@@ -27,21 +27,21 @@ const profile: React.FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    const handleProfile = async (): Promise<void> => {
-      if (token) {
-        await axios.get('/profile', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        }).then((res: any) => {
-          setData(res?.data)
-        }).catch((err: any) => {
-          notify(err.response?.data?.action, err.response?.data?.msg)
-        })
-      }
+    const handleProfile = async (token: string): Promise<void> => {
+      await axios.get('/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      }).then((res: any) => {
+        setData(res?.data)
+      }).catch((err: any) => {
+        notify(err.response?.data?.action, err.response?.data?.msg)
+      })
     };
-    
-    (async () => await handleProfile())();
+
+    if (token) {
+      (async () => await handleProfile(token))();
+    }
 
     const timeout = setTimeout(() => {
       setLoading(false)
