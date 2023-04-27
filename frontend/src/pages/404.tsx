@@ -13,7 +13,7 @@ const NotFound = () => {
                     <span>Page somewhere.</span>
                 </h1>
                 <Link href="/signup"
-                className="rounded-lg w-fit bg-clr-1 flex items-center gap-3 py-3 px-5 font-medium mt-10 tracking-wider text-xl hover:bg-clr-2 trans" >
+                className="signup-link hover:bg-clr-2" >
                 {`Let's get you Signed up..`}
                 <FaMehRollingEyes />
                 </Link>
