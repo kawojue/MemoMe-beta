@@ -4,20 +4,18 @@ import { FaShare } from 'react-icons/fa'
 import decrypt from '@/utils/decryption'
 import { AiFillEye } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
-import { useRouter, NextRouter } from 'next/router'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
-    const router: NextRouter = useRouter()
     const [user, setUser] = useState<string>('')
     const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
     const [copy, setCopy] = useState<any>(<FaShare />)
     
     useEffect(() => {
-        setMemos(data?.memos?.body.reverse())
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
+        setMemos(data?.memos?.body.reverse())
     }, [data])
 
     const onCopy = async (value: any) => {
@@ -34,7 +32,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     }
 
     return (
-        <main className="mt-5 mb-10 relative">
+        <main className="mt-3 mb-10">
             <div className="flex items-center mb-7 justify-between">
                 <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
                     Messages
@@ -65,10 +63,10 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                             alt={memo?.idx}/>}
                         </div>
                         {memo?.content &&
-                        <div className="content">
+                        <div className="content flex flex-col gap-0.5">
                             {decrypt(memo?.content || '').split('\n')?.map(
                                 (content: string, index: number) => (
-                                    <p className="texts" key={index}>{String(content)}</p>
+                                    <span className="texts" key={index}>{String(content)}</span>
                             ))}
                         </div>}
                         {memo?.media &&
