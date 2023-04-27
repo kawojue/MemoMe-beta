@@ -168,13 +168,14 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 
     account.OTP.totp = totp
     account.OTP.totpDate = totpDate
+    account.mail.verified = false
     await account.save()
 
     const transportMail: IMailer = {
-        senderName: "Kawojue Raheem - Admin",
+        senderName: "Muyiwa at MemoMe",
         to: email,
         subject: "Verification Code",
-        text: `Code: ${totp}`
+        text: `Code: ${totp}\nIf you did not request for this OTP. Please, ignore.`
     }
 
     await mailer(transportMail)
@@ -314,14 +315,6 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
 const resetpswd = asyncHandler(async (req: Request, res: Response) => {
     const { verified, email, newPswd, newPswd2 }: any = req.body
 
-    if (!verified) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "You're not eligible to reset your password."
-        })
-    }
-
     if (!email || !newPswd) {
         return res.status(400).json({
             success: false,
@@ -347,6 +340,14 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
+    if (!verified || !account.mail.verified) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "You're not eligible to reset your password."
+        })
+    }
+
     const compare = await bcrypt.compare(newPswd, account.password)
     if (compare) {
         return res.status(400).json({
@@ -359,8 +360,9 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
     const salt: string = await bcrypt.genSalt(10)
     const hasedPswd: string = await bcrypt.hash(newPswd, salt)
 
-    account.password = hasedPswd
     account.token = ""
+    account.password = hasedPswd
+    account.mail.verified = false
     await account.save()
 
     res.status(200).json({
