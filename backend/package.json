@@ -18,7 +18,7 @@
     "node": "18.x"
   },
   "keywords": [],
-  "author": "",
+  "author": "Muyiwa",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
