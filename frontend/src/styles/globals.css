@@ -168,7 +168,7 @@ input[type=file]::file-selector-button:hover {
 }
 
 .tab {
-  @apply rounded-md text-white bg-clr-1 px-5 py-2 trans font-medium tracking-wider;
+  @apply rounded-md text-white bg-clr-1 px-3 py-2 trans font-medium tracking-wider;
 }
 
 .tab:hover {
