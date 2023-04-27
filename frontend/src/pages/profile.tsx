@@ -17,6 +17,7 @@ const profile: React.FC = () => {
   const [data, setData] = useState<any>({})
   const [token, setToken] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [activeTab, setActiveTab] = useState<string>("profile")
 
   useEffect(() => {
     const storedToken = JSON.parse(localStorage.getItem('token') as string)
@@ -79,14 +80,25 @@ const profile: React.FC = () => {
       <Header logout={handleLogout} />
       <main className="menu">
         <section className="tabs">
-          <button className="tab active">Profile</button>
-          <button className="tab">Settings</button>
-          <button className="tab">Account</button>
+          <button onClick={() => setActiveTab("profile")}
+          className={`tab ${activeTab === "profile" && 'active'}`}>
+            Profile
+          </button>
+          <button onClick={() => setActiveTab("settings")}
+          className={`tab ${activeTab === "settings" && 'active'}`}>
+            Settings
+          </button>
+          <button onClick={() => setActiveTab("account")}
+          className={`tab ${activeTab === "account" && 'active'}`}>
+            Account
+          </button>
         </section>
         <section>
-          <Profile data={data?.body} />
-          {/* <Settings />
-          <Account /> */}
+          {activeTab === "profile" ? 
+            <Profile data={data?.body} /> :
+            activeTab === "settings" ?
+            <Settings data={data?.body} /> : <Account data={data?.body} />
+          }
         </section>
       </main>
     </>
