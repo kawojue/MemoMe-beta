@@ -140,6 +140,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             const { action, msg, toggles, token }: any = res?.data
             setPswd("")
             setUserId("")
+            setConfirmPswd("")
             notify(action, msg)
             setBtnLoading(false)
             localStorage.setItem('token', JSON.stringify(token))
