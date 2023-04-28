@@ -28,7 +28,7 @@ const login = () => {
             <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
-                <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
+                <h1 className="form-h1 md:text-4xl">
                     Login
                 </h1>
                 <article className="mt-5 form-center">
