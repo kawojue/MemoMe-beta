@@ -17,6 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     const [token, setToken] = useState<any>(null)
     const [userId, setUserId] = useState<string>('')
+    const [toggles, setToggles] = useState<any>(null)
     const [showPswd, setShowPswd] = useState<boolean>(false)
 
     const [email, setEmail] = useState<string>('')
@@ -37,8 +38,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     useEffect(() => {
         const storedToken = JSON.parse(localStorage.getItem('token') as string)
-        if (storedToken) {
+        const storedToggles = JSON.parse(localStorage.getItem('toggles') as any)
+        if (storedToken && storedToggles) {
             setToken(storedToken)
+            setToggles(storedToggles)
         } else {
             router.push('/login')
         }
@@ -137,8 +140,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setUserId("")
             notify(action, msg)
             setBtnLoading(false)
-            localStorage.setItem('toggles', JSON.stringify(toggles))
             localStorage.setItem('token', JSON.stringify(token))
+            localStorage.setItem('toggles', JSON.stringify(toggles))
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
@@ -280,7 +283,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
             setUser, validUser, token, data,
-            handleUsername, loading,
+            handleUsername, loading, toggles, handleLogout,
             setCurrentPswd, editPassword, currentPswd,
         }}>
             {children}
