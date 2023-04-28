@@ -10,8 +10,7 @@ import Settings from '@/components/Settings'
 import { ToastContainer } from 'react-toastify'
 
 const profile: React.FC = () => {
-  const { token, loading,
-    handleLogout, data }: any = useAuth()
+  const { loading, data }: any = useAuth()
   const [activeTab, setActiveTab] = useState<string>("profile")
 
   if (loading) {
@@ -22,7 +21,7 @@ const profile: React.FC = () => {
     <>
       <ToastContainer />
       <Meta title="Profile" />
-      <Header logout={handleLogout} />
+      <Header />
       <main className="menu">
         <section className="tabs">
           <button onClick={() => setActiveTab("profile")}
@@ -42,7 +41,7 @@ const profile: React.FC = () => {
           {activeTab === "profile" ? 
             <Profile data={data?.body} /> :
             activeTab === "settings" ?
-            <Settings data={data?.body} /> : <Account token={token} />
+            <Settings /> : <Account />
           }
         </section>
       </main>
