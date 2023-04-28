@@ -58,8 +58,9 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
                     Messages
                 </h1>
-                <button onClick={async () => await onCopy(`http://memome.one/${user}`)}
-                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}</button>
+                <button onClick={async () => await onCopy(`https://memome.one/${user}`)}
+                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}
+                </button>
             </div>
             <div className="flex items-center mb-7 justify-between">
                 <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 text-clr-3 rounded-lg font-medium">
