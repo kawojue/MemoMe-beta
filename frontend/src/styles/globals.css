@@ -212,12 +212,10 @@ input[type=file]::file-selector-button:hover {
   @apply relative inline-block w-[60px] h-[34px]
 }
 
-/* Hide default HTML checkbox */
 .switch input {
   @apply opacity-0 w-0 h-0;
 }
 
-/* The slider */
 .slider {
   @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-[#ccc] trans;
 }
@@ -243,7 +241,6 @@ input:checked+.slider:before {
 
 .slider.round {
   @apply rounded-[34px];
-  /* border-radius: 34px; */
 }
 
 .slider.round:before {
