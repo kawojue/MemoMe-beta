@@ -13,7 +13,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
     const [copy, setCopy] = useState<any>(<FaShare />)
-    
+
     useEffect(() => {
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
@@ -33,7 +33,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         }
     }
 
-    const defaultImg = (e: any):void => {
+    const defaultImg = (e: any): void => {
         e.target.src = '.../../../../public/fallback.png'
     }
 
@@ -58,8 +58,8 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
                     Messages
                 </h1>
-                <button onClick={async () => await onCopy(`www.memome.one/${user}`)}
-                className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}</button>
+                <button onClick={async () => await onCopy(`http://memome.one/${user}`)}
+                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}</button>
             </div>
             <div className="flex items-center mb-7 justify-between">
                 <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 text-clr-3 rounded-lg font-medium">
@@ -71,40 +71,40 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </p>
             </div>
             {memos?.length === 0 ?
-            <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
-                {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
-            </p> :
-            <section className="profile-msgs text-left">
-                {memos?.map((memo: any) => (
-                    <article key={memo.idx} className="profile-msg">
-                        <p className="period md:text-sm">
-                            {getPeriod(memo?.time)}
-                        </p>
-                        {memo?.content &&
-                        <div className="texts">
-                            {decryption(memo?.content || '')?.split('\n')?.map(
-                                (content: string, index: number) => (
-                                    <span className="texts" key={index}>{String(content)}</span>
-                            ))}
-                        </div>}
-                        <div className="media">
-                            {memo?.media && <img
-                            className="image" loading="lazy"
-                            onError={(e) => defaultImg(e)}
-                            src={memo?.media?.secure_url}
-                            alt={memo?.idx}/>}
-                        </div>
-                        {memo?.media &&
-                        <div className="mt-2 flex justify-center">
-                            <button onClick={() => downloadImage(memo?.media?.secure_url)}
-                            className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0">
-                                <AiOutlineDownload />
-                                <span>Download original Image</span>
-                            </button>
-                        </div>}
-                    </article>
-                ))}
-            </section>}
+                <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
+                    {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
+                </p> :
+                <section className="profile-msgs text-left">
+                    {memos?.map((memo: any) => (
+                        <article key={memo.idx} className="profile-msg">
+                            <p className="period md:text-sm">
+                                {getPeriod(memo?.time)}
+                            </p>
+                            {memo?.content &&
+                                <div className="texts">
+                                    {decryption(memo?.content || '')?.split('\n')?.map(
+                                        (content: string, index: number) => (
+                                            <span className="texts" key={index}>{String(content)}</span>
+                                        ))}
+                                </div>}
+                            <div className="media">
+                                {memo?.media && <img
+                                    className="image" loading="lazy"
+                                    onError={(e) => defaultImg(e)}
+                                    src={memo?.media?.secure_url}
+                                    alt={memo?.idx} />}
+                            </div>
+                            {memo?.media &&
+                                <div className="mt-2 flex justify-center">
+                                    <button onClick={() => downloadImage(memo?.media?.secure_url)}
+                                        className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0">
+                                        <AiOutlineDownload />
+                                        <span>Download original Image</span>
+                                    </button>
+                                </div>}
+                        </article>
+                    ))}
+                </section>}
         </main>
     )
 }

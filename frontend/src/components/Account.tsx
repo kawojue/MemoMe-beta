@@ -53,7 +53,7 @@ const Account: React.FC = () => {
                   <label htmlFor="user">Username</label>
                   <input type="text" id="user"
                       autoComplete="off"
-                      placeholder="kawojue_"
+                      placeholder="kawojue"
                       className={`border-2 ${validUser ?
                       'border-green-400' : 'border-red-400'}`}
                       value={user} ref={userRef}

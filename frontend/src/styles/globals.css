@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  @apply bg-clr-0;
+  @apply bg-clr-0 font-poppins;
 }
 
 .trans {
