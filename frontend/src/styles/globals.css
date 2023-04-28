@@ -137,7 +137,7 @@ body {
 }
 
 .smallie {
-  @apply rounded-sm absolute top-10 right-3;
+  @apply rounded absolute top-10 right-3;
 }
 
 .drop-container:hover {
