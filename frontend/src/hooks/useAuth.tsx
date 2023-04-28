@@ -58,8 +58,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             })
         };
 
-        const timeout = setTimeout(() => {
+        if (token) {
             (async () => await handleProfile(token))()
+        }
+
+        const timeout = setTimeout(() => {
             setLoading(false)
         }, 1500)
 
@@ -231,6 +234,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 }
             }
         ).then((res: any) => {
+            setUser("")
             setBtnLoading(false)
             notify(res?.data?.action, res?.data?.msg)
             setTimeout(() => {
@@ -245,10 +249,18 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const editPassword = async (): Promise<void> => {
         setBtnLoading(true)
         await axios.post(
-            '/account/api/password/edit',
-            JSON.stringify({ currentPswd, pswd, pswd2: confirmPswd })
+            '/account/password/change',
+            JSON.stringify({ currentPswd, pswd, pswd2: confirmPswd }),
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         ).then((res: any) => {
             setBtnLoading(false)
+            setPswd("")
+            setConfirmPswd("")
+            setCurrentPswd("")
             notify(res?.data?.action, res?.data?.msg)
             setTimeout(() => {
                 (async () => await handleLogout())()
