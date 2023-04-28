@@ -42,7 +42,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         if (timestamp) {
             const date = parseISO(timestamp)
             const timePeriod = formatDistanceToNow(date)
-            period = `${timePeriod} ago`
+            period = timePeriod
         }
         return period
     }
@@ -76,10 +76,12 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
             </p> :
             <section className="profile-msgs text-left">
                 {memos?.map((memo: any) => (
-                    <article key={memo.idx} className="profile-msg relative">
-                        <p className="period">{getPeriod(memo?.time)}</p>
+                    <article key={memo.idx} className="profile-msg">
+                        <p className="period md:text-sm">
+                            {getPeriod(memo?.time)}
+                        </p>
                         {memo?.content &&
-                        <div className="content flex flex-col gap-0.5">
+                        <div className="texts">
                             {decryption(memo?.content || '')?.split('\n')?.map(
                                 (content: string, index: number) => (
                                     <span className="texts" key={index}>{String(content)}</span>
@@ -95,7 +97,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         {memo?.media &&
                         <div className="mt-2 flex justify-center">
                             <button onClick={() => downloadImage(memo?.media?.secure_url)}
-                            className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center">
+                            className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0">
                                 <AiOutlineDownload />
                                 <span>Download original Image</span>
                             </button>

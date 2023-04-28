@@ -191,9 +191,14 @@ input[type=file]::file-selector-button:hover {
 }
 
 .profile-msg {
-  @apply h-fit;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px
+  @apply relative rounded-lg text-clr-3;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.period {
+  @apply absolute top-0 right-2 text-xs font-bold text-clr-z;
 }
 
 .image {
@@ -267,6 +272,10 @@ input:checked+.slider:before {
   .profile-msgs {
     @apply grid-cols-2;
   }
+}
+
+.texts {
+  @apply flex flex-col gap-0.5 py-2 px-2
 }
 
 
