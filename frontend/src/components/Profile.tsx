@@ -72,13 +72,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 {memos?.map((memo: any) => (
                     <article key={memo.idx} className="profile-msg relative">
                         <p className="period">{getPeriod(memo?.time)}</p>
-                        <div className="media">
-                            {memo?.media && <img
-                            className="image" loading="lazy"
-                            onError={(e) => defaultImg(e)}
-                            src={memo?.media?.secure_url}
-                            alt={memo?.idx}/>}
-                        </div>
                         {memo?.content &&
                         <div className="content flex flex-col gap-0.5">
                             {decryption(memo?.content || '')?.split('\n')?.map(
@@ -86,6 +79,13 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                                     <span className="texts" key={index}>{String(content)}</span>
                             ))}
                         </div>}
+                        <div className="media">
+                            {memo?.media && <img
+                            className="image" loading="lazy"
+                            onError={(e) => defaultImg(e)}
+                            src={memo?.media?.secure_url}
+                            alt={memo?.idx}/>}
+                        </div>
                         {memo?.media &&
                         <div className="mt-2 flex justify-center">
                             <button
