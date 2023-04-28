@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
+import PswdButton from './PswdBtn'
 import useAuth from "@/hooks/useAuth"
 
 const Account: React.FC<{ token: string }> = ({ token }) => {
   const { user, setUser, validUser, userRef,
-    btnLoading, handleUsername }: any = useAuth()
+    btnLoading, handleUsername, validPswd,
+    pswd, confirmPswd, currentPswd, showPswd,
+    setPswd, setCurrentPswd, setShowPswd,
+    setConfirmPswd, editPassword}: any = useAuth()
+
+  const isValidToEditPswd: boolean = Boolean(currentPswd) && Boolean(validPswd)
 
   return (
-    <main>
+    <main className="mb-10">
       <section>
         <article>
           <form onSubmit={(e) => e.preventDefault()} className="form-itself">
-            <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
+            <h1 className="form-h1 md:text-4xl">
               Edit Username
             </h1>
             <article className="mt-5 form-center">
@@ -30,16 +36,58 @@ const Account: React.FC<{ token: string }> = ({ token }) => {
               <button
                     className="btn" disabled={!validUser}
                     onClick={async () => await handleUsername()}>
-                        {btnLoading ? 'Changing...' : 'Save'}
+                        {btnLoading ? 'Editing...' : 'Save'}
                     </button>
             </article>
           </form>
         </article>
-        <article>
-          <h2>Change Username</h2>
-        </article>
-        <article>
+        <form onSubmit={(e) => e.preventDefault()} className="form-itself">
+            <h1 className="form-h1 md:text-4xl">
+              Change Password
+            </h1>
+            <article className="mt-5 form-center">
+              <div className="form-group">
+                <label>Current Password</label>
+                <div className="pswd-container">
+                    <input className='border-2'
+                    value={currentPswd} type='password'
+                    onChange={(e) => setCurrentPswd(e.target.value)}
+                    aria-describedby="uidnote" />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <div className="pswd-container">
+                    <input max={32} value={pswd}
+                    onChange={(e) => setPswd(e.target.value)}
+                    type={`${showPswd ? 'text': 'password'}`}
+                    className={`border-2 ${validPswd ?
+                    'border-green-400' : 'border-red-400'}`}
+                    aria-invalid={validPswd ? "false" : "true"}
+                    aria-describedby="uidnote" />
+                    <PswdButton get={showPswd} set={setShowPswd} />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <div className="pswd-container">
+                    <input max={32} value={confirmPswd}
+                    type='password' aria-describedby="uidnote"
+                    onChange={(e) => setConfirmPswd(e.target.value)}
+                    className={`border-2 ${validPswd ?
+                    'border-green-400' : 'border-red-400'}`}
+                    aria-invalid={validPswd ? "false" : "true"} />
+                </div>
+                </div>
+              <button className="btn" disabled={!isValidToEditPswd}
+              onClick={async () => await editPassword()}>
+                {btnLoading ? 'Encrypting...' : 'Change'}
+              </button>
+            </article>
+          </form>
+        <article className="mt-10">
           <h2>Disable Account</h2>
+          <label></label>
         </article>
       </section>
     </main>
