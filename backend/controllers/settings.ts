@@ -73,9 +73,9 @@ const toggleDisability = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    account.disbality = tgDisability as boolean
+    account.disabled = tgDisability as boolean
     await account.save()
-    res.sendStatus(200)
+    res.status(200).json({ success: true })
 })
 
 const togglePbMedia = asyncHandler(async (req: any, res: Response) => {

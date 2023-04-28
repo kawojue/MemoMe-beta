@@ -78,9 +78,9 @@ const toggleDisability = asyncHandler((req, res) => __awaiter(void 0, void 0, vo
             msg: 'Something went wrong..'
         });
     }
-    account.disbality = tgDisability;
+    account.disabled = tgDisability;
     yield account.save();
-    res.sendStatus(200);
+    res.status(200).json({ success: true });
 }));
 exports.toggleDisability = toggleDisability;
 const togglePbMedia = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
