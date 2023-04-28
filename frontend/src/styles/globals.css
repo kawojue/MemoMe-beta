@@ -196,14 +196,59 @@ input[type=file]::file-selector-button:hover {
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px
 }
 
-/* .media {
-  @apply w-full object-cover rounded-md h-[5rem] max-h-[10rem];
-} */
-
 .image {
   @apply w-full object-cover rounded-md max-h-[15rem];
 }
 
+.toggle-container {
+  @apply flex justify-between items-center
+}
+
+.toggle-h2 {
+  @apply text-lg font-medium tracking-wide
+}
+
+.switch {
+  @apply relative inline-block w-[60px] h-[34px]
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  @apply opacity-0 w-0 h-0;
+}
+
+/* The slider */
+.slider {
+  @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-[#ccc] trans;
+}
+
+.slider:before {
+  content: "";
+  @apply absolute h-[26px] w-[26px] left-[4px] bottom-[4px] bg-white trans;
+}
+
+input:checked+.slider {
+  @apply bg-clr-6
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #084cdf;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  @apply rounded-[34px];
+  /* border-radius: 34px; */
+}
+
+.slider.round:before {
+  @apply rounded-[50%]
+}
 
 @media screen and (min-width: 900px) {
   .menu {
