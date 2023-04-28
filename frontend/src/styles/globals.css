@@ -65,6 +65,10 @@ body {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
+.form-h1 {
+  @apply text-clr-5 text-center font-semibold tracking-wider text-2xl;
+}
+
 .form-center {
   @apply flex flex-col gap-4
 }
