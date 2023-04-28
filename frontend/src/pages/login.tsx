@@ -16,7 +16,7 @@ const login = () => {
     }: any = useAuth()
 
     useEffect(() => {
-            userRef.current?.focus()
+        userRef.current?.focus()
     }, [userRef])
 
     const isValid: boolean = userId && pswd
