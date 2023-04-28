@@ -1,4 +1,4 @@
-const Settings: React.FC<{ data: any }> = ({ data }) => {
+const Settings: React.FC = () => {
   return (
     <div>Settings</div>
   )
