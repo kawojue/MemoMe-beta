@@ -17,7 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const genToken_1 = __importDefault(require("../config/genToken"));
 const asyncHandler = require('express-async-handler');
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
@@ -115,7 +115,7 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
             msg: "Incorrect password."
         });
     }
-    const token = jsonwebtoken_1.default.sign({ "user": account.user }, process.env.JWT_SECRET, { expiresIn: '90d' });
+    const token = (0, genToken_1.default)(account.user);
     account.token = token;
     account.lastLogin = `${new Date()}`;
     yield account.save();
@@ -174,9 +174,9 @@ exports.otpHandler = otpHandler;
 // change username
 const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _d, _e;
-    let { pswd, newUser } = req.body;
+    let { newUser } = req.body;
     newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
-    if (!newUser || !pswd) {
+    if (!newUser) {
         return res.status(400).json({
             success: false,
             action: "error",
@@ -202,20 +202,12 @@ const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
     if (userExists) {
         return res.status(409).json({
             success: false,
-            action: "info",
+            action: "warning",
             msg: "Username has been taken."
         });
     }
-    const match = yield bcrypt_1.default.compare(pswd, account.password);
-    if (!match) {
-        return res.status(401).json({
-            success: false,
-            action: "error",
-            msg: "Incorrect password."
-        });
-    }
-    account.user = newUser;
     account.token = "";
+    account.user = newUser;
     yield account.save();
     res.status(200).json({
         success: true,

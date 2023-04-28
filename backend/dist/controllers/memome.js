@@ -16,8 +16,8 @@ exports.countViews = exports.getMemos = exports.getUser = exports.addMemo = void
 const uuid_1 = require("uuid");
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const MemoMeModel_1 = __importDefault(require("../models/MemoMeModel"));
-const textCrypt = require('text-encryption');
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
+const textCrypt = require('text-encryption');
 const asyncHandler = require('express-async-handler');
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
@@ -154,7 +154,9 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
     }
     let memos = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
     if (!memos) {
-        memos = [];
+        memos = {
+            body: []
+        };
     }
     if (account.body === false) {
         return res.status(200).json({
