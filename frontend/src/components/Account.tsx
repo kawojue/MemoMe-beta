@@ -11,7 +11,7 @@ const Account: React.FC = () => {
     pswd, confirmPswd, currentPswd, showPswd,
     setPswd, setCurrentPswd, setShowPswd,
     setConfirmPswd, editPassword, toggles,
-    setToggles, notify, token }: any = useAuth();
+    setToggles, notify, token, updateToggle }: any = useAuth();
 
   const [disabled, setDisabled] = useState<any>(false)
 
@@ -20,6 +20,7 @@ const Account: React.FC = () => {
   }, [toggles])
 
   const handleDisability = async (): Promise<void> => {
+    setDisabled(!disabled)
     await axios.post(
       '/settings/tg-disability',
       { tgDisability: !disabled },
@@ -28,12 +29,10 @@ const Account: React.FC = () => {
           'Authorization': `Bearer ${token}`
         }
       }).then((res) => {
-        setDisabled(!disabled)
+        updateToggle("disabled", disabled)
         setToggles((prev: any) => {
           return { ...prev, disabled: !disabled }
         })
-        localStorage.setItem('toggles', JSON.stringify(toggles))
-        console.log(res?.data)
     }).catch((err: any) => {
       notify(err.response?.data?.action, err.response?.data?.msg)
     })
@@ -121,7 +120,7 @@ const Account: React.FC = () => {
             </h2>
             <label className="switch">
               <input type="checkbox" checked={disabled}
-              onChange={async () => await handleDisability()}/>
+              onClick={async () => await handleDisability()}/>
               <span className="slider round"></span>
             </label>
           </div>
