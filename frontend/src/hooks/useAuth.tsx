@@ -268,8 +268,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
             setUser, validUser, token, data,
-            handleUsername, loading, setCurrentPswd,
-            editPassword, currentPswd,
+            handleUsername, loading,
+            setCurrentPswd, editPassword, currentPswd,
         }}>
             {children}
         </Context.Provider>
