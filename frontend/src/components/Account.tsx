@@ -28,11 +28,11 @@ const Account: React.FC = () => {
           'Authorization': `Bearer ${token}`
         }
       }).then((res) => {
-        localStorage.setItem('toggles', JSON.stringify(toggles))
         setDisabled(!disabled)
         setToggles((prev: any) => {
           return { ...prev, disabled: !disabled }
         })
+        localStorage.setItem('toggles', JSON.stringify(toggles))
         console.log(res?.data)
     }).catch((err: any) => {
       notify(err.response?.data?.action, err.response?.data?.msg)
@@ -120,7 +120,7 @@ const Account: React.FC = () => {
               Disable Account
             </h2>
             <label className="switch">
-              <input type="checkbox" value={disabled} checked={disabled}
+              <input type="checkbox" checked={disabled}
               onChange={async () => await handleDisability()}/>
               <span className="slider round"></span>
             </label>
