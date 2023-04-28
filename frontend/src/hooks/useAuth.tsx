@@ -43,7 +43,9 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setToken(storedToken)
             setToggles(storedToggles)
         } else {
-            router.push('/login')
+            if (router.asPath === "/profile") {
+                router.push('/login')
+            }
         }
     }, [router])
 
@@ -61,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             })
         };
 
-        if (token) {
+        if (token && router.asPath === "/profile") {
             (async () => await handleProfile(token))()
         }
 
@@ -70,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         }, 1500)
 
         return () => clearTimeout(timeout)
-    }, [token])
+    }, [token, router])
 
     useEffect(() => {
         // email validation
