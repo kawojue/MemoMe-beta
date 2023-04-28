@@ -78,7 +78,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 <section className="profile-msgs text-left">
                     {memos?.map((memo: any) => (
                         <article key={memo.idx} className="profile-msg">
-                            <p className="period md:text-sm">
+                            <p className="period">
                                 {getPeriod(memo?.time)}
                             </p>
                             {memo?.content &&
@@ -98,7 +98,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                             {memo?.media &&
                                 <div className="mt-2 flex justify-center">
                                     <button onClick={() => downloadImage(memo?.media?.secure_url)}
-                                        className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0">
+                                        className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0 tracking-wider">
                                         <AiOutlineDownload />
                                         <span>Download original Image</span>
                                     </button>
