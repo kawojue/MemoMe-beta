@@ -198,7 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 'Authorization': `Bearer ${token}`
             }
         }).then((res: any) => {
-            localStorage.removeItem('token')
+            localStorage.clear()
             router.push("/login")
         }).catch((err: any) => {
             notify("error", err.code)
@@ -276,6 +276,21 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         })
     }
 
+    const updateToggle = (key: string, value: boolean): void => {
+        let newToggles: any = localStorage.getItem('toggles')
+        newToggles = JSON.parse(newToggles)
+        if (key === "pbMedia") {
+            newToggles = {...newToggles, pbMedia: !value}
+        }
+        if (key === "disabled") {
+            newToggles = {...newToggles, disabled: !value}
+        }
+        if (key === "pbContent") {
+            newToggles = {...newToggles, pbContent: !value}
+        }
+        localStorage.setItem('toggles', JSON.stringify(newToggles))
+    }
+
     return (
         <Context.Provider value={{
             email, setEmail, validEmail, handleSignup,
@@ -285,7 +300,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setUserId, userRef, notify, validPswd,
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
-            setUser, validUser, token, data,
+            setUser, validUser, token, data, updateToggle,
             handleUsername, loading, toggles, handleLogout,
             setCurrentPswd, editPassword, currentPswd,
         }}>
