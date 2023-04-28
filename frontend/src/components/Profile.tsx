@@ -59,7 +59,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     Messages
                 </h1>
                 <button onClick={async () => await onCopy(`https://memome.one/${user}`)}
-                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share {copy}
+                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share link {copy}
                 </button>
             </div>
             <div className="flex items-center mb-7 justify-between">
