@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import mailer from '../config/mailer'
 import genOTP from '../config/genOTP'
 import User from '../models/UserModel'
-import jwt, { Secret } from 'jsonwebtoken'
+import genToken from '../config/genToken'
 import { IMailer, IGenOTP } from '../type'
 const asyncHandler = require('express-async-handler')
 import { Request, Response } from 'express'
@@ -119,11 +119,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    const token: Secret = jwt.sign(
-        { "user": account.user },
-        process.env.JWT_SECRET as string,
-        { expiresIn: '90d' }
-    )
+    const token = genToken(account.user)
 
     account.token = token
     account.lastLogin = `${new Date()}`
@@ -189,10 +185,10 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 
 // change username
 const editUsername = asyncHandler(async (req: any, res: Response) => {
-    let { pswd, newUser }: any = req.body
+    let { newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
 
-    if (!newUser || !pswd) {
+    if (!newUser) {
         return res.status(400).json({
             success: false,
             action: "error",
@@ -221,22 +217,13 @@ const editUsername = asyncHandler(async (req: any, res: Response) => {
     if (userExists) {
         return res.status(409).json({
             success: false,
-            action: "info",
+            action: "warning",
             msg: "Username has been taken."
         })
     }
 
-    const match: boolean = await bcrypt.compare(pswd, account.password)
-    if (!match) {
-        return res.status(401).json({
-            success: false,
-            action: "error",
-            msg: "Incorrect password."
-        })
-    }
-
-    account.user = newUser
     account.token = ""
+    account.user = newUser
     await account.save()
 
     res.status(200).json({
