@@ -116,7 +116,7 @@ const Account: React.FC = () => {
         <article className="mt-10 form-itself">
           <div className="toggle-container">
             <h2 className="toggle-h2 text-red-400">
-              Disable Account
+              Disable Account (Temporary)
             </h2>
             <label className="switch">
               <input type="checkbox" checked={disabled}
