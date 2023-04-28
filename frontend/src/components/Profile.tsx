@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+import { saveAs } from 'file-saver'
 import useAuth from "@/hooks/useAuth"
 import { FaShare } from 'react-icons/fa'
 import decryption from '@/utils/decryption'
-import { AiFillEye } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import { formatDistanceToNow, parseISO } from "date-fns"
+import { AiFillEye, AiOutlineDownload } from 'react-icons/ai'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { notify }: any = useAuth()
@@ -33,7 +34,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     }
 
     const defaultImg = (e: any):void => {
-        e.target.src = ""
+        e.target.src = '.../../../../public/fallback.png'
     }
 
     const getPeriod = (timestamp: string): string => {
@@ -44,6 +45,11 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
             period = `${timePeriod} ago`
         }
         return period
+    }
+
+    const downloadImage = (url: string) => {
+        const splitName = url.split('/')
+        saveAs(url, splitName[splitName.length - 1])
     }
 
     return (
@@ -88,9 +94,10 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         </div>
                         {memo?.media &&
                         <div className="mt-2 flex justify-center">
-                            <button
-                            className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins">
-                                Download original Image
+                            <button onClick={() => downloadImage(memo?.media?.secure_url)}
+                            className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center">
+                                <AiOutlineDownload />
+                                <span>Download original Image</span>
                             </button>
                         </div>}
                     </article>
