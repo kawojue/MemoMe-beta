@@ -12,6 +12,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const userRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
 
+    const [data, setData] = useState<any>({})
+    const [loading, setLoading] = useState<boolean>(true)
+
+    const [token, setToken] = useState<any>(null)
     const [userId, setUserId] = useState<string>('')
     const [showPswd, setShowPswd] = useState<boolean>(false)
 
@@ -25,10 +29,42 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const [eligle, setEligible] = useState<boolean>(false)
 
     const [pswd, setPswd] = useState<string>('')
+    const [currentPswd, setCurrentPswd] = useState<string>('')
     const [confirmPswd, setConfirmPswd] = useState<string>('')
     const [validPswd, setValidPswd] = useState<boolean>(false)
 
     const [btnLoading, setBtnLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        const storedToken = JSON.parse(localStorage.getItem('token') as string)
+        if (storedToken) {
+            setToken(storedToken)
+        } else {
+            router.push('/login')
+        }
+    }, [router])
+
+    useEffect(() => {
+        setLoading(true)
+        const handleProfile = async (token: string): Promise<void> => {
+            await axios.get('/profile', {
+                headers: {
+                'Authorization': `Bearer ${token}`
+                },
+            }).then((res: any) => {
+                setData(res?.data)
+            }).catch((err: any) => {
+                notify(err.response?.data?.action, err.response?.data?.msg)
+            })
+        };
+
+        const timeout = setTimeout(() => {
+            (async () => await handleProfile(token))()
+            setLoading(false)
+        }, 1500)
+
+        return () => clearTimeout(timeout)
+    }, [token])
 
     useEffect(() => {
         // email validation
@@ -147,6 +183,19 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         })
     }
 
+    const handleLogout = async (): Promise<void> => {
+        await axios.get('/account/logout', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res: any) => {
+            localStorage.removeItem('token')
+            router.push("/login")
+        }).catch((err: any) => {
+            notify("error", err.code)
+        })
+    }
+
     const handlePswdReset = async (): Promise<void> => {
         setBtnLoading(true)
         await axios.post('/account/password/reset',
@@ -171,6 +220,30 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         })
     }
 
+    const handleUsername = async (): Promise<void> => {
+        setBtnLoading(true)
+        await axios.post(
+            '/account/edit',
+            JSON.stringify({ newUser: user }),
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        ).then((res: any) => {
+            setBtnLoading(false)
+            notify(res?.data?.action, res?.data?.msg)
+            setTimeout(() => {
+                (async () => await handleLogout())()
+            }, 1000)
+        }).catch((err: any) => {
+            setBtnLoading(false)
+            notify(err?.response?.data?.action, err?.response?.data?.msg)
+        })
+    }
+
+
+
     return (
         <Context.Provider value={{
             email, setEmail, validEmail, handleSignup,
@@ -179,7 +252,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             emailRef, showPswd, setShowPswd, userId,
             setUserId, userRef, notify, validPswd,
             setValidPswd, handlePswdReset, setOtp,
-            handleOtpReq, otp, handlePswdVerify
+            handleOtpReq, otp, handlePswdVerify,
+            setUser, validUser, token, data,
+            handleUsername, loading, setCurrentPswd,
+            editPassword, currentPswd,
         }}>
             {children}
         </Context.Provider>
