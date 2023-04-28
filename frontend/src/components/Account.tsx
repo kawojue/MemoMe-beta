@@ -1,14 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react'
 import PswdButton from './PswdBtn'
 import useAuth from "@/hooks/useAuth"
+import axios from '@/pages/api/instance'
+import { useEffect, useState } from 'react'
 
-const Account: React.FC<{ token: string }> = ({ token }) => {
-  const { user, setUser, validUser, userRef,
+const Account: React.FC = () => {
+  const {
+    user, setUser, validUser, userRef,
     btnLoading, handleUsername, validPswd,
     pswd, confirmPswd, currentPswd, showPswd,
     setPswd, setCurrentPswd, setShowPswd,
-    setConfirmPswd, editPassword}: any = useAuth()
+    setConfirmPswd, editPassword, toggles,
+    setToggles, notify, token }: any = useAuth();
+
+  const [disabled, setDisabled] = useState<any>(false)
+
+  useEffect(() => {
+    setDisabled(toggles.disabled)
+  }, [toggles])
+
+  const handleDisability = async (): Promise<void> => {
+    await axios.post(
+      '/settings/tg-disability',
+      { tgDisability: !disabled },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then((res) => {
+        localStorage.setItem('toggles', JSON.stringify(toggles))
+        setDisabled(!disabled)
+        setToggles((prev: any) => {
+          return { ...prev, disabled: !disabled }
+        })
+        console.log(res?.data)
+    }).catch((err: any) => {
+      notify(err.response?.data?.action, err.response?.data?.msg)
+    })
+  }
 
   const isValidToEditPswd: boolean = Boolean(currentPswd) && Boolean(validPswd)
 
@@ -85,9 +114,17 @@ const Account: React.FC<{ token: string }> = ({ token }) => {
               </button>
             </article>
           </form>
-        <article className="mt-10">
-          <h2>Disable Account</h2>
-          <label></label>
+        <article className="mt-10 form-itself">
+          <div className="toggle-container">
+            <h2 className="toggle-h2 text-red-400">
+              Disable Account
+            </h2>
+            <label className="switch">
+              <input type="checkbox" value={disabled} checked={disabled}
+              onChange={async () => await handleDisability()}/>
+              <span className="slider round"></span>
+            </label>
+          </div>
         </article>
       </section>
     </main>
