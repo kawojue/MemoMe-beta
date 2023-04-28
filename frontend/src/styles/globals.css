@@ -80,7 +80,7 @@ body {
 }
 
 .form-group input {
-  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg;
+  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg font-cabin;
 }
 
 .form-group input:focus {
