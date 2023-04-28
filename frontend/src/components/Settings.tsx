@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 
 const Settings: React.FC = () => {
   const { toggles, notify, token,
-    setToggles, btnLoading, setBtnLoading }: any = useAuth()
+    setToggles, btnLoading,
+    setBtnLoading, updateToggle }: any = useAuth()
 
   const [pbMsg, setPbMsg] = useState<string>('')
   const [pbMedia, setPbMedia] = useState<any>(false)
@@ -16,6 +17,7 @@ const Settings: React.FC = () => {
   }, [toggles])
 
   const handleMedia = async (): Promise<void> => {
+    setPbMedia(!pbMedia)
     await axios.post(
       '/settings/tg-media',
       { tgPbMedia: !pbMedia },
@@ -24,18 +26,17 @@ const Settings: React.FC = () => {
           'Authorization': `Bearer ${token}`
         }
       }).then((res) => {
-        localStorage.setItem('toggles', JSON.stringify(toggles))
-        setPbMedia(!pbMedia)
+        updateToggle("pbMedia", pbMedia)
         setToggles((prev: any) => {
-          return { ...prev, disabled: !pbMedia }
+          return { ...prev, pbMedia: !pbMedia }
         })
-        console.log(res?.data)
     }).catch((err: any) => {
       notify(err.response?.data?.action, err.response?.data?.msg)
     })
   }
 
   const handleContent = async (): Promise<void> => {
+    setPbContent(!pbContent)
     await axios.post(
       '/settings/tg-content',
       { tgPbContent: !pbContent },
@@ -44,12 +45,10 @@ const Settings: React.FC = () => {
           'Authorization': `Bearer ${token}`
         }
       }).then((res) => {
-        localStorage.setItem('toggles', JSON.stringify(toggles))
-        setPbContent(!pbContent)
+        updateToggle("pbContent", pbContent)
         setToggles((prev: any) => {
           return { ...prev, pbContent: !pbContent }
         })
-        console.log(res?.data)
     }).catch((err: any) => {
       notify(err.response?.data?.action, err.response?.data?.msg)
     })
@@ -104,7 +103,7 @@ const Settings: React.FC = () => {
           </h2>
           <label className="switch">
             <input type="checkbox" checked={pbMedia}
-            onChange={async () => await handleMedia()}/>
+            onClick={async () => await handleMedia()}/>
             <span className="slider round"></span>
           </label>
         </div>
@@ -116,7 +115,7 @@ const Settings: React.FC = () => {
           </h2>
           <label className="switch">
             <input type="checkbox" checked={pbContent}
-            onChange={async () => await handleContent()}/>
+            onClick={async () => await handleContent()}/>
             <span className="slider round"></span>
           </label>
         </div>
