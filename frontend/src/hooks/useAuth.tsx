@@ -242,7 +242,21 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         })
     }
 
-
+    const editPassword = async (): Promise<void> => {
+        setBtnLoading(true)
+        await axios.post(
+            '/account/api/password/edit',
+            JSON.stringify({ currentPswd, pswd, pswd2: confirmPswd })
+        ).then((res: any) => {
+            setBtnLoading(false)
+            notify(res?.data?.action, res?.data?.msg)
+            setTimeout(() => {
+                (async () => await handleLogout())()
+            }, 1000)
+        }).catch((err: any) => {
+            notify(err?.response?.data?.action, err?.response?.data?.msg)
+        })
+    }
 
     return (
         <Context.Provider value={{
