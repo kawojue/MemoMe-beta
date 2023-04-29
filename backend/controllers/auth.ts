@@ -288,7 +288,7 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
     }
 
     account.OTP = {}
-    account.mail.verifed = true
+    account.mail.verified = true
     await account.save()
 
     res.status(200).json({
