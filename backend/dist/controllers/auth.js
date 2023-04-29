@@ -263,7 +263,7 @@ const verifyOTP = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     account.OTP = {};
-    account.mail.verifed = true;
+    account.mail.verified = true;
     yield account.save();
     res.status(200).json({
         verified: true,
