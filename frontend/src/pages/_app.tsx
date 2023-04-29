@@ -4,6 +4,7 @@ import Layout from '@/components/Layout'
 import { AuthProvider } from '@/hooks/useAuth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Analytics } from "@vercel/analytics/react"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -11,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps}>
           <ToastContainer />
+          <Analytics />
         </Component>
       </Layout>
     </AuthProvider>
