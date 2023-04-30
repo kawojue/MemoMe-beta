@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { toast } from 'react-toastify'
 import axios from '@/pages/api/instance'
@@ -49,6 +50,16 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         }
     }, [router])
 
+    const throwError = (err: any) => {
+        const msg = err.response?.data?.msg
+        const action = err.response?.data?.action
+        if (action) {
+            notify(action, msg)
+        } else {
+            notify("error", err.code)
+        }
+    }
+
     useEffect(() => {
         setLoading(true)
         const handleProfile = async (token: string): Promise<void> => {
@@ -59,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             }).then((res: any) => {
                 setData(res?.data)
             }).catch((err: any) => {
-                notify(err.response?.data?.action, err.response?.data?.msg)
+                throwError(err)
             })
         };
 
@@ -126,9 +137,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify(action, msg)
         })
         .catch((err: any) => {
+            throwError(err)
             setBtnLoading(false)
-            const { action, msg }: any = err.response?.data
-            notify(action, msg)
         })
     }
 
@@ -150,12 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             }, 1500)
         })
         .catch((err: any) => {
-            if (err.code === 'ERR_NETWORK') {
-                notify("error", "Something went wrong")
-            } else {
-                const { action, msg }: any = err.response?.data
-                notify(action, msg)
-            }
+            throwError(err)
             setBtnLoading(false)
         })
     }
@@ -169,8 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify("success", "OTP has been sent to your email.")
         })
         .catch((err: any) => {
-            const { action, msg }: any = err.response?.data
-            notify(action, msg)
+            throwError(err)
         })
     }
 
@@ -186,9 +190,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             router.push('/password/edit')
         })
         .catch((err: any) => {
+            throwError(err)
             setBtnLoading(false)
-            const { action, msg }: any = err.response?.data
-            notify(action, msg)
         })
     }
 
@@ -223,9 +226,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             }, 1500);
         })
         .catch((err: any) => {
+            throwError(err)
             setBtnLoading(false)
-            const { action, msg }: any = err.response?.data
-            notify(action, msg)
         })
     }
 
@@ -247,8 +249,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 (async () => await handleLogout())()
             }, 1000)
         }).catch((err: any) => {
+            throwError(err)
             setBtnLoading(false)
-            notify(err?.response?.data?.action, err?.response?.data?.msg)
         })
     }
 
@@ -272,7 +274,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 (async () => await handleLogout())()
             }, 1000)
         }).catch((err: any) => {
-            notify(err?.response?.data?.action, err?.response?.data?.msg)
+            throwError(err)
         })
     }
 
@@ -300,9 +302,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setUserId, userRef, notify, validPswd,
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
-            setUser, validUser, token, data, updateToggle,
-            handleUsername, loading, toggles, handleLogout,
-            setCurrentPswd, editPassword, currentPswd,
+            setUser, validUser, token, data,
+            handleUsername, loading, toggles,
+            throwError, updateToggle, handleLogout,
+            setCurrentPswd, editPassword, currentPswd
         }}>
             {children}
         </Context.Provider>
