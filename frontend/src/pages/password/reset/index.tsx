@@ -21,7 +21,7 @@ const Reset = () => {
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
-                    Verify it is you!
+                    Verify your Identity!
                 </h1>
                 <article className="mt-5 form-center">
                     <div className="form-group">
