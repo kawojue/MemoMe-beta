@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const Settings: React.FC = () => {
   const { toggles, notify, token,
-    setToggles, btnLoading,
+    setToggles, btnLoading, throwError,
     setBtnLoading, updateToggle }: any = useAuth()
 
   const [pbMsg, setPbMsg] = useState<string>('')
@@ -31,7 +31,7 @@ const Settings: React.FC = () => {
           return { ...prev, pbMedia: !pbMedia }
         })
     }).catch((err: any) => {
-      notify(err.response?.data?.action, err.response?.data?.msg)
+      throwError(err)
     })
   }
 
@@ -50,7 +50,7 @@ const Settings: React.FC = () => {
           return { ...prev, pbContent: !pbContent }
         })
     }).catch((err: any) => {
-      notify(err.response?.data?.action, err.response?.data?.msg)
+      throwError(err)
     })
   }
 
@@ -69,8 +69,8 @@ const Settings: React.FC = () => {
       setBtnLoading(false)
       notify("success", "Public Message Updated!")
     }).catch((err: any) => {
+      throwError(err)
       setBtnLoading(false)
-      notify(err.response?.data?.action, err.response?.data?.msg)
     })
   }
 
