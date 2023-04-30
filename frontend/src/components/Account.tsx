@@ -11,7 +11,7 @@ const Account: React.FC = () => {
     pswd, confirmPswd, currentPswd, showPswd,
     setPswd, setCurrentPswd, setShowPswd,
     setConfirmPswd, editPassword, toggles,
-    setToggles, notify, token, updateToggle }: any = useAuth();
+    setToggles, throwError, token, updateToggle }: any = useAuth();
 
   const [disabled, setDisabled] = useState<any>(false)
 
@@ -34,7 +34,7 @@ const Account: React.FC = () => {
           return { ...prev, disabled: !disabled }
         })
     }).catch((err: any) => {
-      notify(err.response?.data?.action, err.response?.data?.msg)
+      throwError(err)
     })
   }
 
