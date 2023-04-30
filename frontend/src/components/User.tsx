@@ -8,8 +8,8 @@ import { ToastContainer } from "react-toastify"
 import { useRouter, NextRouter } from "next/router"
 
 const User: React.FC<{ data: any }> = ({ data }) => {
-    const { notify }: any = useAuth()
     const router: NextRouter = useRouter()
+    const { throwError, notify }: any = useAuth()
 
     const [image, setImage] = useState<any>()
     const [media, setMedia] = useState<string>("")
@@ -77,13 +77,8 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             }, 1500)
         })
         .catch((err: any) => {
+            throwError(err)
             setLoading(false)
-            if (err.code === 'ERR_NETWORK') {
-                notify("error", "Failed! Network failure.")
-            } else {
-                const { action, msg }: any = err.response?.data
-                notify(action, msg)
-            }
         })
     }
 
