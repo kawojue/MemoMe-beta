@@ -4,7 +4,6 @@ interface IMeta {
     title?: string,
     description?: string,
     keywords?: string,
-
 }
 
 const Meta: React.FC<IMeta> = ({
