@@ -42,6 +42,14 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
+    if (account.disabled) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "Account has been Disabled by User."
+        })
+    }
+
     if (media) {
         mediaRes = await cloudinary.uploader.upload(media, {
             folder: `MemoMe/${account.id}`,
@@ -109,7 +117,7 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
             temporary: true,
             success: true,
             action: "warning",
-            msg: "is unable to recieve Media and Content."
+            msg: " is unable to recieve Image and Texts."
         })
     }
 
