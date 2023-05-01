@@ -8,14 +8,14 @@ interface IMeta {
 
 const Meta: React.FC<IMeta> = ({
     title = 'MemoMe',
-    keywords = 'anonymous, send, share, secure',
-    description = 'Send and Recieve Anonymous Messages.'
+    keywords = 'anonymous, send, share, secure, image, identity, receive',
+    description = 'Send and Receive Anonymous Messages with Images Online.'
 }) => {
     return (
         <Head>
             <title>{title}</title>
             <meta charSet="UTF-8" />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="" />
             <meta name="keywords" content={keywords} />
             <meta name="description" content={description} />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
