@@ -99,7 +99,7 @@ const Settings: React.FC = () => {
       <article className="mt-10 form-itself">
         <div className="toggle-container">
           <h2 className="toggle-h2 text-clr-5">
-            Turn Off Recieve Image
+            Recieve Image
           </h2>
           <label className="switch">
             <input type="checkbox" checked={pbMedia}
@@ -111,7 +111,7 @@ const Settings: React.FC = () => {
       <article className="mt-10 form-itself">
         <div className="toggle-container">
           <h2 className="toggle-h2 text-clr-5">
-            Turn Off Recieve Texts
+            Recieve Texts
           </h2>
           <label className="switch">
             <input type="checkbox" checked={pbContent}
