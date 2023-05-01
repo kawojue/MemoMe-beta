@@ -265,10 +265,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 }
             }
         ).then((res: any) => {
-            setBtnLoading(false)
             setPswd("")
             setConfirmPswd("")
             setCurrentPswd("")
+            setBtnLoading(false)
             notify(res?.data?.action, res?.data?.msg)
             setTimeout(() => {
                 (async () => await handleLogout())()
