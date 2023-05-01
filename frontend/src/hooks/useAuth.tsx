@@ -279,8 +279,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     }
 
     const updateToggle = (key: string, value: boolean): void => {
-        let newToggles: any = localStorage.getItem('toggles')
-        newToggles = JSON.parse(newToggles)
+        let newToggles: any = JSON.parse(localStorage.getItem('toggles') as any)
         if (key === "pbMedia") {
             newToggles = {...newToggles, pbMedia: !value}
         }
