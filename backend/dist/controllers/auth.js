@@ -17,6 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const mailer_1 = __importDefault(require("../config/mailer"));
 const genOTP_1 = __importDefault(require("../config/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
+const randomstring_1 = __importDefault(require("randomstring"));
 const genToken_1 = __importDefault(require("../config/genToken"));
 const asyncHandler = require('express-async-handler');
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +32,7 @@ const restrictedUser = [
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    let user;
     let { email, pswd, pswd2 } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     if (!email || !pswd || !pswd2) {
@@ -51,23 +53,23 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(400).json({
             success: false,
             action: "error",
-            msg: "Email Regex is not valid."
+            msg: "Invalid Email."
         });
     }
-    const user = email.split('@')[0];
+    user = email.split('@')[0];
     const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
-    if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Username is not allowed."
-        });
-    }
     if (account) {
         return res.status(409).json({
             success: false,
             action: "warning",
             msg: "Account already exists."
+        });
+    }
+    const isUserExists = yield UserModel_1.default.findOne({ user });
+    if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
+        user = randomstring_1.default.generate({
+            length: parseInt('657'[Math.floor(Math.random() * 2)]),
+            charset: 'alphabetic'
         });
     }
     const salt = yield bcrypt_1.default.genSalt(10);
