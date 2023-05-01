@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt'
 import mailer from '../config/mailer'
 import genOTP from '../config/genOTP'
 import User from '../models/UserModel'
+import randomString from 'randomstring'
 import genToken from '../config/genToken'
 import { IMailer, IGenOTP } from '../type'
-const asyncHandler = require('express-async-handler')
 import { Request, Response } from 'express'
+const asyncHandler = require('express-async-handler')
 
 const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
@@ -19,6 +20,7 @@ const restrictedUser: string[] = [
 
 // handle account creation
 const createUser = asyncHandler(async (req: any, res: Response) => {
+    let user: any
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
@@ -42,20 +44,12 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
         return res.status(400).json({
             success: false,
             action: "error",
-            msg: "Email Regex is not valid."
+            msg: "Invalid Email."
         })
     }
 
-    const user: string = email.split('@')[0]
+    user = email.split('@')[0]
     const account: any = await User.findOne({ 'mail.email': email }).exec()
-
-    if (restrictedUser.includes(user) || !USER_REGEX.test(user)) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Username is not allowed."
-        })
-    }
 
     if (account) {
         return res.status(409).json({
@@ -63,6 +57,15 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
             action: "warning",
             msg: "Account already exists."
         })
+    }
+
+    const isUserExists: any = await User.findOne({ user })
+
+    if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
+        user = randomString.generate({
+            length: parseInt('657'[Math.floor(Math.random() * 2)]),
+            charset: 'alphabetic'
+        }) as string
     }
 
     const salt: string = await bcrypt.genSalt(10)
