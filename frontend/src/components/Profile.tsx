@@ -29,7 +29,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 setCopy(<FaShare />)
             }, 1200)
         } catch (err) {
-            setCopy('Failed to copy!')
+            setCopy(' failed to copy!')
         }
     }
 
@@ -58,7 +58,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
                     Messages
                 </h1>
-                <button onClick={async () => await onCopy(`https://memome.one/${user}`)}
+                <button onClick={async () => await onCopy(`Send me an anonymous message at: https://memome.one/${user}\nI won't know who sent it.`)}
                     className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share link {copy}
                 </button>
             </div>
