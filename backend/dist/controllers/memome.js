@@ -50,6 +50,13 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             msg: "User does not exist."
         });
     }
+    if (account.disabled) {
+        return res.status(400).json({
+            success: false,
+            action: "error",
+            msg: "Account has been Disabled by User."
+        });
+    }
     if (media) {
         mediaRes = yield cloudinary_1.default.uploader.upload(media, {
             folder: `MemoMe/${account.id}`,
@@ -110,7 +117,7 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             temporary: true,
             success: true,
             action: "warning",
-            msg: "is unable to recieve Media and Content."
+            msg: " is unable to recieve Image and Texts."
         });
     }
     res.status(200).json({
