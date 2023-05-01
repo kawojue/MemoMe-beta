@@ -91,7 +91,12 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
                     {data?.temporary ?
-                    <span>{`${data?.user} ${data?.msg}`}</span> :
+                    <span>
+                        <span className="text-clr-1">
+                            {`@${data?.user}`}
+                        </span>
+                        {`${data?.msg}`}
+                    </span> :
                     <span>{`${data?.pbMsg}`}</span>}
                 </h1>
                 <section className="mt-6">
