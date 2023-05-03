@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Header from '@/components/HeaderA'
-import { BsFillRocketTakeoffFill } from 'react-icons/bs'
+import { BsFillRocketTakeoffFill } from '@/utils/icons'
 
 export default function Home() {
   return (
