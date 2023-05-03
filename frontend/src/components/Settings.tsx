@@ -1,3 +1,4 @@
+import CheckBox from './CheckBox'
 import useAuth from '@/hooks/useAuth'
 import axios from '@/pages/api/instance'
 import { useState, useEffect } from 'react'
@@ -77,35 +78,31 @@ const Settings: React.FC = () => {
   return (
     <section className="mb-14">
       <form onSubmit={(e) => e.preventDefault()} className="form-itself">
-            <h1 className="form-h1 md:text-4xl">
-              Edit Public Title
-            </h1>
-            <article className="mt-5 form-center">
-              <div className="form-group">
-                  <label htmlFor="user">Title</label>
-                  <textarea id="user"
-                      autoComplete="off"
-                      placeholder="Tell me what is on your mind?"
-                      className='content md:text-xl'
-                      value={pbMsg} onChange={e => setPbMsg(e.target.value)}
-                      maxLength={50} />
-              </div>
-              <button className="btn" disabled={!pbMsg}
-              onClick={async () => await handleMsg()}>
-                {btnLoading ? 'Editing...' : 'Save'}
-                </button>
-            </article>
+        <h1 className="form-h1 md:text-4xl">
+          Edit Public Title
+        </h1>
+        <article className="mt-5 form-center">
+          <div className="form-group">
+              <label htmlFor="user">Title</label>
+              <textarea id="user"
+                  autoComplete="off"
+                  placeholder="Tell me what is on your mind?"
+                  className='content md:text-xl'
+                  value={pbMsg} onChange={e => setPbMsg(e.target.value)}
+                  maxLength={50} />
+          </div>
+          <button className="btn" disabled={!pbMsg}
+          onClick={async () => await handleMsg()}>
+            {btnLoading ? 'Editing...' : 'Save'}
+            </button>
+        </article>
       </form>
       <article className="mt-10 form-itself">
         <div className="toggle-container">
           <h2 className="toggle-h2 text-clr-5">
             Recieve Image
           </h2>
-          <label className="switch">
-            <input type="checkbox" checked={pbMedia}
-            onClick={async () => await handleMedia()}/>
-            <span className="slider round"></span>
-          </label>
+          <CheckBox getter={pbMedia} setter={handleMedia} />
         </div>
       </article>
       <article className="mt-10 form-itself">
@@ -113,11 +110,7 @@ const Settings: React.FC = () => {
           <h2 className="toggle-h2 text-clr-5">
             Recieve Texts
           </h2>
-          <label className="switch">
-            <input type="checkbox" checked={pbContent}
-            onClick={async () => await handleContent()}/>
-            <span className="slider round"></span>
-          </label>
+          <CheckBox getter={pbContent} setter={handleContent} />
         </div>
       </article>
     </section>
