@@ -33,10 +33,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         }
     }
 
-    const defaultImg = (e: any): void => {
-        e.target.src = '.../../../../public/fallback.png'
-    }
-
     const getPeriod = (timestamp: string): string => {
         let period = ''
         if (timestamp) {
@@ -91,7 +87,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                             <div className="media">
                                 {memo?.media && <img
                                     className="image" loading="lazy"
-                                    onError={(e) => defaultImg(e)}
                                     src={memo?.media?.secure_url}
                                     alt={memo?.idx} />}
                             </div>
