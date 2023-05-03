@@ -1,4 +1,4 @@
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import { AiFillEyeInvisible, AiFillEye } from '@/utils/icons'
 
 interface IPswdButton {
     get: boolean
