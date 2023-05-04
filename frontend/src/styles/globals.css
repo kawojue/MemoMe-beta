@@ -187,7 +187,7 @@ input[type=file]::file-selector-button:hover {
 }
 
 .profile-msgs {
-  @apply grid grid-cols-1 gap-8 mt-5 items-center;
+  @apply grid grid-cols-1 gap-8 mt-5;
 }
 
 .profile-msg {
