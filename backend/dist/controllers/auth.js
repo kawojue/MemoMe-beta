@@ -31,7 +31,7 @@ const restrictedUser = [
 ];
 // handle account creation
 const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b, _c;
     let user;
     let { email, pswd, pswd2 } = req.body;
     email = (_a = email === null || email === void 0 ? void 0 : email.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
@@ -56,7 +56,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
             msg: "Invalid Email."
         });
     }
-    user = email.split('@')[0];
+    user = (_b = email === null || email === void 0 ? void 0 : email.split('@')[0]) === null || _b === void 0 ? void 0 : _b.toLowerCase();
     const account = yield UserModel_1.default.findOne({ 'mail.email': email }).exec();
     if (account) {
         return res.status(409).json({
@@ -67,10 +67,11 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     const isUserExists = yield UserModel_1.default.findOne({ user });
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
-        user = randomstring_1.default.generate({
+        const rand = randomstring_1.default.generate({
             length: parseInt('657'[Math.floor(Math.random() * 2)]),
             charset: 'alphabetic'
         });
+        user = (_c = rand === null || rand === void 0 ? void 0 : rand.toLowerCase()) === null || _c === void 0 ? void 0 : _c.trim();
     }
     const salt = yield bcrypt_1.default.genSalt(10);
     pswd = yield bcrypt_1.default.hash(pswd, salt);
@@ -89,10 +90,10 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 exports.createUser = createUser;
 // handle Login
 const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _d;
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let { userId, pswd } = req.body;
-    userId = (_b = userId === null || userId === void 0 ? void 0 : userId.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
+    userId = (_d = userId === null || userId === void 0 ? void 0 : userId.toLowerCase()) === null || _d === void 0 ? void 0 : _d.trim();
     if (!userId || !pswd) {
         return res.status(400).json({
             success: false,
@@ -136,9 +137,9 @@ const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.login = login;
 // send otp to user
 const otpHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _e;
     let { email } = req.body;
-    email = (_c = email === null || email === void 0 ? void 0 : email.trim()) === null || _c === void 0 ? void 0 : _c.toLowerCase();
+    email = (_e = email === null || email === void 0 ? void 0 : email.trim()) === null || _e === void 0 ? void 0 : _e.toLowerCase();
     const { totp, totpDate } = (0, genOTP_1.default)();
     if (!email) {
         return res.status(400).json({
@@ -175,9 +176,9 @@ const otpHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 exports.otpHandler = otpHandler;
 // change username
 const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d, _e;
+    var _f, _g;
     let { newUser } = req.body;
-    newUser = (_d = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+    newUser = (_f = newUser === null || newUser === void 0 ? void 0 : newUser.trim()) === null || _f === void 0 ? void 0 : _f.toLowerCase();
     if (!newUser) {
         return res.status(400).json({
             success: false,
@@ -192,7 +193,7 @@ const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
             msg: "Username is not allowed."
         });
     }
-    const account = yield UserModel_1.default.findOne({ user: (_e = req.user) === null || _e === void 0 ? void 0 : _e.user });
+    const account = yield UserModel_1.default.findOne({ user: (_g = req.user) === null || _g === void 0 ? void 0 : _g.user });
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -219,8 +220,8 @@ const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.editUsername = editUsername;
 const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _f;
-    const authHeader = (_f = req.headers) === null || _f === void 0 ? void 0 : _f.authorization;
+    var _h;
+    const authHeader = (_h = req.headers) === null || _h === void 0 ? void 0 : _h.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer')) {
         return res.sendStatus(204);
     }
