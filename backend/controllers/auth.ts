@@ -48,7 +48,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    user = email.split('@')[0]
+    user = email?.split('@')[0]?.toLowerCase()
     const account: any = await User.findOne({ 'mail.email': email }).exec()
 
     if (account) {
@@ -62,10 +62,11 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
     const isUserExists: any = await User.findOne({ user })
 
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
-        user = randomString.generate({
+        const rand: string = randomString.generate({
             length: parseInt('657'[Math.floor(Math.random() * 2)]),
             charset: 'alphabetic'
         }) as string
+        user = rand?.toLowerCase()?.trim()
     }
 
     const salt: string = await bcrypt.genSalt(10)
