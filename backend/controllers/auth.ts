@@ -63,7 +63,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
 
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand: string = randomString.generate({
-            length: parseInt('657'[Math.floor(Math.random() * 2)]),
+            length: parseInt('657'[Math.floor(Math.random() * 3)]),
             charset: 'alphabetic'
         }) as string
         user = rand?.toLowerCase()?.trim()
@@ -88,8 +88,6 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
 
 // handle Login
 const login = asyncHandler(async (req: Request, res: Response) => {
-    const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
     let { userId, pswd }: any = req.body
     userId = userId?.toLowerCase()?.trim()
 
@@ -177,7 +175,6 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
         subject: "Verification Code",
         text: `Code: ${totp}\nIf you did not request for this OTP. Please, ignore.`
     }
-
     await mailer(transportMail)
 
     res.status(200).json({
@@ -269,8 +266,8 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
     }
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
-    const totp = account.OTP.totp
-    const totpDate = account.OTP.totpDate
+    const totp: string = account.OTP.totp
+    const totpDate: number = account.OTP.totpDate
     const expiry: number = totpDate + (60 * 60 * 1000) // after 1hr
 
     if (expiry < Date.now()) {
@@ -335,7 +332,7 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
         return res.status(400).json({
             success: false,
             action: "error",
-            msg: "You're not eligible to reset your password."
+            msg: "Access denied."
         })
     }
 
@@ -344,7 +341,7 @@ const resetpswd = asyncHandler(async (req: Request, res: Response) => {
         return res.status(400).json({
             success: false,
             action: "warning",
-            msg: "You input your current passowrd"
+            msg: "You input your current password."
         })
     }
 
