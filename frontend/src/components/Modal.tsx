@@ -13,7 +13,7 @@ const Modal: React.FC<IModal> = ({ share, user }) => {
     const { copy, dialog, setDialog, onCopy }: any = useAuth()
 
     return (
-        <dialog open={dialog} className="w-full max-w-[400px] rounded-lg top-20 z-[999] bg-clr-3">
+        <dialog open={dialog} className="w-[95vw] max-w-[400px] rounded-lg top-20 z-[999] bg-clr-3">
             <section className="w-full h-full py-2 px-3 flex flex-col gap-5">
                 <button className="absolute top-2 right-3 text-2xl"
                 onClick={() => setDialog(false)}>
