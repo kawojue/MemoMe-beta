@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import Modal from './Modal'
-
 import Content from './Content'
 import useAuth from "@/hooks/useAuth"
 import { useState, useEffect } from 'react'
