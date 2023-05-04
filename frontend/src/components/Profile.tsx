@@ -1,67 +1,82 @@
 /* eslint-disable @next/next/no-img-element */
-import { saveAs } from 'file-saver'
+import Link from 'next/link'
+
 import useAuth from "@/hooks/useAuth"
-import { FaShare } from 'react-icons/fa'
 import decryption from '@/utils/decryption'
 import { useState, useEffect } from 'react'
-import { formatDistanceToNow, parseISO } from "date-fns"
-import { AiFillEye, AiOutlineDownload } from 'react-icons/ai'
+import { AiFillEye, AiOutlineDownload, AiFillCopy,
+    AiOutlineWhatsApp, BsFacebook, GiCancel,
+    FaShare, AiOutlineTwitter } from '@/utils/icons'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
-    const { notify }: any = useAuth()
     const [user, setUser] = useState<string>('')
     const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
-    const [copy, setCopy] = useState<any>(<FaShare />)
+    const [share, setShare] = useState<string>('')
+    const [dialog, setDialog] = useState<boolean>(false)
+    const { copy, onCopy, downloadImage, getPeriod }: any = useAuth()
 
     useEffect(() => {
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
         setMemos(data?.memos?.body?.reverse())
+        setShare(`Send me an anonymous message at: https://memome.one/${data?.account?.user} \n I won't know who sent it.`)
     }, [data])
-
-    const onCopy = async (value: any) => {
-        try {
-            await navigator.clipboard.writeText(value)
-            setCopy("Copied!")
-            notify('success', `Hola! Share your link with your friends.`)
-            setTimeout(() => {
-                setCopy(<FaShare />)
-            }, 1200)
-        } catch (err) {
-            setCopy(' failed to copy!')
-        }
-    }
-
-    const getPeriod = (timestamp: string): string => {
-        let period = ''
-        if (timestamp) {
-            const date = parseISO(timestamp)
-            const timePeriod = formatDistanceToNow(date)
-            period = timePeriod
-        }
-        return period
-    }
-
-    const downloadImage = (url: string) => {
-        const splitName = url.split('/')
-        saveAs(url, splitName[splitName.length - 1])
-    }
 
     return (
         <main className="mt-3 mb-10">
+            <dialog open={dialog} className="w-full max-w-[400px] rounded-lg top-20 z-[999] bg-clr-3">
+                <section className="w-full h-full py-2 px-3 flex flex-col gap-5">
+                    <button className="absolute top-2 right-3 text-2xl"
+                    onClick={() => setDialog(false)}>
+                        <GiCancel />
+                    </button>
+                    <button  onClick={async () => await onCopy(share)}
+                    className="dialog-list mt-5">
+                        <div>{copy}</div>
+                        <div>
+                            <AiFillCopy />
+                        </div>
+                    </button>
+                    <Link target="_blank" className="dialog-list"
+                    href={`https://api.whatsapp.com/send?text=${share}`}>
+                        <div>WhatsApp</div>
+                        <div>
+                            <AiOutlineWhatsApp />
+                        </div>
+                    </Link>
+                    <Link target="_blank" className="dialog-list"
+                    href={`https://twitter.com/intent/tweet?text=${share}`}>
+                        <div>Twitter</div>
+                        <div>
+                            <AiOutlineTwitter />
+                        </div>
+                    </Link>
+                    <Link target="_blank" className="dialog-list"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${share}`}>
+                        <div>FaceBook</div>
+                        <div>
+                            <BsFacebook />
+                        </div>
+                    </Link>
+                </section>
+            </dialog>
             <div className="flex items-center mb-7 justify-between">
-                <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3 font-poppins">
+                <h1 className="text-center font-semibold text-3xl md:text-4xl tracking-wider text-clr-3">
                     Messages
                 </h1>
-                <button onClick={async () => await onCopy(`Send me an anonymous message at: https://memome.one/${user}\nI won't know who sent it.`)}
-                    className="text-clr-0 px-3 py-0.5 bg-clr-1 tracking-wider font-medium rounded-md trans hover:bg-clr-2 hover:text-clr-5">Share link {copy}
+                <button data-open-modal
+                onClick={() => setDialog(!dialog)}
+                className="text-clr-0 px-3 py-2 bg-clr-1 tracking-wider font-bold text-2xl rounded-md trans hover:bg-clr-2 hover:text-clr-5">
+                    <FaShare />
                 </button>
             </div>
             <div className="flex items-center mb-7 justify-between">
                 <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 text-clr-3 rounded-lg font-medium">
                     <span>Profile Views</span>
-                    <span className="flex items-center justify-around gap-3 text-lg"><AiFillEye className="" /> {views}</span>
+                    <span className="flex items-center justify-around gap-3 text-lg">
+                        <AiFillEye/> {views}
+                    </span>
                 </p>
                 <p className="bg-clr-6 px-3 py-1 text-clr-3 rounded-lg text-lg font-medium">
                     <span>Total Msg: {memos?.length}</span>
@@ -95,7 +110,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                                     <button onClick={() => downloadImage(memo?.media?.secure_url)}
                                         className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0 tracking-wider">
                                         <AiOutlineDownload />
-                                        <span>Download original Image</span>
+                                        <span>Download full Image</span>
                                     </button>
                                 </div>}
                         </article>
