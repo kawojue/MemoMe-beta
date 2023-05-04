@@ -21,8 +21,12 @@ const Modal: React.FC<IModal> = ({ share, user }) => {
                 </button>
                 <article className="w-full flex flex-col gap-3 items-center justify-center">
                     <FaUserAlt className="text-3xl" />
-                    <div className="font-poppins font-medium tracking-wider text-lg">
-                        Hola, <span className="text-clr-6">@{user}</span>!
+                    <div className="font-poppins font-medium tracking-wider text-lg text-center">
+                        <p>
+                            Hi, <span className="text-clr-6">{user}</span>!
+                        </p>
+                        <Link href={`https://memome.one/${user}`} target='_blank'
+                        className="text-xs">{`memome.one/${user}`}</Link>
                     </div>
                 </article>
                 <button  onClick={async () => await onCopy(share)}
