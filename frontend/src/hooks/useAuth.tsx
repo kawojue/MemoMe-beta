@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+import { saveAs } from 'file-saver'
 import { toast } from 'react-toastify'
 import axios from '@/pages/api/instance'
 import { useRouter, NextRouter } from "next/router"
+import { formatDistanceToNow, parseISO } from "date-fns"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
 const Context: any = createContext({})
@@ -14,6 +16,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     const emailRef = useRef<HTMLInputElement>(null)
 
     const [data, setData] = useState<any>({})
+    const [copy, setCopy] = useState<any>("Copy")
     const [loading, setLoading] = useState<boolean>(true)
 
     const [token, setToken] = useState<any>(null)
@@ -292,6 +295,33 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         localStorage.setItem('toggles', JSON.stringify(newToggles))
     }
 
+    const onCopy = async (value: any) => {
+        try {
+            await navigator.clipboard.writeText(value)
+            setCopy("Copied!")
+            setTimeout(() => {
+                setCopy("Copy")
+            }, 1200)
+        } catch (err) {
+            setCopy('Failed to copy!')
+        }
+    }
+
+    const getPeriod = (timestamp: string): string => {
+        let period = ''
+        if (timestamp) {
+            const date = parseISO(timestamp)
+            const timePeriod = formatDistanceToNow(date)
+            period = `${timePeriod} ago..`
+        }
+        return period
+    }
+
+    const downloadImage = (url: string) => {
+        const splitName = url.split('/')
+        saveAs(url, splitName[splitName.length - 1])
+    }
+
     return (
         <Context.Provider value={{
             email, setEmail, validEmail, handleSignup,
@@ -302,9 +332,10 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
             setUser, validUser, token, data,
-            handleUsername, loading, toggles,
+            handleUsername, loading, toggles, onCopy,
             throwError, updateToggle, handleLogout,
-            setCurrentPswd, editPassword, currentPswd
+            setCurrentPswd, editPassword, currentPswd,
+            getPeriod, downloadImage, copy
         }}>
             {children}
         </Context.Provider>
