@@ -251,6 +251,14 @@ input:checked+.slider:before {
   @apply rounded-[50%]
 }
 
+.dialog-list {
+  @apply flex items-center justify-between w-full text-lg bg-clr-1 trans px-3 py-2 rounded-md tracking-wider text-clr-5;
+}
+
+.dialog-list:hover {
+  @apply bg-clr-6;
+}
+
 @media screen and (min-width: 900px) {
   .menu {
     grid-template-columns: 200px 1fr;
