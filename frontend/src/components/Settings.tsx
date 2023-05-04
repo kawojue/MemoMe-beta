@@ -68,7 +68,7 @@ const Settings: React.FC = () => {
     ).then((res: any) => {
       setPbMsg("")
       setBtnLoading(false)
-      notify("success", "Public Message Updated!")
+      notify("success", "Updated successfully!")
     }).catch((err: any) => {
       throwError(err)
       setBtnLoading(false)
@@ -79,17 +79,17 @@ const Settings: React.FC = () => {
     <section className="mb-14">
       <form onSubmit={(e) => e.preventDefault()} className="form-itself">
         <h1 className="form-h1 md:text-4xl">
-          Edit Public Title
+          Edit Public Review
         </h1>
         <article className="mt-5 form-center">
           <div className="form-group">
-              <label htmlFor="user">Title</label>
-              <textarea id="user"
+              <label htmlFor="review">Review</label>
+              <textarea id="review"
                   autoComplete="off"
                   placeholder="Tell me what is on your mind?"
                   className='content md:text-xl'
-                  value={pbMsg} onChange={e => setPbMsg(e.target.value)}
-                  maxLength={50} />
+                  value={pbMsg} maxLength={150}
+                  onChange={e => setPbMsg(e.target.value)} />
           </div>
           <button className="btn" disabled={!pbMsg}
           onClick={async () => await handleMsg()}>
