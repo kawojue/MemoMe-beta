@@ -68,7 +68,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     const isUserExists = yield UserModel_1.default.findOne({ user });
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand = randomstring_1.default.generate({
-            length: parseInt('657'[Math.floor(Math.random() * 2)]),
+            length: parseInt('657'[Math.floor(Math.random() * 3)]),
             charset: 'alphabetic'
         });
         user = (_c = rand === null || rand === void 0 ? void 0 : rand.toLowerCase()) === null || _c === void 0 ? void 0 : _c.trim();
@@ -91,7 +91,6 @@ exports.createUser = createUser;
 // handle Login
 const login = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _d;
-    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let { userId, pswd } = req.body;
     userId = (_d = userId === null || userId === void 0 ? void 0 : userId.toLowerCase()) === null || _d === void 0 ? void 0 : _d.trim();
     if (!userId || !pswd) {
@@ -304,7 +303,7 @@ const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
         return res.status(400).json({
             success: false,
             action: "error",
-            msg: "You're not eligible to reset your password."
+            msg: "Access denied."
         });
     }
     const compare = yield bcrypt_1.default.compare(newPswd, account.password);
@@ -312,7 +311,7 @@ const resetpswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, f
         return res.status(400).json({
             success: false,
             action: "warning",
-            msg: "You input your current passowrd"
+            msg: "You input your current password."
         });
     }
     const salt = yield bcrypt_1.default.genSalt(10);

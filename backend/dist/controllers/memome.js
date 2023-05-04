@@ -54,7 +54,7 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(400).json({
             success: false,
             action: "error",
-            msg: "Account has been Disabled by User."
+            msg: "Account Disabled."
         });
     }
     if (media) {
