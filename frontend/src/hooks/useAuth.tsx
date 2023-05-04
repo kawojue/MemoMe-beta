@@ -17,6 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     const [data, setData] = useState<any>({})
     const [copy, setCopy] = useState<any>("Copy")
+    const [dialog, setDialog] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
 
     const [token, setToken] = useState<any>(null)
@@ -331,11 +332,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setUserId, userRef, notify, validPswd,
             setValidPswd, handlePswdReset, setOtp,
             handleOtpReq, otp, handlePswdVerify,
-            setUser, validUser, token, data,
+            setUser, validUser, token, data, setDialog,
             handleUsername, loading, toggles, onCopy,
             throwError, updateToggle, handleLogout,
             setCurrentPswd, editPassword, currentPswd,
-            getPeriod, downloadImage, copy
+            getPeriod, downloadImage, copy, dialog,
         }}>
             {children}
         </Context.Provider>
