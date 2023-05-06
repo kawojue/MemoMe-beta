@@ -118,7 +118,7 @@ exports.togglePbContent = togglePbContent;
 const toggleMessage = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _e;
     const { pbMsg } = req.body;
-    if ((pbMsg === null || pbMsg === void 0 ? void 0 : pbMsg.length) > 50) {
+    if ((pbMsg === null || pbMsg === void 0 ? void 0 : pbMsg.length) > 150) {
         return res.status(400).json({
             success: false,
             action: 'warning',
