@@ -3,7 +3,7 @@ import Modal from './Modal'
 import Content from './Content'
 import useAuth from "@/hooks/useAuth"
 import decrypt from '@/utils/decryption'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AiFillEye, FaShare, BsSearch } from '@/utils/icons'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
@@ -12,6 +12,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
     const [share, setShare] = useState<string>('')
+    const searchRef = useRef<HTMLInputElement>(null)
     const [search, setSearch] = useState<string>('')
 
     useEffect(() => {
@@ -22,6 +23,14 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     }, [data])
 
     const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
+
+        //     if (memo?.media) {
+        //     return memo
+        // }
+        // if (memo?.content) {
+        //     const decrypted = decrypt(memo?.content)?.toLowerCase()?.includes(search.toLowerCase())
+            
+        // }
 
     return (
         <main className="mt-3 mb-10">
@@ -51,6 +60,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </p>
                 <div className="relative w-[10rem]">
                     <input type='text' value={search}
+                    ref={searchRef}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full border-none outline-none rounded-lg bg-clr-5 px-1 py-0.5 font-medium font-cabin text-clr-0 text-lg" />
                     <BsSearch className="absolute z-50 top-2 right-2 font-semibold text-lg"/>
@@ -61,7 +71,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
                 </p> :
                 <section className="profile-msgs text-left">
-                    <Content memos={handleSearch}/>
+                    <Content memos={searchRef.current?.focus() ? handleSearch : memos}/>
                 </section>}
         </main>
     )
