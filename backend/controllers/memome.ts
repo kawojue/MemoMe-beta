@@ -12,7 +12,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     let encryptContent: any
 
     let { user }: any = req.params
-    let { content, media }: any = req.body
+    let { content, media, mediaType }: any = req.body
 
     user = user?.toLowerCase()?.trim()
     content = content?.toLowerCase()?.trim()
@@ -51,10 +51,19 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     }
 
     if (media) {
-        mediaRes = await cloudinary.uploader.upload(media, {
-            folder: `MemoMe/${account.id}`,
-        })
-        url = await cloudinary.url(mediaRes.public_id, {
+        if (mediaType === "video") {
+            mediaRes = await cloudinary.uploader.upload(media, {
+                folder: `MemoMe/${account.id}`,
+                resource_type: 'video'
+            })
+        }
+        if (mediaType === "image") {
+            mediaRes = await cloudinary.uploader.upload(media, {
+                folder: `MemoMe/${account.id}`,
+                resource_type: 'image'
+            })
+        }
+        url = cloudinary.url(mediaRes.public_id, {
             attachment: true,
             download: true
         })
