@@ -4,9 +4,9 @@
 
 Introducing MemoMe - the revolutionary anonymous website that surpasses all its competitors, including hideme.bio, gdpd.xyz, and ngl.link. You can access this amazing platform via <https://memome.one>.
 
-What makes MemoMe the best anonymous website in the market? It boasts an array of unmatched features, including sending and receiving text messages and images, with options to toggle text and image receive on and off as per the users' discretion.
+What makes MemoMe the best anonymous website in the market? It boasts an array of unmatched features, including sending and receiving text messages, images, and videos, with options to toggle text and media receive on and off as per the users' discretion.
 
-This website also allows users to edit their public reviews and download the original image sent to them. In addition, MemoMe provides account disabling options, enabling users to deactivate their accounts temporarily. This feature adds a layer of privacy and security, ensuring users' anonymity is safeguarded.
+This website also allows users to edit their public review and download the original media sent to them. In addition, MemoMe provides account disabling options, enabling users to deactivate their accounts temporarily. This feature adds a layer of privacy and security, ensuring users' anonymity is safeguarded.
 
 To top it all off, MemoMe's messages are encrypted, ensuring that communication between users remains confidential and secure.
 
