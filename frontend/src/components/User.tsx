@@ -64,7 +64,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             }
             convertFile(file)
         } else {
-            notify('warning', "File format or size is not allowed.")
+            notify('warning', "File size or type is not allowed.")
         }
     }
 
@@ -78,7 +78,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             setMedia("")
             setContent("")
             setLoading(false)
-            notify("success", "Shhh!! Message sent.")
+            notify("success", "Message sent.")
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)

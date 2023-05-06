@@ -16,7 +16,6 @@ const Media: React.FC<{ memo: any }> = ({ memo }) => {
         } else {
             type = "image"
         }
-        console.log(type)
         return type
     }
 
