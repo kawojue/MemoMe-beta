@@ -115,7 +115,7 @@ const togglePbContent = asyncHandler(async (req: any, res: Response) => {
 const toggleMessage = asyncHandler(async (req: any, res: Response) => {
     const { pbMsg }: any = req.body
 
-    if (pbMsg?.length > 50) {
+    if (pbMsg?.length > 150) {
         return res.status(400).json({
             success: false,
             action: 'warning',
