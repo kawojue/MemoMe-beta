@@ -47,10 +47,10 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </button>
             </div>
             <div className="flex items-center mb-7 justify-between">
-                <p className="bg-clr-6 px-3 py-1 text-clr-3 rounded-lg text-lg font-medium">
-                    <span>Total Msg: {memos?.length}</span>
+                <p className="bg-clr-6 px-2 py-1 text-clr-3 rounded-lg text-lg font-medium">
+                    <span>Total: {memos?.length}</span>
                 </p>
-                <div className="relative w-[9rem]">
+                <div className="relative w-[8rem]">
                     <input type='text' value={search}
                     ref={searchRef}
                     onChange={(e) => setSearch(e.target.value)}
