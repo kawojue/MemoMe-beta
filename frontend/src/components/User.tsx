@@ -11,11 +11,12 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const router: NextRouter = useRouter()
     const { throwError, notify }: any = useAuth()
 
-    const [image, setImage] = useState<any>()
     const [media, setMedia] = useState<string>("")
     const [content, setContent] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
+    const [mediaType, setMediaType] = useState<string>('')
     const [textCounter, setTextCounter]= useState<number>(445)
+    const [selected, setSelected] = useState<string>('Select an image or clip (Optional)')
 
     const handleContent = (e: any): void => {
         const value: string = e.target.value
@@ -32,12 +33,12 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         if (!file) {
             return false
         }
-        const maxSize: number = 2097152 // 2MB
+        const maxSize: number = 9437184 // 9MB
         const { name, size }: any = file
-        const allowedFormats: string[] = ['jpg', 'jpeg', 'png', 'heif']
+        const allowedFormats: string[] = ['jpg', 'png', 'mp4']
         const split: string[] = name.split('.')
-        const format = split[split.length - 1]
-        if (allowedFormats.includes(format) && size <= maxSize) {
+        const extension: string = split[split.length - 1]
+        if (allowedFormats.includes(extension) && size <= maxSize) {
             return true
         }
         return false
@@ -47,7 +48,6 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         const reader: FileReader = new FileReader()
         reader.readAsDataURL(file)
         reader.onload = () => {
-            setImage(reader.result)
             setMedia(reader.result as string)
         }
     }
@@ -55,6 +55,13 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const handleMedia = (e: any): void => {
         const file: any = e.target.files[0]
         if (checkFile(file)) {
+            setSelected(`Seleted: ${file?.name}`)
+            if (file?.type === "video/mp4") {
+                setMediaType("video")
+            }
+            if (file?.type === ("image/jpeg" || "image/png")) {
+                setMediaType("image")
+            }
             convertFile(file)
         } else {
             notify('warning', "File format or size is not allowed.")
@@ -65,7 +72,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         setLoading(true)
         await axios.post(
             `/api/${data?.user}`,
-            JSON.stringify({ media, content })
+            JSON.stringify({ media, content, mediaType })
         )
         .then((res: any) => {
             setMedia("")
@@ -109,11 +116,13 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                             placeholder="Type your message here..."
                             value={content} onChange={(e) => handleContent(e)} />
                         </div>}
-                        {data?.pbMedia && <label htmlFor="image" className="drop-container">
-                            <span className="drop-title">Select an image (Optional)</span>
-                            <input type="file" id="image"
-                            accept="image/*" onChange={(e) => handleMedia(e)}/>
-                            <img src={image} alt="" width={30} className="smallie"/>
+                        {data?.pbMedia && <label htmlFor="media" className="drop-container">
+                            <span className="drop-title">
+                                {selected}
+                            </span>
+                            <input type="file" id="media"
+                            accept="image/*, video/mp4"
+                            onChange={(e) => handleMedia(e)} />
                         </label>}
                     </article>
                     {!data?.temporary && <div className="btn-container">
