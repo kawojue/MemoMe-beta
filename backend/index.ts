@@ -17,10 +17,10 @@ DBConn(process.env.DB_URI as string)
 
 // set middlewares
 app.use(credentials)
-app.use(express.json({ limit: '10mb'}))
+app.use(express.json({ limit: '14mb'}))
 app.use(logger('dev'))
 app.use(cors(corsOptions))
-app.use(express.urlencoded({ limit: '10mb', extended: true }))
+app.use(express.urlencoded({ limit: '14mb', extended: true }))
 
 // set route
 app.use('/', rootRoute)
