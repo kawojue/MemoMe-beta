@@ -29,7 +29,7 @@ const Content: React.FC<{ memos: any[] }> = ({ memos }) => {
                         <button onClick={() => downloadImage(memo?.media?.secure_url)}
                             className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0 tracking-wider">
                             <AiOutlineDownload />
-                            <span>Download full Image</span>
+                            <span>Download Content</span>
                         </button>
                     </div>}
             </article>
