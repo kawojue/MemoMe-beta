@@ -24,14 +24,6 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
 
     const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
 
-        //     if (memo?.media) {
-        //     return memo
-        // }
-        // if (memo?.content) {
-        //     const decrypted = decrypt(memo?.content)?.toLowerCase()?.includes(search.toLowerCase())
-            
-        // }
-
     return (
         <main className="mt-3 mb-10">
             <Modal share={share} user={user} />
@@ -71,7 +63,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
                 </p> :
                 <section className="profile-msgs text-left">
-                    <Content memos={searchRef.current?.focus() ? handleSearch : memos}/>
+                    <Content memos={document.activeElement === searchRef.current ? handleSearch : memos}/>
                 </section>}
         </main>
     )
