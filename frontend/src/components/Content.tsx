@@ -23,10 +23,10 @@ const Content: React.FC<{ memos: any[] }> = ({ memos }) => {
                                 </span>
                             ))}
                     </div>}
-                <Media memo={memo}/>
+                {memo?.media && <Media memo={memo}/>}
                 {memo?.media &&
                     <div className="mt-2 flex justify-center">
-                        <button onClick={() => downloadImage(memo?.media?.secure_url)}
+                        <button onClick={() => downloadImage(memo?.media.secure_url)}
                             className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0 tracking-wider">
                             <AiOutlineDownload />
                             <span>Download Content</span>
