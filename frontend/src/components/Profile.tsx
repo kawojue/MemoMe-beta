@@ -21,7 +21,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setShare(`Send me an anonymous message at: https://memome.one/${data?.account?.user} \n I won't know who sent it.`)
     }, [data])
 
-    const handleSearch = memos?.filter((memo: any) => ((decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
+    const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
 
     return (
         <main className="mt-3 mb-10">
