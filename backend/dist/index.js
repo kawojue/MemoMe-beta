@@ -18,10 +18,10 @@ const PORT = process.env.PORT || 1707;
 (0, DBConn_1.default)(process.env.DB_URI);
 // set middlewares
 app.use(credentials_1.default);
-app.use(express_1.default.json({ limit: '10mb' }));
+app.use(express_1.default.json({ limit: '14mb' }));
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)(corsOptions_1.default));
-app.use(express_1.default.urlencoded({ limit: '10mb', extended: true }));
+app.use(express_1.default.urlencoded({ limit: '14mb', extended: true }));
 // set route
 app.use('/', root_1.default);
 mongoose_1.default.connection.once('open', () => {

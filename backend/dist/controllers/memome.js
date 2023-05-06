@@ -25,7 +25,7 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
     let url;
     let encryptContent;
     let { user } = req.params;
-    let { content, media } = req.body;
+    let { content, media, mediaType } = req.body;
     user = (_a = user === null || user === void 0 ? void 0 : user.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     content = (_b = content === null || content === void 0 ? void 0 : content.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
     if (!user) {
@@ -58,10 +58,19 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     if (media) {
-        mediaRes = yield cloudinary_1.default.uploader.upload(media, {
-            folder: `MemoMe/${account.id}`,
-        });
-        url = yield cloudinary_1.default.url(mediaRes.public_id, {
+        if (mediaType === "video") {
+            mediaRes = yield cloudinary_1.default.uploader.upload(media, {
+                folder: `MemoMe/${account.id}`,
+                resource_type: 'video'
+            });
+        }
+        if (mediaType === "image") {
+            mediaRes = yield cloudinary_1.default.uploader.upload(media, {
+                folder: `MemoMe/${account.id}`,
+                resource_type: 'image'
+            });
+        }
+        url = cloudinary_1.default.url(mediaRes.public_id, {
             attachment: true,
             download: true
         });
