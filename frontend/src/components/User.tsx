@@ -33,7 +33,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         if (!file) {
             return false
         }
-        const maxSize: number = 9437184 // 9MB
+        const maxSize: number = 6291456 // 6MB
         const { name, size }: any = file
         const allowedFormats: string[] = ['jpg', 'png', 'mp4']
         const split: string[] = name.split('.')
