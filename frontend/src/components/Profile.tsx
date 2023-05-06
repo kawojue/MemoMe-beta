@@ -50,7 +50,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 <p className="bg-clr-6 px-3 py-1 text-clr-3 rounded-lg text-lg font-medium">
                     <span>Total Msg: {memos?.length}</span>
                 </p>
-                <div className="relative w-[10rem]">
+                <div className="relative w-[9rem]">
                     <input type='text' value={search}
                     ref={searchRef}
                     onChange={(e) => setSearch(e.target.value)}
