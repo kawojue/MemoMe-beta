@@ -100,7 +100,7 @@ const Settings: React.FC = () => {
       <article className="mt-10 form-itself">
         <div className="toggle-container">
           <h2 className="toggle-h2 text-clr-5">
-            Recieve Image
+            Recieve Media
           </h2>
           <CheckBox getter={pbMedia} setter={handleMedia} />
         </div>
