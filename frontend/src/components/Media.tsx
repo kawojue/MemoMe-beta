@@ -16,6 +16,7 @@ const Media: React.FC<{ memo: any }> = ({ memo }) => {
         } else {
             type = "image"
         }
+        console.log(type)
         return type
     }
 
@@ -38,22 +39,20 @@ const Media: React.FC<{ memo: any }> = ({ memo }) => {
 
     return (
         <div className="media">
-            {memo?.media && <>
-                {getMediaType(memo?.media.secure_url) === "image" ?
-                    <img onDoubleClick={() => setBlur(!blur)}
-                        className={`image ${blur && 'blur-md'}`}
-                        src={memo?.media.secure_url}
-                        alt={memo?.idx} loading="lazy" /> :
-                    <>
-                        <video ref={videoRef}
-                            src={memo?.media.secure_url}
-                            onLoadedMetadata={loadMetadata} />
-                        <canvas ref={canvasRef} />
-                        <img src={thumbnailSrc}
-                            alt={memo?.idx} loading='lazy'
-                            onDoubleClick={() => setBlur(!blur)}
-                            className={`image ${blur && 'blur-md'}`} />
-                    </>}
+            {getMediaType(memo?.media.secure_url) === "image" &&
+                <img onDoubleClick={() => setBlur(!blur)}
+                className={`image ${blur && 'blur-md'}`}
+                src={memo?.media.secure_url}
+                alt={memo?.idx} loading="lazy" />}
+            {getMediaType(memo?.media.secure_url) === "video" && <>
+                <video ref={videoRef} className="hidden"
+                src={memo?.media.secure_url}
+                onLoadedMetadata={loadMetadata} />
+                <canvas ref={canvasRef} className="hidden" />
+                <img src={thumbnailSrc}
+                alt={memo?.idx} loading='lazy'
+                onDoubleClick={() => setBlur(!blur)}
+                className={`image ${blur && 'blur-md'}`} />
             </>}
         </div>
     )
