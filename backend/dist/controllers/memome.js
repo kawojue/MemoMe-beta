@@ -126,7 +126,7 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             temporary: true,
             success: true,
             action: "warning",
-            msg: " is unable to recieve Image and Texts."
+            msg: " has turned off to Recieve Text and Media."
         });
     }
     res.status(200).json({
