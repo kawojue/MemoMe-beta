@@ -278,6 +278,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 (async () => await handleLogout())()
             }, 1000)
         }).catch((err: any) => {
+            setBtnLoading(false)
             throwError(err)
         })
     }
