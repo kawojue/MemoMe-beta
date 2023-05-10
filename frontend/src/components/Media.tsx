@@ -23,11 +23,10 @@ const Media: React.FC<{ memo: any }> = ({ memo }) => {
                 className={`image ${blur && 'blur-md'}`}
                 src={memo?.media.secure_url}
                 alt={memo?.idx} loading="lazy" />}
-            {getMediaType(memo?.media.secure_url) === "video" && <>
+            {getMediaType(memo?.media.secure_url) === "video" &&
                 <video src={memo?.media.secure_url}
                 onDoubleClick={() => setBlur(!blur)}
-                className={`image ${blur && 'blur-md'}`} />
-            </>}
+                className={`image ${blur && 'blur-md'}`} />}
         </div>
     )
 }
