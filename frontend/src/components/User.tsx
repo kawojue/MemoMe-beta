@@ -55,11 +55,11 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const handleMedia = (e: any): void => {
         const file: any = e.target.files[0]
         if (checkFile(file)) {
-            setSelected(`Seleted: ${file?.name}`)
-            if (file?.type === "video/mp4") {
+            setSelected(`Seleted: ${file.name}`)
+            if (file.type === "video/mp4") {
                 setMediaType("video")
             }
-            if (file?.type === ("image/jpeg" || "image/png")) {
+            if (file.type === ("image/jpeg" || "image/png")) {
                 setMediaType("image")
             }
             convertFile(file)
