@@ -65,7 +65,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
             msg: "Account already exists."
         });
     }
-    const isUserExists = yield UserModel_1.default.findOne({ user });
+    const isUserExists = yield UserModel_1.default.findOne({ user }).exec();
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand = randomstring_1.default.generate({
             length: parseInt('657'[Math.floor(Math.random() * 3)]),
@@ -192,7 +192,7 @@ const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
             msg: "Username is not allowed."
         });
     }
-    const account = yield UserModel_1.default.findOne({ user: (_g = req.user) === null || _g === void 0 ? void 0 : _g.user });
+    const account = yield UserModel_1.default.findOne({ user: (_g = req.user) === null || _g === void 0 ? void 0 : _g.user }).exec();
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -200,7 +200,7 @@ const editUsername = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
             msg: "Sorry, something went wrong. Try logging out then login again."
         });
     }
-    const userExists = yield UserModel_1.default.findOne({ user: newUser });
+    const userExists = yield UserModel_1.default.findOne({ user: newUser }).exec();
     if (userExists) {
         return res.status(409).json({
             success: false,
@@ -225,7 +225,7 @@ const logout = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, func
         return res.sendStatus(204);
     }
     const token = authHeader.split(' ')[1];
-    const account = yield UserModel_1.default.findOne({ token });
+    const account = yield UserModel_1.default.findOne({ token }).exec();
     if (!account) {
         return res.sendStatus(204);
     }

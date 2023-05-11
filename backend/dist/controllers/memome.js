@@ -159,8 +159,7 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c;
-    const account = yield UserModel_1.default.findOne({ user: (_c = req.user) === null || _c === void 0 ? void 0 : _c.user })
-        .select('-password -token').exec();
+    const account = yield UserModel_1.default.findOne({ user: (_c = req.user) === null || _c === void 0 ? void 0 : _c.user }).select('-password -token').exec();
     if (!account) {
         return res.status(404).json({
             success: false,
