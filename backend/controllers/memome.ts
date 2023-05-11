@@ -163,8 +163,7 @@ const countViews = asyncHandler(async (req: Request, res: Response) => {
 })
 
 const getMemos = asyncHandler(async (req: any, res: Response) => {
-    const account: any = await User.findOne({ user: req.user?.user })
-    .select('-password -token').exec()
+    const account: any = await User.findOne({ user: req.user?.user }).select('-password -token').exec()
 
     if (!account) {
         return res.status(404).json({
