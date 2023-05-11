@@ -8,14 +8,14 @@ import { IMailer, IGenOTP } from '../type'
 import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 
-const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
+const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const USER_REGEX: RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
 const restrictedUser: string[] = [
-        "profile", "admin", "account",
-        "api", "root", "wp-admin", "user",
-        "id", "signup", "login", "edit",
-        "password", "reset", "logout",
-        "memome"
+    "profile", "admin", "account",
+    "api", "root", "wp-admin", "user",
+    "id", "signup", "login", "edit",
+    "password", "reset", "logout",
+    "memome"
 ]
 
 // handle account creation
@@ -59,7 +59,7 @@ const createUser = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const isUserExists: any = await User.findOne({ user })
+    const isUserExists: any = await User.findOne({ user }).exec()
 
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand: string = randomString.generate({
@@ -205,7 +205,7 @@ const editUsername = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const account: any = await User.findOne({ user: req.user?.user })
+    const account: any = await User.findOne({ user: req.user?.user }).exec()
     if (!account) {
         return res.status(404).json({
             success: false,
@@ -214,7 +214,7 @@ const editUsername = asyncHandler(async (req: any, res: Response) => {
         })
     }
 
-    const userExists: any = await User.findOne({ user: newUser })
+    const userExists: any = await User.findOne({ user: newUser }).exec()
     if (userExists) {
         return res.status(409).json({
             success: false,
@@ -241,7 +241,7 @@ const logout = asyncHandler(async (req: any, res: Response) => {
     }
 
     const token: string = authHeader.split(' ')[1]
-    const account: any = await User.findOne({ token })
+    const account: any = await User.findOne({ token }).exec()
 
     if (!account) {
         return res.sendStatus(204)
