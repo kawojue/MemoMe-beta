@@ -308,18 +308,12 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
 
     return (
         <Context.Provider value={{
-            email, setEmail, validEmail, handleSignup,
-            confirmPswd, setConfirmPswd, handleLogin,
-            pswd, setPswd, btnLoading, setBtnLoading,
-            emailRef, showPswd, setShowPswd, userId,
-            setUserId, userRef, notify, validPswd,
-            setValidPswd, handlePswdReset, setOtp,
-            handleOtpReq, otp, handlePswdVerify,
-            setUser, validUser, token, data, setDialog,
-            handleUsername, loading, toggles, onCopy,
-            throwError, updateToggle, handleLogout,
-            setCurrentPswd, editPassword, currentPswd,
-            getPeriod, downloadImage, copy, dialog,
+            email, setEmail, validEmail, handleSignup, confirmPswd, setConfirmPswd, handleLogin,
+            pswd, setPswd, btnLoading, setBtnLoading, emailRef, showPswd, setShowPswd, userId,
+            setUserId, userRef, notify, validPswd, setValidPswd, handlePswdReset, setOtp, otp,
+            handleOtpReq, handlePswdVerify, setUser, validUser, token, data, setDialog, loading,
+            handleUsername, toggles, onCopy, throwError, updateToggle, handleLogout, getPeriod,
+            setCurrentPswd, editPassword, currentPswd, downloadImage, copy, dialog,
         }}>
             {children}
         </Context.Provider>
