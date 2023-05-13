@@ -67,12 +67,10 @@ const Settings: React.FC = () => {
       }
     ).then((res: any) => {
       setPbMsg("")
-      setBtnLoading(false)
       notify("success", "Updated successfully!")
     }).catch((err: any) => {
       throwError(err)
-      setBtnLoading(false)
-    })
+    }).finally(() => setBtnLoading(false))
   }
 
   return (
