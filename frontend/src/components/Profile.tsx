@@ -19,7 +19,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
         setMemos(data?.memos?.body?.reverse())
-        setShare(`Send me an anonymous message at: https://memome.one/${data?.account?.user} \n I won't know who sent it.`)
+        setShare(`Send me anonymous message on: https://memome.one/${data?.account?.user}`)
     }, [data])
 
     const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
