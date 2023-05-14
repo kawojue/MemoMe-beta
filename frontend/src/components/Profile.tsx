@@ -22,7 +22,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setShare(`Send me anonymous message on: https://memome.one/${data?.account?.user}`)
     }, [data])
 
-    const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
+    const handleSearch: any[] = memos.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
 
     return (
         <main className="mt-3 mb-10">
@@ -48,7 +48,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
             </div>
             <div className="flex items-center mb-7 justify-between">
                 <p className="bg-clr-6 px-2 py-1 text-clr-3 rounded-lg text-lg font-medium">
-                    <span>Total: {memos?.length}</span>
+                    <span>Total: {memos.length}</span>
                 </p>
                 <div className="relative w-[8rem]">
                     <input type='text' value={search}
@@ -58,9 +58,9 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     <BsSearch className="absolute z-50 top-2 right-2 font-semibold text-lg"/>
                 </div>
             </div>
-            {memos?.length === 0 ?
+            {memos.length === 0 ?
                 <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
-                    {"Your lonely ass hasn't gotten any messages yet. Click on the share button to share your link."}
+                    {"No Messages yet. Click on the share button to share your link."}
                 </p> :
                 <section className="profile-msgs text-left">
                     <Content memos={document.activeElement === searchRef.current ? handleSearch : memos}/>
