@@ -135,6 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         if (key === "pbContent") {
             newToggles = {...newToggles, pbContent: !value}
         }
+        setToggles(newToggles)
         localStorage.setItem('toggles', JSON.stringify(newToggles))
     }
 
