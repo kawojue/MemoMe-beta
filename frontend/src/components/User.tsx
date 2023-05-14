@@ -68,25 +68,21 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         }
     }
 
-    const handleMessage = async () => {
+    const handleMessage = async (): Promise<void> => {
         setLoading(true)
         await axios.post(
             `/api/${data?.user}`,
             JSON.stringify({ media, content, mediaType })
-        )
-        .then((res: any) => {
+        ).then((res: any) => {
             setMedia("")
             setContent("")
-            setLoading(false)
             notify("success", "Message sent.")
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
-        })
-        .catch((err: any) => {
+        }).catch((err: any) => {
             throwError(err)
-            setLoading(false)
-        })
+        }).finally(() => setLoading(false))
     }
 
     const isValid: boolean = Boolean(content) || Boolean(media)
