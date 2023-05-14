@@ -4,9 +4,8 @@ import axios from '@/pages/api/instance'
 import { useState, useEffect } from 'react'
 
 const Settings: React.FC = () => {
-  const { toggles, notify, token,
-    setToggles, btnLoading, throwError,
-    setBtnLoading, updateToggle }: any = useAuth()
+  const { toggles, notify, token, btnLoading,
+    throwError, setBtnLoading, updateToggle }: any = useAuth()
 
   const [pbMsg, setPbMsg] = useState<string>('')
   const [pbMedia, setPbMedia] = useState<any>(false)
@@ -28,9 +27,6 @@ const Settings: React.FC = () => {
         }
       }).then((res) => {
         updateToggle("pbMedia", pbMedia)
-        setToggles((prev: any) => {
-          return { ...prev, pbMedia: !pbMedia }
-        })
     }).catch((err: any) => {
       throwError(err)
     })
@@ -47,9 +43,6 @@ const Settings: React.FC = () => {
         }
       }).then((res) => {
         updateToggle("pbContent", pbContent)
-        setToggles((prev: any) => {
-          return { ...prev, pbContent: !pbContent }
-        })
     }).catch((err: any) => {
       throwError(err)
     })
