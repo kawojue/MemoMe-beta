@@ -191,9 +191,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     const handleOtpReq = async (): Promise<void> => {
@@ -202,9 +200,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             JSON.stringify({ email })
         ).then((res: any) => {
             notify("success", "OTP has been sent to your email.")
-        }).catch((err: any) => {
-            throwError(err)
-        })
+        }).catch((err: any) => throwError(err))
     }
 
     const handlePswdVerify = async (): Promise<void> => {
@@ -217,9 +213,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setEligible(res?.data.verified)
             router.push('/password/edit')
         })
-        .catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        .catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     const handleLogout = async (): Promise<void> => {
@@ -230,9 +224,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         }).then((res: any) => {
             localStorage.clear()
             router.push("/login")
-        }).catch((err: any) => {
-            throwError(err)
-        })
+        }).catch((err: any) => throwError(err))
     }
 
     const handlePswdReset = async (): Promise<void> => {
@@ -250,9 +242,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setTimeout(() => {
                 router.push('/login')
             }, 1500);
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     const handleUsername = async (): Promise<void> => {
@@ -271,9 +261,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setTimeout(() => {
                 (async () => await handleLogout())()
             }, 1000)
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     const editPassword = async (): Promise<void> => {
@@ -294,9 +282,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setTimeout(() => {
                 (async () => await handleLogout())()
             }, 1000)
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     return (
