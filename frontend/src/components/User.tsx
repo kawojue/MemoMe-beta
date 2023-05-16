@@ -80,9 +80,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             setTimeout(() => {
                 router.push('/profile')
             }, 1500)
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setLoading(false))
     }
 
     const isValid: boolean = Boolean(content) || Boolean(media)
