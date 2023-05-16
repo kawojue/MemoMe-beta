@@ -60,11 +60,9 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 headers: {
                 'Authorization': `Bearer ${token}`
                 },
-            }).then((res: any) => {
-                setData(res?.data)
-            }).catch((err: any) => {
-                throwError(err)
-            }).finally(() => setLoading(false))
+            }).then((res: any) => setData(res?.data))
+            .catch((err: any) => throwError(err))
+            .finally(() => setLoading(false))
         };
 
         if (token && router.asPath === "/profile") {
