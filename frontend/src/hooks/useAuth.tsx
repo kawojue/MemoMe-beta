@@ -47,9 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setToken(storedToken)
             setToggles(storedToggles)
         } else {
-            if (router.asPath === "/profile") {
-                router.push('/login')
-            }
+            if (router.asPath === "/profile") router.push('/login')
         }
     }, [router])
 
@@ -60,32 +58,23 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 headers: {
                 'Authorization': `Bearer ${token}`
                 },
-            }).then((res: any) => setData(res?.data))
-            .catch((err: any) => throwError(err))
-            .finally(() => setLoading(false))
+            }).then((res: any) => setData(res?.data)).catch((err: any) => throwError(err)).finally(() => setLoading(false))
         };
 
-        if (token && router.asPath === "/profile") {
-            (async () => await handleProfile(token))()
-        }
+        if (token && router.asPath === "/profile") (async () => await handleProfile(token))()
     }, [token, router])
 
     useEffect(() => {
         // email validation
         const EMAIL_REGEX:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        const resEmail: boolean = EMAIL_REGEX.test(email)
-        setValidEmail(resEmail)
+        setValidEmail(EMAIL_REGEX.test(email))
 
         // password validation
-        if (pswd) {
-            const confirm: boolean = pswd === confirmPswd
-            setValidPswd(confirm)
-        }
+        if (pswd) setValidPswd(pswd === confirmPswd)
 
         // user validation
         const USER_REGEX:RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
-        const resUser: boolean = USER_REGEX.test(user)
-        setValidUser(resUser)
+        setValidUser(USER_REGEX.test(user))
     }, [user, email, pswd, confirmPswd])
 
     const throwError = (err: any) => {
@@ -144,17 +133,17 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     }
 
     const getPeriod = (timestamp: string): string => {
-        let period = ''
+        let period: string = ''
         if (timestamp) {
-            const date = parseISO(timestamp)
-            const timePeriod = formatDistanceToNow(date)
+            const date: Date = parseISO(timestamp)
+            const timePeriod: string = formatDistanceToNow(date)
             period = `${timePeriod} ago..`
         }
         return period
     }
 
     const downloadImage = (url: string): void => {
-        const splitName = url.split('/')
+        const splitName: string[] = url.split('/')
         saveAs(url, splitName[splitName.length - 1])
     }
 
@@ -171,9 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             }, 2000)
             const { action, msg }: any = res?.data
             notify(action, msg)
-        }).catch((err: any) => {
-            throwError(err)
-        }).finally(() => setBtnLoading(false))
+        }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
     const handleLogin = async (): Promise<void> => {
