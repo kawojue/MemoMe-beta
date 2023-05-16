@@ -54,8 +54,8 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
     }, [router])
 
     useEffect(() => {
-        setLoading(true)
         const handleProfile = async (token: string): Promise<void> => {
+            setLoading(true)
             await axios.get('/profile', {
                 headers: {
                 'Authorization': `Bearer ${token}`
@@ -64,18 +64,12 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
                 setData(res?.data)
             }).catch((err: any) => {
                 throwError(err)
-            })
+            }).finally(() => setLoading(false))
         };
 
         if (token && router.asPath === "/profile") {
             (async () => await handleProfile(token))()
         }
-
-        const timeout = setTimeout(() => {
-            setLoading(false)
-        }, 1500)
-
-        return () => clearTimeout(timeout)
     }, [token, router])
 
     useEffect(() => {
