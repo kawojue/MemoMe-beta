@@ -41,11 +41,7 @@ const Settings: React.FC = () => {
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      }).then((res) => {
-        updateToggle("pbContent", pbContent)
-    }).catch((err: any) => {
-      throwError(err)
-    })
+      }).then((res) => updateToggle("pbContent", pbContent)).catch((err: any) => throwError(err))
   }
 
   const handleMsg = async (): Promise<void> => {
