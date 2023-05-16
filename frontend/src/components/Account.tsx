@@ -28,11 +28,7 @@ const Account: React.FC = () => {
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      }).then((res) => {
-        updateToggle("disabled", disabled)
-    }).catch((err: any) => {
-      throwError(err)
-    })
+      }).then((res) => updateToggle("disabled", disabled)).catch((err: any) => throwError(err))
   }
 
   const isValidToEditPswd: boolean = Boolean(currentPswd) && Boolean(validPswd)
