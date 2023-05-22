@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         setValidUser(USER_REGEX.test(user))
     }, [user, email, pswd, confirmPswd])
 
-    const throwError = (err: any) => {
+    const throwError = (err: any): void => {
         const msg = err.response?.data?.msg
         const action = err.response?.data?.action
         if (action) {
