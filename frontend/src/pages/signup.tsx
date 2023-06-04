@@ -4,7 +4,8 @@ import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
 import Header from "@/components/HeaderA"
 import PswdButton from '@/components/PswdBtn'
-import { ToastContainer } from 'react-toastify'
+import { SpinnerTwo } from '@/components/Spinner'
+import { inter } from '../../public/fonts'
 
 function signup() {
     const {
@@ -24,7 +25,6 @@ function signup() {
         <>
             <Meta title="Sign Up" />
             <Header />
-            <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="form-h1 md:text-4xl">
@@ -35,9 +35,9 @@ function signup() {
                         <label htmlFor="email">Email</label>
                         <input type="text" id="email"
                             autoComplete="off"
-                            placeholder="abc@mail.com"
-                            className={`border-2 ${validEmail ?
-                            'border-green-400' : 'border-red-400'}`}
+                            placeholder="example@mail.com"
+                            className={`${inter.className} ${validEmail ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             value={email} ref={emailRef}
                             onChange={e => setEmail(e.target.value)}
                             aria-invalid={validEmail ? "false" : "true"}
@@ -49,8 +49,8 @@ function signup() {
                             <input max={32} value={pswd}
                             onChange={(e) => setPswd(e.target.value)}
                             type={`${showPswd ? 'text': 'password'}`}
-                            className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-red-400'}`}
+                            className={`${inter.className} ${validPswd ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             aria-invalid={validPswd ? "false" : "true"}
                             aria-describedby="uidnote" />
                             <PswdButton get={showPswd} set={setShowPswd} />
@@ -62,15 +62,14 @@ function signup() {
                             <input max={32} value={confirmPswd}
                             type='password' aria-describedby="uidnote"
                             onChange={(e) => setConfirmPswd(e.target.value)}
-                            className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-red-400'}`}
+                            className={`${inter.className} ${validPswd ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             aria-invalid={validPswd ? "false" : "true"} />
                         </div>
                     </div>
-                    <button
-                    className="btn" disabled={!isValid}
+                    <button className="btn" disabled={!isValid}
                     onClick={async () => await handleSignup()}>
-                        {btnLoading ? 'Creating...' : 'Signup'}
+                        {btnLoading ? <SpinnerTwo /> : 'Sign Up'}
                     </button>
                 </article>
             </form>
