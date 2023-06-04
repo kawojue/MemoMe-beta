@@ -8,7 +8,7 @@ const HeaderB:React.FC= () => {
             <nav className="nav md:px-10">
                 <Home/>
                 <button type="button" onClick={async () => await handleLogout()}
-                className="nav-btn  bg-red-500 hover:bg-red-600 hover:text-clr-3">
+                className="nav-btn hover:text-clr-7 hover:bg-clr-8">
                     Logout
                 </button>
             </nav>
