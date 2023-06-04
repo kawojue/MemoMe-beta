@@ -1,7 +1,10 @@
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
 import Header from "@/components/HeaderA"
-import { ToastContainer } from 'react-toastify'
+import {
+    inter, poppins
+} from "../../../../public/fonts"
+import { SpinnerTwo } from "@/components/Spinner"
 
 const Reset = () => {
     const {
@@ -17,7 +20,6 @@ const Reset = () => {
         <>
             <Meta title="Reset Password" />
             <Header get='login' />
-            <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
@@ -28,9 +30,9 @@ const Reset = () => {
                         <label htmlFor="email">Email</label>
                         <input type="text" id="email"
                             autoComplete="off"
-                            placeholder="abc@mail.com"
-                            className={`border-2 ${validEmail ?
-                            'border-green-400' : 'border-red-400'}`}
+                            placeholder="example@mail.com"
+                            className={`${inter.className} ${validEmail ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             value={email} ref={emailRef}
                             onChange={e => setEmail(e.target.value)}
                             aria-invalid={validEmail ? "false" : "true"}
@@ -38,12 +40,12 @@ const Reset = () => {
                     </div>
                     <div className="form-group">
                         <label>Code</label>
-                        <div>
-                            <input max={6} value={otp}
+                        <div className="flex flex-col gap-2">
+                            <input max={6} value={otp} className={inter.className}
                             onChange={(e) => setOtp(e.target.value)} type='text'
                             placeholder='OTP sent to your email.'/>
                             <button onClick={async () => await handleOtpReq()}
-                            className="text-clr-3 font-medium w-fit">
+                            disabled={!validEmail} className={`${poppins.className} req-btn`}>
                                 Request
                             </button>
                         </div>
@@ -51,7 +53,7 @@ const Reset = () => {
                     <button
                     className="btn" disabled={!isValid}
                     onClick={async () => await handlePswdVerify()}>
-                        {btnLoading ? 'Checking...' : 'Verify'}
+                        {btnLoading ? <SpinnerTwo /> : 'Verify'}
                     </button>
                 </article>
             </form>
