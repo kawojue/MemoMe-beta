@@ -2,7 +2,8 @@ import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
 import Header from "@/components/HeaderA"
 import PswdButton from '@/components/PswdBtn'
-import { ToastContainer } from 'react-toastify'
+import { inter } from "../../../../public/fonts"
+import { SpinnerTwo } from "@/components/Spinner"
 
 const Edit = () => {
     const {
@@ -16,10 +17,9 @@ const Edit = () => {
         <>
             <Meta title="Reset Password" />
             <Header />
-            <ToastContainer />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
-                <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
+                <h1 className="form-h1">
                     Reset Password
                 </h1>
                 <article className="mt-5 form-center">
@@ -29,8 +29,8 @@ const Edit = () => {
                             <input max={32} value={pswd}
                             onChange={(e) => setPswd(e.target.value)}
                             type={`${showPswd ? 'text': 'password'}`}
-                            className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-red-400'}`}
+                            className={`${inter.className} ${validPswd ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             aria-invalid={validPswd ? "false" : "true"}
                             aria-describedby="uidnote" />
                             <PswdButton get={showPswd} set={setShowPswd} />
@@ -42,15 +42,15 @@ const Edit = () => {
                             <input max={32} value={confirmPswd}
                             type='password' aria-describedby="uidnote"
                             onChange={(e) => setConfirmPswd(e.target.value)}
-                            className={`border-2 ${validPswd ?
-                            'border-green-400' : 'border-red-400'}`}
+                            className={`${inter.className} ${validPswd ?
+                            'border-clr-4' : 'border-clr-8'}`}
                             aria-invalid={validPswd ? "false" : "true"} />
                         </div>
                     </div>
                     <button
                     className="btn" disabled={!validPswd}
                     onClick={async () => await handlePswdReset()}>
-                        {btnLoading ? 'Encrypting..' : 'Reset Password'}
+                        {btnLoading ? <SpinnerTwo /> : 'Reset Password'}
                     </button>
                 </article>
             </form>
