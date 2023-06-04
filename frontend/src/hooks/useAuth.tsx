@@ -4,7 +4,6 @@ import notify from '@/utils/notify'
 import axios from '@/pages/api/instance'
 import throwError from '@/utils/throwError'
 import { useRouter, NextRouter } from "next/router"
-import { formatDistanceToNow, parseISO } from "date-fns"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
 const Context: any = createContext({})
@@ -102,16 +101,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         } catch (err) {
             setCopy('Failed to copy!')
         }
-    }
-
-    const getPeriod = (timestamp: string): string => {
-        let period: string = ''
-        if (timestamp) {
-            const date: Date = parseISO(timestamp)
-            const timePeriod: string = formatDistanceToNow(date)
-            period = `${timePeriod} ago..`
-        }
-        return period
     }
 
     const handleSignup = async (): Promise<void> => {
@@ -245,7 +234,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             pswd, setPswd, btnLoading, setBtnLoading, emailRef, showPswd, setShowPswd, userId,
             setUserId, userRef, notify, validPswd, setValidPswd, handlePswdReset, setOtp, otp,
             handleOtpReq, handlePswdVerify, setUser, validUser, token, data, setDialog, loading,
-            handleUsername, toggles, onCopy, throwError, updateToggle, handleLogout, getPeriod,
+            handleUsername, toggles, onCopy, throwError, updateToggle, handleLogout,
             setCurrentPswd, editPassword, currentPswd, copy, dialog,
         }}>
             {children}
