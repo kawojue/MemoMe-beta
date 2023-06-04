@@ -1,4 +1,4 @@
-const Spinner: React.FC = () => {
+const SpinnerOne: React.FC = () => {
     return (
         <main className="w-screen h-screen flex justify-center mt-14">
             <article className="loading-spin w-[300px] h-[300px] relative grid place-items-center text-[2rem] overflow-hidden">
@@ -11,4 +11,17 @@ const Spinner: React.FC = () => {
     )
 }
 
-export default Spinner
+const SpinnerTwo: React.FC = () => {
+    return (
+        <div className="loadingio-spinner-dual-ring-2pnjqprw2fr">
+            <div className="ldio-cmcacy3ykfh">
+                <div></div>
+                <div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export { SpinnerOne, SpinnerTwo }
