@@ -4,7 +4,6 @@ import Header from "./HeaderA"
 import { useState } from 'react'
 import useAuth from "@/hooks/useAuth"
 import axios from '@/pages/api/instance'
-import { ToastContainer } from "react-toastify"
 import { useRouter, NextRouter } from "next/router"
 
 const User: React.FC<{ data: any }> = ({ data }) => {
@@ -88,7 +87,6 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     return (
         <>
             <Header />
-            <ToastContainer />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
                     {data?.temporary ?
