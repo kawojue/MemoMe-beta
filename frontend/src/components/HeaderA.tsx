@@ -7,14 +7,10 @@ const HeaderA = ({ get = "login" }: { get?: string }) => {
         <header className="w-full">
             <nav className="nav md:px-10">
                 <Home />
-                <ul>
-                    <li>
-                        <Link href={`/${get.replace(" ", "")}`}
-                        className="nav-btn bg-clr-2 hover:bg-clr-1 hover:text-clr-3 trans">
-                            {`${get.charAt(0).toUpperCase()}${get.slice(1)}`}
-                        </Link>
-                    </li>
-                </ul>
+                <Link href={`/${get.replace(" ", "")}`}
+                className="nav-btn bg-clr-2 hover:bg-clr-1 hover:text-clr-3 trans">
+                    {`${get.charAt(0).toUpperCase()}${get.slice(1)}`}
+                </Link>
             </nav>
         </header>
     )

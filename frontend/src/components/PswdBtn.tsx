@@ -1,4 +1,4 @@
-import { AiFillEyeInvisible, AiFillEye } from '@/utils/icons'
+import { AiFillEyeInvisible, AiFillEye } from '../../public/icons'
 
 interface IPswdButton {
     get: boolean

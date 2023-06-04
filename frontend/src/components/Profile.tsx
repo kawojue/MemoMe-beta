@@ -4,7 +4,7 @@ import Content from './Content'
 import useAuth from "@/hooks/useAuth"
 import decrypt from '@/utils/decryption'
 import { useState, useEffect, useRef } from 'react'
-import { AiFillEye, FaShare, BsSearch } from '@/utils/icons'
+import { AiFillEye, FaShare, BsSearch } from '../../public/icons'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
     const { dialog, setDialog }: any = useAuth()

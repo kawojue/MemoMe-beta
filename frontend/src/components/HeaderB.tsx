@@ -7,14 +7,10 @@ const HeaderB:React.FC= () => {
         <header className="w-full">
             <nav className="nav md:px-10">
                 <Home/>
-                <ul>
-                    <li>
-                        <button type="button" onClick={async () => await handleLogout()}
-                        className="nav-btn  bg-red-500 hover:bg-red-600 hover:text-clr-3">
-                            Logout
-                        </button>
-                    </li>
-                </ul>
+                <button type="button" onClick={async () => await handleLogout()}
+                className="nav-btn  bg-red-500 hover:bg-red-600 hover:text-clr-3">
+                    Logout
+                </button>
             </nav>
         </header>
     )

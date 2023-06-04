@@ -2,7 +2,7 @@
 import Media from './Media'
 import useAuth from "@/hooks/useAuth"
 import decrypt from "@/utils/decryption"
-import { AiOutlineDownload } from '@/utils/icons'
+import { AiOutlineDownload } from '../../public/icons'
 
 const Content: React.FC<{ memos: any[] }> = ({ memos }) => {
     const { getPeriod, downloadImage }: any = useAuth()

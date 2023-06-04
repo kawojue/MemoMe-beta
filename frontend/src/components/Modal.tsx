@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import useAuth from "@/hooks/useAuth"
 import { AiFillCopy, AiOutlineWhatsApp, BsFacebook,
-    GiCancel, AiOutlineTwitter, FaUserAlt } from '@/utils/icons'
+    GiCancel, AiOutlineTwitter, FaUserAlt } from '../../public/icons'
 
 interface IModal {
     share: string,
