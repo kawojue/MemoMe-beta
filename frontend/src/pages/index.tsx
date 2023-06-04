@@ -1,22 +1,31 @@
 import Link from 'next/link'
 import Header from '@/components/HeaderA'
+import { poppins } from '../../public/fonts'
 import { BsFillRocketTakeoffFill } from '../../public/icons'
+import WordFlick from '@/components/WordFlick'
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main className="mt-28 mx-auto grid place-items-center">
-        <h1 className='home-h1 md:text-4xl lg:text-6xl'>
-          <span>Send, Recieve, and Share</span>
-          <span>Anonymous</span>
-          <span>Messages with your Friends.</span>
+      <main className="mt-20 mx-auto grid place-items-center">
+        <h1 className={`${poppins.className} home-h1 md:text-4xl lg:text-6xl`}>
+          <span>Send and Recieve</span>
+          <span>Anonymous Messages</span>
+          <span> With your Friends Online.</span>
         </h1>
-        <Link href="/signup"
-        className="signup-link hover:bg-clr-2">
+        <Link href="/signup" className="signup-link">
           {`Let's go..`}
           <BsFillRocketTakeoffFill />
         </Link>
+        <WordFlick words={[
+          "It's free!",
+          "It supports Image.",
+          "It supports Video.",
+          "Share to all social media platform.",
+          "Download original media sent.",
+          "Customize your settings!"
+        ]} styles="h-[0.3125rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl" />
       </main>
     </>
   )
