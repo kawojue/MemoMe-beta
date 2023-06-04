@@ -25,7 +25,7 @@ export default function Home() {
           "Share to all social media platforms.",
           "Download original media sent to you.",
           "Customize your settings!"
-        ]} styles="h-[0.3125rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl" />
+        ]} styles="h-[2rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl bg-clr-5 py-1 px-2" />
       </main>
     </>
   )
