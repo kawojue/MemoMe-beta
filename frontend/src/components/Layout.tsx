@@ -1,6 +1,5 @@
 import Meta from "./Meta"
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
+import { Toaster } from "react-hot-toast"
 import { Analytics } from '@vercel/analytics/react'
 
 
@@ -9,7 +8,9 @@ const Layout = ({ children }: { children: React.ReactElement }) => {
         <>
             <Meta />
             <Analytics />
-            <ToastContainer />
+            <Toaster
+            position="top-center"
+            reverseOrder={false}/>
             { children }
         </>
     )
