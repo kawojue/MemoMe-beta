@@ -25,7 +25,7 @@ header {
 }
 
 .nav-btn {
-  @apply text-xl px-3 py-1 bg-clr-2 text-clr-5 tracking-wider rounded trans;
+  @apply text-xl px-3 py-1 text-clr-5 tracking-wider rounded trans;
 }
 
 .loading-spin {
@@ -290,6 +290,58 @@ input:checked+.slider:before {
   @apply flex flex-col gap-0.5 py-2 px-2
 }
 
+.ldio-cmcacy3ykfh div { box-sizing: border-box!important }
+.ldio-cmcacy3ykfh > div {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 22.5px;
+  left: 22.5px;
+  border-radius: 50%;
+  border: 7px solid #000;
+  border-color: #ffffff transparent #ffffff transparent;
+  animation: ldio-cmcacy3ykfh 0.78125s linear infinite;
+}
+.ldio-cmcacy3ykfh > div:nth-child(2) { border-color: transparent }
+.ldio-cmcacy3ykfh > div:nth-child(2) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+.ldio-cmcacy3ykfh > div:nth-child(2) div:before, .ldio-cmcacy3ykfh > div:nth-child(2) div:after { 
+  content: "";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  top: -7px;
+  left: 17px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 48px 0 0 #ffffff;
+}
+.ldio-cmcacy3ykfh > div:nth-child(2) div:after { 
+  left: -7px;
+  top: 17px;
+  box-shadow: 48px 0 0 0 #ffffff;
+}
+.loadingio-spinner-dual-ring-2pnjqprw2fr {
+  width: 31px;
+  height: 31px;
+  display: inline-block;
+  overflow: hidden;
+  background: #006fc9;
+}
+.ldio-cmcacy3ykfh {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(0.31);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-cmcacy3ykfh div { box-sizing: content-box; }
 
 @keyframes bounce {
   0% {
@@ -330,4 +382,9 @@ input:checked+.slider:before {
   50% {
     color: rgba(201, 198, 198, 0.1);
   }
+}
+
+@keyframes ldio-cmcacy3ykfh {
+  0% { transform: rotate(0) }
+  100% { transform: rotate(360deg) }
 }
