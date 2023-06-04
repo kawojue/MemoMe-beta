@@ -13,9 +13,9 @@ const NotFound = () => {
                     <span>Page somewhere.</span>
                 </h1>
                 <Link href="/signup"
-                className="signup-link hover:bg-clr-2" >
-                {`Let's get you Signed up..`}
-                <FaMehRollingEyes />
+                className="signup-link" >
+                    {`Let's get you Signed up..`}
+                    <FaMehRollingEyes />
                 </Link>
             </main>
         </>

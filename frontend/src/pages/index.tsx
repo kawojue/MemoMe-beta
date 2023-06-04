@@ -22,8 +22,8 @@ export default function Home() {
           "It's free!",
           "It supports Image.",
           "It supports Video.",
-          "Share to all social media platform.",
-          "Download original media sent.",
+          "Share to all social media platforms.",
+          "Download original media sent to you.",
           "Customize your settings!"
         ]} styles="h-[0.3125rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl" />
       </main>
