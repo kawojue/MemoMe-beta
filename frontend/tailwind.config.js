@@ -8,19 +8,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "clr-0": "rgb(51, 51, 51)",
-        "clr-1": "rgb(100, 92, 255)",
-        "clr-2": "rgb(100, 92, 255, 0.5)",
-        "clr-3": "rgb(255, 248, 240)",
-        "clr-4": "rgb(97, 125, 152)",
-        "clr-5": "rgb(241, 245, 248)",
-        "clr-6": "#084cdf",
-        "clr-z": "rgba(0, 0, 0, 0.5)",
-      },
-      fontFamily: {
-        kaushan: ["Kaushan Script", 'cursive'],
-        poppins: ["Poppins", 'san-serif'],
-        cabin: ['Cabin', 'sans-serif'],
+        "clr-0": "rgb(255, 255, 255)",
+        "clr-1": "rgb(0, 111, 201)",
+        "clr-2": "rgb(50, 49, 48)",
+        "clr-3": "rgb(96, 94, 92)",
+        "clr-4": "rgb(25, 126, 208)",
+        "clr-5": "rgb(242, 242, 242)",
+        "clr-6": "rgb(0, 100, 181)",
+        "clr-7": "rgb(232, 232, 232)",
+        "clr-8": "rgb(32, 31, 30)",
       },
       screens: {
         sm: "600px",
