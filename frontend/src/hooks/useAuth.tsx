@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { saveAs } from 'file-saver'
-import { toast } from 'react-toastify'
+import notify from '@/utils/notify'
 import axios from '@/pages/api/instance'
+import throwError from '@/utils/throwError'
 import { useRouter, NextRouter } from "next/router"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
@@ -77,34 +77,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         setValidUser(USER_REGEX.test(user))
     }, [user, email, pswd, confirmPswd])
 
-    const throwError = (err: any) => {
-        const msg = err.response?.data?.msg
-        const action = err.response?.data?.action
-        if (action) {
-            notify(action, msg)
-        } else {
-            notify("error", err.code)
-        }
-    }
-
-    const notify = (action: string, msg: string): void => {
-        if (action === "success") {
-            toast.success(msg, {
-                position: toast.POSITION.TOP_RIGHT
-            })
-        }
-        if (action === "warning") {
-            toast.warning(msg, {
-                position: toast.POSITION.TOP_LEFT
-            })
-        }
-        if (action === "error") {
-            toast.error(msg, {
-                position: toast.POSITION.TOP_LEFT
-            })
-        }
-    }
-
     const updateToggle = (key: string, value: boolean): void => {
         let newToggles: any = JSON.parse(localStorage.getItem('toggles') as any)
         if (key === "pbMedia") {
@@ -140,11 +112,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             period = `${timePeriod} ago..`
         }
         return period
-    }
-
-    const downloadImage = (url: string): void => {
-        const splitName: string[] = url.split('/')
-        saveAs(url, splitName[splitName.length - 1])
     }
 
     const handleSignup = async (): Promise<void> => {
@@ -279,7 +246,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setUserId, userRef, notify, validPswd, setValidPswd, handlePswdReset, setOtp, otp,
             handleOtpReq, handlePswdVerify, setUser, validUser, token, data, setDialog, loading,
             handleUsername, toggles, onCopy, throwError, updateToggle, handleLogout, getPeriod,
-            setCurrentPswd, editPassword, currentPswd, downloadImage, copy, dialog,
+            setCurrentPswd, editPassword, currentPswd, copy, dialog,
         }}>
             {children}
         </Context.Provider>
