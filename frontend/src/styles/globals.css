@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  @apply bg-clr-0 font-poppins;
+  @apply bg-clr-0;
 }
 
 .trans {
@@ -21,7 +21,7 @@ body {
 }
 
 .nav-btn {
-  @apply text-xl rounded-lg px-3 py-1 font-poppins text-clr-5 tracking-wider;
+  @apply text-xl rounded-lg px-3 py-1 text-clr-5 tracking-wider;
 }
 
 .loading-spin {
@@ -80,7 +80,7 @@ body {
 }
 
 .form-group input {
-  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg font-cabin;
+  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg;
 }
 
 .form-group input:focus {
@@ -100,11 +100,11 @@ body {
 }
 
 .btn-container {
-  @apply w-full mt-5 font-cabin;
+  @apply w-full mt-5;
 }
 
 .btn {
-  @apply py-1.5 w-full rounded-lg text-clr-5 bg-clr-1 text-xl tracking-widest font-cabin font-medium;
+  @apply py-1.5 w-full rounded-lg text-clr-5 bg-clr-1 text-xl tracking-widest font-medium;
 }
 
 .btn:focus {
@@ -128,7 +128,7 @@ body {
 }
 
 .content {
-  @apply w-full h-32 rounded-lg p-2 outline-none font-medium font-cabin text-lg resize-none;
+  @apply w-full h-32 rounded-lg p-2 outline-none font-medium text-lg resize-none;
 }
 
 .drop-container {
@@ -197,7 +197,7 @@ input[type=file]::file-selector-button:hover {
 }
 
 .period {
-  @apply absolute top-0 right-2 text-sm font-bold text-clr-z;
+  @apply absolute top-0 right-2 text-sm font-bold;
 }
 
 .image {
