@@ -66,26 +66,24 @@ header {
 }
 
 .form-itself {
-  @apply mx-auto w-[90vw] max-w-[550px] rounded-md mt-12 py-5 px-6;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
-    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  @apply mx-auto w-[90vw] max-w-[550px] rounded-md mt-12 py-5 px-6 bg-clr-5;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .form-h1 {
-  @apply text-clr-5 text-center font-semibold tracking-wider text-2xl;
+  @apply text-clr-2 font-semibold tracking-wider text-2xl;
 }
 
 .form-center {
-  @apply flex flex-col gap-4
+  @apply flex flex-col gap-3
 }
 
 .form-group {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col gap-1.5;
 }
 
 .form-group input {
-  @apply w-full py-1.5 px-1 rounded-lg font-medium text-lg;
+  @apply w-full py-1.5 px-1 rounded-md font-medium text-lg bg-clr-7 border-[0.08125rem];
 }
 
 .form-group input:focus {
@@ -101,15 +99,15 @@ header {
 }
 
 .eye {
-  @apply absolute top-3 right-3 text-clr-0 text-xl;
+  @apply absolute top-3 right-3 text-clr-8 text-xl;
 }
 
 .btn-container {
-  @apply w-full mt-5;
+  @apply w-full mt-8;
 }
 
 .btn {
-  @apply py-1.5 w-full rounded-lg text-clr-5 bg-clr-1 text-xl tracking-widest font-medium;
+  @apply py-1 w-full rounded text-clr-5 bg-clr-1 text-xl tracking-widest font-medium;
 }
 
 .btn:focus {
@@ -117,11 +115,15 @@ header {
 }
 
 .btn:hover:not([disabled]) {
-  @apply bg-clr-2 text-black trans;
+  @apply bg-clr-6 text-clr-7 trans;
 }
 
 .btn:disabled {
   @apply opacity-[50%] cursor-not-allowed;
+}
+
+.req-btn {
+  @apply text-clr-0 bg-clr-3 font-medium w-fit px-2 py-1 rounded-lg self-end tracking-wider;
 }
 
 .content-container {
@@ -331,7 +333,7 @@ input:checked+.slider:before {
   height: 31px;
   display: inline-block;
   overflow: hidden;
-  background: #006fc9;
+  background: #0064B5;
 }
 .ldio-cmcacy3ykfh {
   width: 100%;
