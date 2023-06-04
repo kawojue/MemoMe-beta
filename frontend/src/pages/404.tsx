@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Header from "@/components/HeaderA"
-import { FaMehRollingEyes } from '@/utils/icons'
+import { FaMehRollingEyes } from '../../public/icons'
 
 const NotFound = () => {
     return (
