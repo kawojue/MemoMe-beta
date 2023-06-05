@@ -13,8 +13,8 @@ const SpinnerOne: React.FC = () => {
 
 const SpinnerTwo: React.FC = () => {
     return (
-        <div className="loadingio-spinner-dual-ring-2pnjqprw2fr">
-            <div className="ldio-cmcacy3ykfh">
+        <div className="small-loading-container">
+            <div className="small-loading">
                 <div></div>
                 <div>
                     <div></div>
