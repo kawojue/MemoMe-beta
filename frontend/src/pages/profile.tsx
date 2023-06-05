@@ -2,24 +2,20 @@
 import { useState } from 'react'
 import Meta from '@/components/Meta'
 import useAuth from '@/hooks/useAuth'
-import Header from "@/components/HeaderB"
+import Header from '@/components/HeaderB'
 import Account from '@/components/Account'
 import Profile from '@/components/Profile'
-import Spinner from '@/components/Spinner'
 import Settings from '@/components/Settings'
-import { ToastContainer } from 'react-toastify'
+import { SpinnerOne } from '@/components/Spinner'
 
 const profile: React.FC = () => {
   const { loading, data }: any = useAuth()
   const [activeTab, setActiveTab] = useState<string>("profile")
 
-  if (loading) {
-    return <Spinner />
-  }
+  if (loading) return <SpinnerOne />
 
   return (
     <>
-      <ToastContainer />
       <Meta title="Profile" />
       <Header />
       <main className="menu">
