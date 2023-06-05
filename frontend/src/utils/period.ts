@@ -9,3 +9,5 @@ const getPeriod = (timestamp: string): string => {
     }
     return period
 }
+
+export default getPeriod
