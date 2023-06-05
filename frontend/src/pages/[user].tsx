@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react'
 import IsUser from '@/components/User'
 import axios from '@/pages/api/instance'
+import { useEffect, Suspense } from 'react'
+import { SpinnerOne } from '@/components/Spinner'
 import { useRouter, NextRouter } from 'next/router'
 
 const User = ({ data }: { data: any }) => {
@@ -21,7 +22,9 @@ const User = ({ data }: { data: any }) => {
     }, [router])
 
     return (
-        <IsUser data={data.tempData} />
+        <Suspense fallback={<SpinnerOne />}>
+            <IsUser data={data.tempData} />
+        </Suspense>
     )
 }
 
