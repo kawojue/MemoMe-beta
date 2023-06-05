@@ -1,9 +1,9 @@
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
-import Header from "@/components/HeaderA"
 import {
     inter, poppins
 } from "../../../../public/fonts"
+import { HeaderA } from "@/components/Header"
 import { SpinnerTwo } from "@/components/Spinner"
 
 const Reset = () => {
@@ -19,7 +19,7 @@ const Reset = () => {
     return (
         <>
             <Meta title="Reset Password" />
-            <Header get='login' />
+            <HeaderA />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="text-clr-5 text-center font-semibold tracking-wider text-2xl md:text-4xl">
