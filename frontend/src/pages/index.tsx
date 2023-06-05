@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import Header from '@/components/HeaderA'
 import { poppins } from '../../public/fonts'
+import { HeaderA } from '@/components/Header'
 import { BsFillRocketTakeoffFill } from '../../public/icons'
 import WordFlick from '@/components/WordFlick'
 
 export default function Home() {
   return (
     <>
-      <Header />
+      <HeaderA />
       <main className="mt-20 mx-auto grid place-items-center">
         <h1 className={`${poppins.className} home-h1 md:text-4xl lg:text-6xl`}>
           <span>Send and Recieve</span>
