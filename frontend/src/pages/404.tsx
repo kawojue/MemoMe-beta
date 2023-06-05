@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import Header from "@/components/HeaderA"
+import { HeaderA } from '@/components/Header'
 import { FaMehRollingEyes } from '../../public/icons'
 
 const NotFound = () => {
     return (
         <>
-            <Header />
+            <HeaderA />
             <main className="mt-28 mx-auto grid place-items-center">
                 <h1 className='home-h1 md:text-4xl lg:text-6xl'>
                     <span>Keep rolling your eyes.</span>
