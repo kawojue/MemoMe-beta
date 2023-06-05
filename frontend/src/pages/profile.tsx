@@ -5,7 +5,7 @@ import useAuth from '@/hooks/useAuth'
 import Account from '@/components/Account'
 import Profile from '@/components/Profile'
 import Settings from '@/components/Settings'
-import { HeaderA } from '@/components/Header'
+import { HeaderB } from '@/components/Header'
 import { SpinnerOne } from '@/components/Spinner'
 
 const profile: React.FC = () => {
@@ -17,7 +17,7 @@ const profile: React.FC = () => {
   return (
     <>
       <Meta title="Profile" />
-      <HeaderA />
+      <HeaderB />
       <main className="menu">
         <section className="tabs">
           <button onClick={() => setActiveTab("profile")}
