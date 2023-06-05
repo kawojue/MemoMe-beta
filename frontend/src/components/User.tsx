@@ -3,7 +3,9 @@
 import Header from "./HeaderA"
 import { useState } from 'react'
 import useAuth from "@/hooks/useAuth"
+import { SpinnerTwo } from "./Spinner"
 import axios from '@/pages/api/instance'
+import CheckMark from '@/components/CheckMark'
 import { useRouter, NextRouter } from "next/router"
 
 const User: React.FC<{ data: any }> = ({ data }) => {
@@ -11,6 +13,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const { throwError, notify }: any = useAuth()
 
     const [media, setMedia] = useState<string>("")
+    const [sent, setSent] = useState<boolean>(false)
     const [content, setContent] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
     const [mediaType, setMediaType] = useState<string>('')
@@ -75,17 +78,17 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         ).then((res: any) => {
             setMedia("")
             setContent("")
-            notify("success", "Message sent.")
+            setSent(true)
             setTimeout(() => {
                 router.push('/profile')
-            }, 1500)
+            }, 2500)
         }).catch((err: any) => throwError(err)).finally(() => setLoading(false))
     }
 
     const isValid: boolean = Boolean(content) || Boolean(media)
 
     return (
-        <>
+        <main className="relative">
             <Header />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
@@ -105,7 +108,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                                 {textCounter} characters remaining.
                             </p>
                             <textarea className="content md:text-xl" maxLength={445}
-                            placeholder="Type your message here..."
+                            placeholder="Say your mind..."
                             value={content} onChange={(e) => handleContent(e)} />
                         </div>}
                         {data?.pbMedia && <label htmlFor="media" className="drop-container">
@@ -121,12 +124,13 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                         <button className="btn"
                         onClick={async () => await handleMessage()}
                         disabled={!isValid}>
-                            {`${loading ? 'Shh!! Uploading..': 'Send'}`}
+                            {loading ? <SpinnerTwo /> : 'Send'}
                         </button>
                     </div>}
                 </section>
             </form>
-        </>
+            <CheckMark get={sent} set={setSent} />
+        </main>
     )
 }
 
