@@ -111,11 +111,11 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             setEmail("")
             setPswd("")
             setConfirmPswd("")
-            setTimeout(() => {
-                router.push('/login')
-            }, 2000)
             const { action, msg }: any = res?.data
             notify(action, msg)
+            setTimeout(() => {
+                router.push('/login')
+            }, 500)
         }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
@@ -133,7 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             localStorage.setItem('toggles', JSON.stringify(toggles))
             setTimeout(() => {
                 router.push('/profile')
-            }, 1500)
+            }, 500)
         }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
@@ -184,7 +184,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify(res.data?.action, res.data?.msg)
             setTimeout(() => {
                 router.push('/login')
-            }, 1500);
+            }, 500);
         }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
@@ -203,7 +203,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify(res?.data?.action, res?.data?.msg)
             setTimeout(() => {
                 (async () => await handleLogout())()
-            }, 1000)
+            }, 500)
         }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 
@@ -224,7 +224,7 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
             notify(res?.data?.action, res?.data?.msg)
             setTimeout(() => {
                 (async () => await handleLogout())()
-            }, 1000)
+            }, 500)
         }).catch((err: any) => throwError(err)).finally(() => setBtnLoading(false))
     }
 

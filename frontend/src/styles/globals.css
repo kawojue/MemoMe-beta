@@ -14,10 +14,6 @@ body {
   @apply transition-all duration-200 ease-linear;
 }
 
-header {
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
-
 .nav {
   @apply flex justify-between items-center mx-auto px-7 py-3;
 }
