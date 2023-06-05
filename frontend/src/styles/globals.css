@@ -132,39 +132,6 @@ body {
   @apply w-full h-32 rounded-lg p-2 outline-none font-medium text-lg resize-none;
 }
 
-.drop-container {
-  @apply relative flex flex-col gap-3 justify-center items-center text-center h-32 p-3 border-2 border-dashed border-[#555] text-[#444] cursor-pointer rounded-lg w-full;
-  transition: background .2s ease-in-out, border .2s ease-in-out;
-}
-
-.smallie {
-  @apply rounded absolute top-10 right-3;
-}
-
-.drop-container:hover {
-  @apply bg-[#eee] border-2 border-[#111]
-}
-
-.drop-container:hover .drop-title {
-  @apply text-[#222]
-}
-
-.drop-title {
-  @apply text-[#444] text-[xl] font-medium trans;
-}
-
-input[type=file] {
-  @apply hidden;
-}
-
-input[type=file]::file-selector-button {
-  @apply mr-3 border-none bg-clr-6 py-2 px-3 text-clr-3 cursor-pointer rounded-md;
-  transition: background .2s ease-in-out;
-}
-
-input[type=file]::file-selector-button:hover {
-  @apply bg-[#0d45a5]
-}
 
 .menu {
   @apply grid grid-cols-1 w-[95vw] max-w-[1200px] justify-start trans px-5 gap-12;
@@ -271,10 +238,6 @@ input:checked+.slider:before {
 
   .tab {
     @apply w-full rounded-md px-3;
-  }
-
-  input[type=file] {
-    @apply block;
   }
 
   .profile-msgs {
