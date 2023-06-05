@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
-import Header from "./HeaderA"
 import { useState } from 'react'
+import { HeaderA } from "./Header"
 import useAuth from "@/hooks/useAuth"
 import { SpinnerTwo } from "./Spinner"
 import axios from '@/pages/api/instance'
@@ -89,7 +89,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <main className="relative">
-            <Header />
+            <HeaderA />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
                     {data?.temporary ?
