@@ -89,7 +89,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <main className="relative">
-            <HeaderA />
+            <HeaderA get='sign up' />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
                 <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
                     {data?.temporary ?
