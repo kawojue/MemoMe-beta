@@ -2,10 +2,10 @@
 import { useEffect } from 'react'
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
-import Header from "@/components/HeaderA"
+import { inter } from '../../public/fonts'
+import { HeaderA } from '@/components/Header'
 import PswdButton from '@/components/PswdBtn'
 import { SpinnerTwo } from '@/components/Spinner'
-import { inter } from '../../public/fonts'
 
 function signup() {
     const {
@@ -24,7 +24,7 @@ function signup() {
     return (
         <>
             <Meta title="Sign Up" />
-            <Header />
+            <HeaderA />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="form-h1 md:text-4xl">
