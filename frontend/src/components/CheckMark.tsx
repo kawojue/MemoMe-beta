@@ -5,7 +5,6 @@ interface ICheckMark {
 }
 
 const CheckMark: React.FC<ICheckMark> = ({ get, set }) => {
-
     setTimeout(() => {
         set(false)
     }, 2000)
