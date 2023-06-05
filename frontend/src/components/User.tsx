@@ -6,6 +6,7 @@ import useAuth from "@/hooks/useAuth"
 import { SpinnerTwo } from "./Spinner"
 import axios from '@/pages/api/instance'
 import CheckMark from '@/components/CheckMark'
+import { BiImageAdd } from '../../public/icons'
 import { useRouter, NextRouter } from "next/router"
 
 const User: React.FC<{ data: any }> = ({ data }) => {
@@ -15,10 +16,10 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const [media, setMedia] = useState<string>("")
     const [sent, setSent] = useState<boolean>(false)
     const [content, setContent] = useState<string>("")
+    const [selected, setSelected] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
     const [mediaType, setMediaType] = useState<string>('')
     const [textCounter, setTextCounter]= useState<number>(445)
-    const [selected, setSelected] = useState<string>('Select an image or clip (Optional)')
 
     const handleContent = (e: any): void => {
         const value: string = e.target.value
@@ -57,7 +58,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
     const handleMedia = (e: any): void => {
         const file: any = e.target.files[0]
         if (checkFile(file)) {
-            setSelected(`Seleted: ${file.name}`)
+            setSelected(file.name)
             if (file.type === "video/mp4") {
                 setMediaType("video")
             }
@@ -91,7 +92,7 @@ const User: React.FC<{ data: any }> = ({ data }) => {
         <main className="relative">
             <HeaderA get='sign up' />
             <form className="form-itself" onSubmit={(e) => e.preventDefault()}>
-                <h1 className="text-clr-5 text-center md:text-xl text-lg font-medium">
+                <h1 className="text-clr-8 text-center md:text-xl text-lg font-medium">
                     {data?.temporary ?
                     <span>
                         <span className="text-clr-1">
@@ -111,14 +112,16 @@ const User: React.FC<{ data: any }> = ({ data }) => {
                             placeholder="Say your mind..."
                             value={content} onChange={(e) => handleContent(e)} />
                         </div>}
-                        {data?.pbMedia && <label htmlFor="media" className="drop-container">
-                            <span className="drop-title">
-                                {selected}
-                            </span>
-                            <input type="file" id="media"
-                            accept="image/*, video/mp4"
-                            onChange={(e) => handleMedia(e)} />
-                        </label>}
+                        {data?.pbMedia &&
+                        <article className="flex flex-col gap-5 justify-evenly items-center">
+                            {mediaType && <span>Selected: {selected}</span>}
+                            <label htmlFor="media"
+                            className="text-clr-2 text-3xl md:text-5xl">
+                                <BiImageAdd />
+                            </label>
+                            <input type="file" id="media" accept="image/*, video/mp4"
+                            onChange={(e) => handleMedia(e)} className="hidden" />
+                        </article>}
                     </article>
                     {!data?.temporary && <div className="btn-container">
                         <button className="btn"
