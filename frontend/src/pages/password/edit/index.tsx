@@ -1,7 +1,7 @@
 import Meta from "@/components/Meta"
 import useAuth from "@/hooks/useAuth"
-import Header from "@/components/HeaderA"
 import PswdButton from '@/components/PswdBtn'
+import { HeaderA } from "@/components/Header"
 import { inter } from "../../../../public/fonts"
 import { SpinnerTwo } from "@/components/Spinner"
 
@@ -16,7 +16,7 @@ const Edit = () => {
     return (
         <>
             <Meta title="Reset Password" />
-            <Header />
+            <HeaderA />
             <form onSubmit={(e) => e.preventDefault()}
             className="form-itself">
                 <h1 className="form-h1">
