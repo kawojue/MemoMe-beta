@@ -125,7 +125,7 @@ body {
 }
 
 .content-counter {
-  @apply text-clr-5 text-xs tracking-wide text-end;
+  @apply text-clr-2 text-xs tracking-wide text-end;
 }
 
 .content {
@@ -339,6 +339,24 @@ input:checked+.slider:before {
 }
 .ldio-cmcacy3ykfh div { box-sizing: content-box; }
 
+.wrapper {
+  @apply h-[100vh] flex justify-center items-center bg-clr-0 fixed top-0 w-full;
+}
+
+.animated-check {
+  @apply h-[10rem] w-[10rem];
+}
+
+.animated-check path {
+  @apply fill-none stroke-clr-1;
+  stroke-width: 4;
+  stroke-dasharray: 23;
+  stroke-dashoffset: 23;
+  animation: draw 1s linear forwards;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @keyframes bounce {
   0% {
     transform: scale(1);
@@ -383,4 +401,10 @@ input:checked+.slider:before {
 @keyframes ldio-cmcacy3ykfh {
   0% { transform: rotate(0) }
   100% { transform: rotate(360deg) }
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0
+    }
 }
