@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "clr-0": "rgb(255, 255, 255)",
+        "clr-0": "#eee",
         "clr-1": "rgb(0, 111, 201)",
         "clr-2": "rgb(50, 49, 48)",
         "clr-3": "rgb(96, 94, 92)",
