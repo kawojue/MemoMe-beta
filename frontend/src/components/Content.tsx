@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Media from './Media'
-import useAuth from "@/hooks/useAuth"
+import getPeriod from '@/utils/period'
+import download from '@/utils/download'
 import decrypt from "@/utils/decryption"
 import { AiOutlineDownload } from '../../public/icons'
 
 const Content: React.FC<{ memos: any[] }> = ({ memos }) => {
-    const { getPeriod, downloadImage }: any = useAuth()
-
     return (
         <>
         {memos?.map((memo: any) => (
@@ -26,7 +25,7 @@ const Content: React.FC<{ memos: any[] }> = ({ memos }) => {
                 {memo?.media && <Media memo={memo}/>}
                 {memo?.media &&
                     <div className="mt-2 flex justify-center">
-                        <button onClick={() => downloadImage(memo?.media.secure_url)}
+                        <button onClick={() => download(memo?.media.secure_url)}
                             className="bg-clr-3 rounded-lg px-2 py-1 w-full font-semibold font-poppins flex items-center gap-2 justify-center text-clr-0 tracking-wider">
                             <AiOutlineDownload />
                             <span>Download Content</span>
