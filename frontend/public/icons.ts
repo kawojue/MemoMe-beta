@@ -1,4 +1,5 @@
 import { GiCancel } from 'react-icons/gi'
+import { BiImageAdd } from 'react-icons/bi'
 import { FaShare, FaMehRollingEyes, FaUserAlt } from 'react-icons/fa'
 import { BsFacebook, BsFillRocketTakeoffFill, BsSearch } from 'react-icons/bs'
 import { AiFillEye, AiOutlineDownload, AiFillCopy,
@@ -7,5 +8,5 @@ import { AiFillEye, AiOutlineDownload, AiFillCopy,
 
 export { AiFillEye, AiOutlineDownload, AiFillCopy,
     AiOutlineWhatsApp, BsFacebook, GiCancel, FaShare,
-    FaMehRollingEyes, BsFillRocketTakeoffFill,
+    FaMehRollingEyes, BsFillRocketTakeoffFill, BiImageAdd,
     AiFillEyeInvisible, AiOutlineTwitter, FaUserAlt, BsSearch }
