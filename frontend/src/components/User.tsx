@@ -80,9 +80,10 @@ const User: React.FC<{ data: any }> = ({ data }) => {
             setMedia("")
             setContent("")
             setSent(true)
-            setTimeout(() => {
+            const timeout = setTimeout(() => {
                 router.push('/profile')
-            }, 2500)
+            }, 2300)
+            return () => clearTimeout(timeout)
         }).catch((err: any) => throwError(err)).finally(() => setLoading(false))
     }
 
