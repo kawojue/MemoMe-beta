@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
+import { useState } from 'react'
 
 const Media: React.FC<{ memo: any }> = ({ memo }) => {
     const [blur, setBlur] = useState<boolean>(false)
@@ -19,10 +20,10 @@ const Media: React.FC<{ memo: any }> = ({ memo }) => {
     return (
         <div className="media">
             {getMediaType(memo?.media.secure_url) === "image" &&
-                <img onDoubleClick={() => setBlur(!blur)}
+                <Image onDoubleClick={() => setBlur(!blur)}
                 className={`image ${blur && 'blur-md'}`}
-                src={memo?.media.secure_url}
-                alt={memo?.idx} loading="lazy" />}
+                src={memo?.media.secure_url} alt={memo?.idx}
+                width={300} height={300} priority />}
             {getMediaType(memo?.media.secure_url) === "video" &&
                 <video src={memo?.media.secure_url}
                 onDoubleClick={() => setBlur(!blur)}
