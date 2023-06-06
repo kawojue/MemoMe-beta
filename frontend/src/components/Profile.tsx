@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Modal from './Modal'
 import Content from './Content'
+import MyDialog from './Dialog'
 import useAuth from "@/hooks/useAuth"
 import decrypt from '@/utils/decryption'
 import { useState, useEffect, useRef } from 'react'
@@ -16,9 +16,9 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
     const [search, setSearch] = useState<string>('')
 
     useEffect(() => {
+        setMemos(data?.memos)
         setUser(data?.account?.user)
         setViews(data?.account?.profileViews)
-        setMemos(data?.memos)
         setShare(`Send me anonymous message. I won't know who sent it! https://memome.one/${data?.account?.user}`)
     }, [data])
 
@@ -26,7 +26,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
 
     return (
         <main className="mt-3 mb-10">
-            <Modal share={share} user={user} />
+            <MyDialog isOpen={dialog} setIsOpen={setDialog} share={share} user={user} />
             <div className="flex flex-col gap-2 mb-5 items-center w-full">
                 <h1 className="font-semibold text-3xl tracking-wider text-clr-3 md:text-4xl">
                     Messages
@@ -40,7 +40,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         <AiFillEye/> {views}
                     </span>
                 </p>
-                <button data-open-modal
+                <button
                 onClick={() => setDialog(!dialog)}
                 className="text-clr-0 px-3 py-2 bg-clr-1 tracking-wider font-bold text-2xl rounded-md trans hover:bg-clr-2 hover:text-clr-5">
                     <FaShare />
