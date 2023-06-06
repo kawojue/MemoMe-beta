@@ -76,34 +76,6 @@ export const AuthProvider: React.FC<{ children: React.ReactElement }> = ({ child
         setValidUser(USER_REGEX.test(user))
     }, [user, email, pswd, confirmPswd])
 
-    const throwError = (err: any) => {
-        const msg = err.response?.data?.msg
-        const action = err.response?.data?.action
-        if (action) {
-            notify(action, msg)
-        } else {
-            notify("error", err.code)
-        }
-    }
-
-    const notify = (action: string, msg: string): void => {
-        if (action === "success") {
-            toast.success(msg, {
-                position: toast.POSITION.TOP_RIGHT
-            })
-        }
-        if (action === "warning") {
-            toast.warning(msg, {
-                position: toast.POSITION.TOP_LEFT
-            })
-        }
-        if (action === "error") {
-            toast.error(msg, {
-                position: toast.POSITION.TOP_LEFT
-            })
-        }
-    }
-
     const updateToggle = (key: string, value: boolean): void => {
         let newToggles: any = JSON.parse(localStorage.getItem('toggles') as any)
         if (key === "pbMedia") {
