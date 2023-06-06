@@ -1,13 +1,19 @@
-
+import { useEffect } from 'react'
 interface ICheckMark {
     get: boolean
     set: (get: boolean) => void
 }
 
 const CheckMark: React.FC<ICheckMark> = ({ get, set }) => {
-    setTimeout(() => {
-        set(false)
-    }, 2000)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            set(false)
+        }, 2300)
+        
+        return () => clearTimeout(timeout)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className={`${get === true ? 'wrapper': 'hidden'}`}>
