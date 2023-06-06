@@ -2,6 +2,7 @@ import CheckBox from './CheckBox'
 import useAuth from '@/hooks/useAuth'
 import axios from '@/pages/api/instance'
 import { useState, useEffect } from 'react'
+import { SpinnerTwo } from './Spinner'
 
 const Settings: React.FC = () => {
   const { toggles, notify, token, btnLoading,
@@ -64,37 +65,36 @@ const Settings: React.FC = () => {
 
   return (
     <section className="mb-14">
-      <form onSubmit={(e) => e.preventDefault()} className="form-itself">
+      <form onSubmit={(e) => e.preventDefault()} className="card form-itself">
         <h1 className="form-h1 md:text-4xl">
           Edit Public Review
         </h1>
         <article className="mt-5 form-center">
           <div className="form-group">
-              <label htmlFor="review">Review</label>
-              <textarea id="review"
-                  autoComplete="off"
-                  placeholder="Tell me what is on your mind?"
-                  className='content md:text-xl'
-                  value={pbMsg} maxLength={150}
-                  onChange={e => setPbMsg(e.target.value)} />
+              <textarea
+              autoComplete="off"
+              placeholder="Tell me what is on your mind?"
+              className='content md:text-xl'
+              value={pbMsg} maxLength={150}
+              onChange={e => setPbMsg(e.target.value)} />
           </div>
           <button className="btn" disabled={!pbMsg}
           onClick={async () => await handleMsg()}>
-            {btnLoading ? 'Editing...' : 'Save'}
+            {btnLoading ? <SpinnerTwo /> : 'Save'}
             </button>
         </article>
       </form>
-      <article className="mt-10 form-itself">
+      <article className="card mt-10 form-itself">
         <div className="toggle-container">
-          <h2 className="toggle-h2 text-clr-5">
+          <h2 className="toggle-h2 text-clr-2">
             Recieve Media
           </h2>
           <CheckBox getter={pbMedia} setter={handleMedia} />
         </div>
       </article>
-      <article className="mt-10 form-itself">
+      <article className="card mt-10 form-itself">
         <div className="toggle-container">
-          <h2 className="toggle-h2 text-clr-5">
+          <h2 className="toggle-h2 text-clr-2">
             Recieve Texts
           </h2>
           <CheckBox getter={pbContent} setter={handleContent} />
