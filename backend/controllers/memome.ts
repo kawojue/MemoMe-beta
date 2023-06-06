@@ -187,7 +187,7 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
             action: "success",
             body: {
                 account,
-                memos
+                memos: memos.body
             }
         })
     }
@@ -197,7 +197,7 @@ const getMemos = asyncHandler(async (req: any, res: Response) => {
         action: "success",
         body: {
             account,
-            memos
+            memos: memos.body.reverse()
         }
     })
 })

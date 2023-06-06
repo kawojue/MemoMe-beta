@@ -179,7 +179,7 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
             action: "success",
             body: {
                 account,
-                memos
+                memos: memos.body
             }
         });
     }
@@ -188,7 +188,7 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
         action: "success",
         body: {
             account,
-            memos
+            memos: memos.body.reverse()
         }
     });
 }));
