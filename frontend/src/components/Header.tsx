@@ -24,7 +24,7 @@ const HeaderB: React.FC = () => {
             <nav className="nav md:px-10">
                 <Home/>
                 <button type="button" onClick={async () => await handleLogout()}
-                className="nav-btn hover:text-clr-7 hover:bg-clr-8">
+                className="nav-btn bg-red-500 hover:text-clr-7 hover:bg-red-700">
                     Logout
                 </button>
             </nav>
