@@ -28,13 +28,13 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         <main className="mt-3 mb-10">
             <MyDialog isOpen={dialog} setIsOpen={setDialog} share={share} user={user} />
             <div className="flex flex-col gap-2 mb-5 items-center w-full">
-                <h1 className="font-semibold text-3xl tracking-wider text-clr-3 md:text-4xl">
+                <h1 className="font-semibold text-3xl tracking-wider text-clr-2 md:text-4xl">
                     Messages
                 </h1>
-                <div className="w-fit px-10 py-1 rounded-lg bg-clr-2"></div>
+                <div className="w-fit px-10 py-1 rounded bg-clr-3"></div>
             </div>
             <div className="flex items-center mb-7 justify-between">
-                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-6 text-clr-3 rounded-lg font-medium">
+                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-2 text-clr-5 rounded-lg font-medium">
                     <span>Profile Views</span>
                     <span className="flex items-center justify-around gap-3 text-lg">
                         <AiFillEye/> {views}
@@ -42,21 +42,21 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </p>
                 <button
                 onClick={() => setDialog(!dialog)}
-                className="text-clr-0 px-3 py-2 bg-clr-1 tracking-wider font-bold text-2xl rounded-md trans hover:bg-clr-2 hover:text-clr-5">
+                className="px-3 py-2 tracking-wider font-bold text-2xl rounded-md trans bg-clr-2 text-clr-5 hover:bg-clr-3">
                     <FaShare />
                 </button>
             </div>
             <div className="flex items-center mb-7 justify-between">
-                <p className="bg-clr-6 px-2 py-1 text-clr-3 rounded-lg text-lg font-medium">
+                <p className="bg-clr-2 text-clr-5 px-2 py-1 rounded-lg text-lg font-medium">
                     <span>Total: {memos?.length}</span>
                 </p>
-                <div className="relative w-[8rem]">
+                {/* <div className="relative w-[5rem]">
                     <input type='text' value={search}
                     ref={searchRef}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full border-none outline-none rounded-lg bg-clr-5 px-1 py-0.5 font-medium font-cabin text-clr-0 text-lg" />
+                    />
                     <BsSearch className="absolute z-50 top-2 right-2 font-semibold text-lg"/>
-                </div>
+                </div> */}
             </div>
             {memos?.length === 0 ?
                 <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
