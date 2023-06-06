@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <HeaderA />
-      <main className="mt-20 mx-auto grid place-items-center">
+      <main className="mt-24 lg:mt-20 md:mt-28 mx-auto grid place-items-center">
         <h1 className={`${poppins.className} home-h1 md:text-4xl lg:text-6xl`}>
           <span>Send and Recieve</span>
           <span>Anonymous Messages</span>
@@ -25,7 +25,7 @@ export default function Home() {
           "Share to all social media platforms.",
           "Download original media sent to you.",
           "Customize your settings!"
-        ]} styles="h-[2rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl bg-clr-5 py-1 px-2" />
+        ]} styles="h-[2rem] text-clr-2 mt-5 mb-2 font-medium text-lg md:text-xl bg-white py-1 px-2" />
       </main>
     </>
   )
