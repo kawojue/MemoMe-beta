@@ -65,8 +65,7 @@ body {
 }
 
 .card {
-  border-radius: 50px;
-  background:#f2f2f2;
+  @apply bg-[#f2f2f2] rounded-[50px] overflow-hidden;
   box-shadow: 20px 20px 60px #cecece, -20px -20px 60px #ffffff;
 }
 
@@ -82,7 +81,7 @@ body {
   @apply flex flex-col gap-1.5;
 }
 
-.form-group input {
+.form-group input  {
   @apply w-full py-1.5 px-1 rounded-md font-medium text-lg bg-clr-7 border-[0.08125rem];
 }
 
@@ -140,7 +139,7 @@ body {
 
 
 .menu {
-  @apply grid grid-cols-1 w-[95vw] max-w-[1200px] justify-start trans px-5 gap-12;
+  @apply grid grid-cols-1 w-[95vw] max-w-full justify-start trans px-5 gap-12 mx-auto;
 }
 
 .tabs {
@@ -161,11 +160,11 @@ body {
 }
 
 .profile-msgs {
-  @apply grid grid-cols-1 gap-8 mt-5;
+  @apply grid grid-cols-1 gap-8 mt-7;
 }
 
 .profile-msg {
-  @apply relative text-clr-8 text-lg font-medium min-h-[5rem] flex flex-col justify-center h-fit pt-3;
+  @apply relative text-clr-8 text-xl font-semibold tracking-wide min-h-[5rem] flex flex-col justify-center h-fit pt-3;
 }
 
 .period {
@@ -181,7 +180,7 @@ body {
 }
 
 .toggle-h2 {
-  @apply text-lg font-medium tracking-wide
+  @apply text-xl font-semibold tracking-wider
 }
 
 .switch {
@@ -206,7 +205,7 @@ input:checked+.slider {
 }
 
 input:focus+.slider {
-  box-shadow: 0 0 1px #084cdf;
+  box-shadow: 0 0 1px rgb(25, 126, 208);
 }
 
 input:checked+.slider:before {
@@ -233,7 +232,7 @@ input:checked+.slider:before {
 
 @media screen and (min-width: 900px) {
   .menu {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 150px 1fr;
   }
 
   .tabs {
