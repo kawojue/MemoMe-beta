@@ -3,6 +3,7 @@ import Content from './Content'
 import MyDialog from './Dialog'
 import useAuth from "@/hooks/useAuth"
 import decrypt from '@/utils/decryption'
+import { inter } from '../../public/fonts'
 import { useState, useEffect, useRef } from 'react'
 import { AiFillEye, FaShare, BsSearch } from '../../public/icons'
 
@@ -33,31 +34,33 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </h1>
                 <div className="w-fit px-10 py-1 rounded bg-clr-3"></div>
             </div>
-            <div className="flex items-center mb-7 justify-between">
-                <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-2 text-clr-5 rounded-lg font-medium">
-                    <span>Profile Views</span>
-                    <span className="flex items-center justify-around gap-3 text-lg">
-                        <AiFillEye/> {views}
-                    </span>
-                </p>
-                <button
-                onClick={() => setDialog(!dialog)}
-                className="px-3 py-2 tracking-wider font-bold text-2xl rounded-md trans bg-clr-2 text-clr-5 hover:bg-clr-3">
-                    <FaShare />
-                </button>
-            </div>
-            <div className="flex items-center mb-7 justify-between">
-                <p className="bg-clr-2 text-clr-5 px-2 py-1 rounded-lg text-lg font-medium">
-                    <span>Total: {memos?.length}</span>
-                </p>
-                {/* <div className="relative w-[5rem]">
-                    <input type='text' value={search}
-                    ref={searchRef}
-                    onChange={(e) => setSearch(e.target.value)}
-                    />
-                    <BsSearch className="absolute z-50 top-2 right-2 font-semibold text-lg"/>
-                </div> */}
-            </div>
+            <article>
+                <div className="flex items-center mb-7 justify-between">
+                    <p className="flex flex-col gap-0.5 px-3 py-1 bg-clr-2 text-clr-5 rounded-lg font-medium">
+                        <span>Profile Views</span>
+                        <span className="flex items-center justify-around gap-3 text-lg">
+                            <AiFillEye/> {views}
+                        </span>
+                    </p>
+                    <button
+                    onClick={() => setDialog(!dialog)}
+                    className="px-3 py-2 tracking-wider font-bold text-2xl rounded-md trans bg-clr-2 text-clr-5 hover:bg-clr-3">
+                        <FaShare />
+                    </button>
+                </div>
+                <div className="flex items-center mb-7 justify-between">
+                    <p className="bg-clr-2 text-clr-5 px-2 py-1 rounded-lg text-lg font-medium">
+                        <span>Total: {memos?.length}</span>
+                    </p>
+                    <div className="relative">
+                        <input type='text' value={search}
+                        ref={searchRef}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className={`${inter.className} text-sm px-2 py-0.5 rounded-lg outline-none border-[0.03125rem] border-clr-8 w-fit`} />
+                        <BsSearch className="absolute z-50 top-1.5 right-2 font-semibold text-sm"/>
+                    </div>
+                </div>
+            </article>
             {memos?.length === 0 ?
                 <p className="text-center mt-10 text-white text-xl md:text-lg font-poppins">
                     {"No Messages yet. Click on the share button to share your link."}
