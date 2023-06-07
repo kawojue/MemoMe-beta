@@ -195,9 +195,8 @@ body {
   @apply w-full h-32 rounded-lg p-2 outline-none font-medium text-lg resize-none;
 }
 
-
 .menu {
-  @apply grid grid-cols-1 w-[95vw] max-w-full justify-start trans px-5 gap-12 mx-auto;
+  @apply grid grid-cols-1 w-[95vw] max-w-full justify-start trans gap-12 mx-auto px-3;
 }
 
 .tabs {
