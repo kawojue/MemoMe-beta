@@ -62,7 +62,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                 </div>
             </article>
             {memos?.length === 0 ?
-                <p className="text-center mt-10 text-clr-2 text-xl md:text-lg font-poppins">
+                <p className="text-center mt-10 text-clr-2 text-xl md:text-lg">
                     {"No Messages yet. Click on the share button to share your link."}
                 </p> :
                 <section className="profile-msgs text-left">
