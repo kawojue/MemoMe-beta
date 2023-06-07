@@ -34,7 +34,8 @@ const profile: React.FC = () => {
           </button>
         </section>
         <section>
-          {activeTab === "profile" ? 
+          {
+            activeTab === "profile" ? 
             <Profile data={data?.body} /> :
             activeTab === "settings" ?
             <Settings /> : <Account />
