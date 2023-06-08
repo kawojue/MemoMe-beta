@@ -52,11 +52,11 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                     <p className="bg-clr-2 text-clr-5 px-2 py-1 rounded-lg text-lg font-medium">
                         <span>Total: {memos?.length}</span>
                     </p>
-                    <div className="relative">
+                    <div className="w-[6rem] relative">
                         <input type='text' value={search}
                         ref={searchRef}
                         onChange={(e) => setSearch(e.target.value)}
-                        className={`${inter.className} text-sm px-2 py-0.5 rounded-lg outline-none border-[0.03125rem] border-clr-8 w-fit`} />
+                        className={`${inter.className} text-sm px-2 py-0.5 rounded-lg outline-none border-[0.03125rem] border-clr-8 w-full`} />
                         <BsSearch className="absolute z-50 top-1.5 right-2 font-semibold text-sm"/>
                     </div>
                 </div>
