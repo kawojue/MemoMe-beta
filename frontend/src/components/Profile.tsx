@@ -28,12 +28,15 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setDialog(!dialog)
         if (toggles.disabled) {
             notify("error", "REMINDER: Turn off Account Disabling.")
+            return
         }
         if (!toggles.pbContent && !toggles.pbMedia) {
             notify("error", "REMINDER: Unable to receive text or media. Toggles are off.")
+            return
         }
         if (!toggles.pbContent || !toggles.pbMedia) {
             notify("success", "REMINDER: One of the toggle is currently turned off.")
+            return
         }
     }
 
