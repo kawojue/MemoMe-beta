@@ -6,9 +6,10 @@ import decrypt from '@/utils/decryption'
 import { inter } from '../../public/fonts'
 import { useState, useEffect, useRef } from 'react'
 import { AiFillEye, FaShare, BsSearch } from '../../public/icons'
+import notify from '@/utils/notify'
 
 const Profile: React.FC<{ data: any }> = ({ data }) => {
-    const { dialog, setDialog }: any = useAuth()
+    const { dialog, setDialog, toggles }: any = useAuth()
     const [user, setUser] = useState<string>('')
     const [memos, setMemos] = useState<any[]>([])
     const [views, setViews] = useState<number>(0)
@@ -22,6 +23,19 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
         setViews(data?.account?.profileViews)
         setShare(`Send me anonymous message. I won't know who sent it! https://memome.one/${data?.account?.user}`)
     }, [data])
+
+    const handleShare = () => {
+        setDialog(!dialog)
+        if (toggles.disabled) {
+            notify("error", "REMINDER: Turn off Account Disabling.")
+        }
+        if (!toggles.pbContent && !toggles.pbMedia) {
+            notify("error", "REMINDER: Unable to receive text or media. Toggles are off.")
+        }
+        if (!toggles.pbContent || !toggles.pbMedia) {
+            notify("success", "REMINDER: One of the toggle is currently turned off.")
+        }
+    }
 
     const handleSearch: any[] = memos?.filter((memo: any) => (memo?.content && (decrypt(memo?.content))?.toLowerCase())?.includes(search.toLowerCase()))
 
@@ -43,7 +57,7 @@ const Profile: React.FC<{ data: any }> = ({ data }) => {
                         </span>
                     </p>
                     <button
-                    onClick={() => setDialog(!dialog)}
+                    onClick={() => handleShare()}
                     className="px-3 py-2 tracking-wider font-bold text-2xl rounded-md trans bg-clr-2 text-clr-5 hover:bg-clr-3">
                         <FaShare />
                     </button>
