@@ -3,8 +3,10 @@ import { Fragment } from 'react'
 import useAuth from '@/hooks/useAuth'
 import { Dialog, Transition } from '@headlessui/react'
 import { poppins, questrial } from '../../public/fonts'
-import { AiFillCopy, AiOutlineWhatsApp, BsFacebook,
-    GiCancel, AiOutlineTwitter, FaUserAlt } from '../../public/icons'
+import {
+    AiFillCopy, AiOutlineWhatsApp,
+    GiCancel, AiOutlineTwitter, FaUserAlt
+} from '../../public/icons'
 
 interface IDialog {
     user: string
