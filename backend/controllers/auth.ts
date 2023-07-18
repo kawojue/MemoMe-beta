@@ -5,9 +5,9 @@ import genOTP from '../utils/genOTP'
 import User from '../models/UserModel'
 import randomString from 'randomstring'
 import genToken from '../utils/genToken'
-import { ERROR, SUCCESS } from '../utils/modal'
 import { IGenOTP, IMailer, IRequest } from '../type'
 const asyncHandler = require('express-async-handler')
+import { ACCESS_DENIED, ERROR, SUCCESS } from '../utils/modal'
 
 const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const USER_REGEX: RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
@@ -121,11 +121,7 @@ const otpHandler = asyncHandler(async (req: IRequest, res: Response) => {
     }
     await mailer(transportMail)
 
-    res.status(200).json({
-        success: true,
-        action: "success",
-        msg: "OTP has been sent to your email."
-    })
+    res.status(200).json({ ...SUCCESS, msg: "OTP has been sent to your email." })
 })
 
 // change username
@@ -141,36 +137,23 @@ const editUsername = asyncHandler(async (req: IRequest, res: Response) => {
     if (!account) return res.status(404).json({ ...ERROR, msg: "Sorry, something went wrong." })
 
     const userExists: any = await User.findOne({ user: newUser }).exec()
-    if (userExists) {
-        return res.status(409).json({
-            ...ERROR,
-            msg: "Username has been taken."
-        })
-    }
+    if (userExists) return res.status(409).json({ ...ERROR, msg: "Username has been taken." })
 
     account.token = ""
     account.user = newUser
     await account.save()
 
-    res.status(200).json({
-        success: true,
-        action: "success",
-        msg: "You've successfully changed your username."
-    })
+    res.status(200).json({ ...SUCCESS, msg: "You've successfully changed your username." })
 })
 
 const logout = asyncHandler(async (req: IRequest, res: Response) => {
     const authHeader = req.headers?.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
-        return res.sendStatus(204)
-    }
+    if (!authHeader || !authHeader.startsWith('Bearer')) return res.sendStatus(204)
 
     const token: string = authHeader.split(' ')[1]
     const account: any = await User.findOne({ token }).exec()
 
-    if (!account) {
-        return res.sendStatus(204)
-    }
+    if (!account) return res.sendStatus(204)
 
     account.token = ""
     await account.save()
@@ -182,12 +165,7 @@ const logout = asyncHandler(async (req: IRequest, res: Response) => {
 const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
     const { otp, email }: any = req.body
 
-    if (!otp || !email) {
-        return res.status(400).json({
-            ...ERROR,
-            msg: "All fields are required."
-        })
-    }
+    if (!otp || !email) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
     const totp: string = account.OTP.totp
@@ -197,70 +175,33 @@ const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
     if (expiry < Date.now()) {
         account.OTP = {}
         await account.save()
-        return res.status(400).json({
-            ...ERROR,
-            msg: "OTP Expired."
-        })
+        return res.status(400).json({ ...ERROR, msg: "OTP Expired." })
     }
 
-    if (totp !== otp) {
-        return res.status(401).json({
-            ...ERROR,
-            msg: "Incorrect OTP"
-        })
-    }
+    if (totp !== otp) return res.status(401).json({ ...ERROR, msg: "Incorrect OTP" })
 
     account.OTP = {}
     account.mail.verified = true
     await account.save()
 
-    res.status(200).json({
-        verified: true,
-        email,
-        user: account.user
-    })
+    res.status(200).json({ email, verified: true, user: account.user })
 })
 
 // reset password
 const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     const { verified, email, newPswd, newPswd2 }: any = req.body
 
-    if (!email || !newPswd) {
-        return res.status(400).json({
-            ...ERROR,
-            msg: "All fields are required."
-        })
-    }
+    if (!email || !newPswd) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
 
-    if (newPswd !== newPswd2) {
-        return res.status(400).json({
-            ...ERROR,
-            msg: "Password does not match."
-        })
-    }
+    if (newPswd !== newPswd2) return res.status(400).json({ ...ERROR, msg: "Password does not match." })
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
-    if (!account) {
-        return res.status(404).json({
-            ...ERROR,
-            msg: "Account does not exist."
-        })
-    }
+    if (!account) return res.status(404).json({ ...ERROR, msg: "Account does not exist." })
 
-    if (!verified || !account.mail.verified) {
-        return res.status(400).json({
-            ...ERROR,
-            msg: "Access denied."
-        })
-    }
+    if (!verified || !account.mail.verified) return res.status(400).json(ACCESS_DENIED)
 
     const compare = await bcrypt.compare(newPswd, account.password)
-    if (compare) {
-        return res.status(400).json({
-            ...ERROR,
-            msg: "You input your current password."
-        })
-    }
+    if (compare) return res.status(400).json({ ...ERROR, msg: "You input your current password." })
 
     const salt: string = await bcrypt.genSalt(10)
     const hasedPswd: string = await bcrypt.hash(newPswd, salt)
@@ -270,11 +211,7 @@ const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     account.mail.verified = false
     await account.save()
 
-    res.status(200).json({
-        success: true,
-        action: "success",
-        msg: "Password updated successfully."
-    })
+    res.status(200).json({ ...SUCCESS, msg: "Password updated successfully." })
 })
 
 export {
