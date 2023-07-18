@@ -15,7 +15,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     let { content, media, mediaType }: any = req.body
 
     user = user?.toLowerCase()?.trim()
-    content = content?.toLowerCase()?.trim()
+    content = content?.trim()
 
     if (!user) {
         return res.status(400).json({
