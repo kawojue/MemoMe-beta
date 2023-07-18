@@ -5,8 +5,8 @@ import User from '../models/UserModel'
 import MemoMe from '../models/MemoMeModel'
 import cloudinary from '../config/cloudinary'
 const textCrypt = require('text-encryption')
-import { ERROR, SUCCESS } from '../utils/modal'
 const asyncHandler = require('express-async-handler')
+import { CRED_BLANK, ERROR, SUCCESS } from '../utils/modal'
 
 const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
     let mediaRes: any
@@ -19,9 +19,9 @@ const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
     user = user?.toLowerCase()?.trim()
     content = content?.trim()
 
-    if (!user) return res.status(400).json({ ...ERROR, msg: "Invalid params" })
+    if (!user) return res.status(400).json({ ...ERROR, msg: "Invalid params." })
 
-    if (!content && !media) return res.status(400).json({ ...ERROR, msg: "Credentials cannot be blank." })
+    if (!content && !media) return res.status(400).json(CRED_BLANK)
 
     const account: any = await User.findOne({ user }).exec()
     if (!account) return res.status(404).json({ ...ERROR, msg: "User does not exist." })
@@ -87,7 +87,7 @@ const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
 
 const getUser = asyncHandler(async (req: IRequest, res: Response) => {
     const { user } = req.params
-    const account: any = await User.findOne({ user }).select('-password').exec()
+    const account: any = await User.findOne({ user }).select('-password -token -OTP').exec()
     if (!account) return res.sendStatus(404)
 
     if (account.disabled) return res.sendStatus(401)
@@ -114,7 +114,7 @@ const getUser = asyncHandler(async (req: IRequest, res: Response) => {
 const countViews = asyncHandler(async (req: IRequest, res: Response) => {
     const { user }: any = req.body
 
-    const account: any = await User.findOne({ user }).select('-password').exec()
+    const account: any = await User.findOne({ user }).select('-password -OTP -token').exec()
     if (!account) return res.sendStatus(404)
 
     if (account.disabled) return res.sendStatus(400)
@@ -132,9 +132,9 @@ const countViews = asyncHandler(async (req: IRequest, res: Response) => {
 })
 
 const getMemos = asyncHandler(async (req: IRequest, res: Response) => {
-    const account: any = await User.findOne({ user: req.user?.user }).select('-password -token').exec()
+    const account: any = await User.findOne({ user: req.user?.user }).select('-password -token -OTP').exec()
 
-    if (!account) return res.status(404).json({ ...ERROR, msg: "Account not found" })
+    if (!account) return res.status(404).json({ ...ERROR, msg: "Account not found." })
 
     let memos: any = await MemoMe.findOne({ user: account.id }).exec()
 
