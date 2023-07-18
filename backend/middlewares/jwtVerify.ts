@@ -15,7 +15,7 @@ const jwtVerify = asyncHandler(async (req: IRequest, res: Response, next: NextFu
     const token: string = authHeader.split(' ')[1]
     jwt.verify(
         token,
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET as string,
         async (err: any, decoded: any) => {
             if (err) return res.status(403).json(ACCESS_DENIED)
 
