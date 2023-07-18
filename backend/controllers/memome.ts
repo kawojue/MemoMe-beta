@@ -5,6 +5,7 @@ import User from '../models/UserModel'
 import MemoMe from '../models/MemoMeModel'
 import cloudinary from '../config/cloudinary'
 const textCrypt = require('text-encryption')
+import { ERROR, SUCCESS } from '../utils/modal'
 const asyncHandler = require('express-async-handler')
 
 const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
@@ -18,38 +19,14 @@ const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
     user = user?.toLowerCase()?.trim()
     content = content?.trim()
 
-    if (!user) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Invalid params"
-        })
-    }
+    if (!user) return res.status(400).json({ ...ERROR, msg: "Invalid params" })
 
-    if (!content && !media) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Credentials cannot be blank"
-        })
-    }
+    if (!content && !media) return res.status(400).json({ ...ERROR, msg: "Credentials cannot be blank." })
 
     const account: any = await User.findOne({ user }).exec()
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "User does not exist."
-        })
-    }
+    if (!account) return res.status(404).json({ ...ERROR, msg: "User does not exist." })
 
-    if (account.disabled) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Account Disabled."
-        })
-    }
+    if (account.disabled) return res.status(400).json({ ...ERROR, msg: "Account Disabled." })
 
     if (media) {
         if (mediaType === "video") {
@@ -70,9 +47,7 @@ const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
         })
     }
 
-    if (content) {
-        encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY as string)
-    }
+    if (content) encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY as string)
 
 
     if (account.body) {
@@ -113,20 +88,16 @@ const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
 const getUser = asyncHandler(async (req: IRequest, res: Response) => {
     const { user } = req.params
     const account: any = await User.findOne({ user }).select('-password').exec()
-    if (!account) {
-        return res.sendStatus(404)
-    }
+    if (!account) return res.sendStatus(404)
 
-    if (account.disabled) {
-        return res.sendStatus(400)
-    }
+    if (account.disabled) return res.sendStatus(401)
 
     if (!account.pbMedia && !account.pbContent) {
         return res.status(200).json({
             user,
             temporary: true,
             success: true,
-            action: "warning",
+            action: "success",
             msg: " has turned off to Recieve Text and Media."
         })
     }
@@ -144,13 +115,9 @@ const countViews = asyncHandler(async (req: IRequest, res: Response) => {
     const { user }: any = req.body
 
     const account: any = await User.findOne({ user }).select('-password').exec()
-    if (!account) {
-        return res.sendStatus(404)
-    }
+    if (!account) return res.sendStatus(404)
 
-    if (account.disabled) {
-        return res.sendStatus(400)
-    }
+    if (account.disabled) return res.sendStatus(400)
 
     if (!account.pbMedia && !account.pbContent) {
         account.profileViews += 1
@@ -160,19 +127,14 @@ const countViews = asyncHandler(async (req: IRequest, res: Response) => {
 
     account.profileViews += 1
     await account.save()
+
     res.sendStatus(200)
 })
 
 const getMemos = asyncHandler(async (req: IRequest, res: Response) => {
     const account: any = await User.findOne({ user: req.user?.user }).select('-password -token').exec()
 
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "Account not found"
-        })
-    }
+    if (!account) return res.status(404).json({ ...ERROR, msg: "Account not found" })
 
     let memos: any = await MemoMe.findOne({ user: account.id }).exec()
 
@@ -184,8 +146,7 @@ const getMemos = asyncHandler(async (req: IRequest, res: Response) => {
 
     if (account.body === false) {
         return res.status(200).json({
-            success: true,
-            action: "success",
+            ...SUCCESS,
             body: {
                 account,
                 memos: memos.body
@@ -194,8 +155,7 @@ const getMemos = asyncHandler(async (req: IRequest, res: Response) => {
     }
 
     res.status(200).json({
-        success: true,
-        action: "success",
+        ...SUCCESS,
         body: {
             account,
             memos: memos.body.reverse()
