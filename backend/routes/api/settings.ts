@@ -1,11 +1,9 @@
+import {
+    togglePbMedia, toggleMessage,
+    togglePbContent, toggleDisability,
+} from '../../controllers/settings'
 import express, { Router } from 'express'
 import jwtVerify from '../../middlewares/jwtVerify'
-import {
-    togglePbMedia,
-    toggleMessage,
-    togglePbContent,
-    toggleDisability,
-} from '../../controllers/settings'
 
 const settingsRoute: Router = express.Router()
 settingsRoute.use(jwtVerify)

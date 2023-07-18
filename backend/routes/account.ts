@@ -1,8 +1,7 @@
-import { 
+import {
     createUser, login, logout,
     otpHandler, editUsername
 } from '../controllers/auth'
-import { ILimiter } from '../type'
 import password from './api/password'
 import express, { Router } from 'express'
 import limiter from '../middlewares/limiter'
@@ -21,6 +20,6 @@ accountRoute.use('/password', password)
 accountRoute.post('/signup', createUser)
 accountRoute.post('/edit', jwtVerify, editUsername)
 accountRoute.post('/login', limiter(loginLimiter), login)
-accountRoute.post('/req-otp', limiter({max: 1, timerArr: [20, 30, 45]}), otpHandler)
+accountRoute.post('/req-otp', limiter({ max: 1, timerArr: [20, 30, 45] }), otpHandler)
 
 export default accountRoute
