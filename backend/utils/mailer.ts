@@ -1,0 +1,13 @@
+import transporter from '../config/mailTransport'
+
+export default async function mailer({ senderName, to, subject, text }: IMailer): Promise<void> {
+    await transporter.sendMail({
+        from: `${senderName} <${process.env.EMAIL}>`,
+        to,
+        subject,
+        text,
+        headers: {
+            'Content-Type': 'application/text',
+        }
+    })
+}
