@@ -15,5 +15,3 @@ interface ILimiter {
     timerArr: number[]
     msg?: string
 }
-
-export { IMailer, IGenOTP, ILimiter }
