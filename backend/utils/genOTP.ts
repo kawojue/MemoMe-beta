@@ -1,3 +1,5 @@
+import { IGenOTP } from '../type'
+
 export default function generateOTP(): IGenOTP {
     let totp: string = ''
     const totpDate: number = Date.now()
