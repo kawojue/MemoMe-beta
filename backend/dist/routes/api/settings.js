@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const settings_1 = require("../../controllers/settings");
 const express_1 = __importDefault(require("express"));
 const jwtVerify_1 = __importDefault(require("../../middlewares/jwtVerify"));
-const settings_1 = require("../../controllers/settings");
 const settingsRoute = express_1.default.Router();
 settingsRoute.use(jwtVerify_1.default);
 settingsRoute.post('/tg-msg', settings_1.toggleMessage);

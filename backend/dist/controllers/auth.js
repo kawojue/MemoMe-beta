@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.editUsername = exports.resetpswd = exports.otpHandler = exports.verifyOTP = exports.logout = exports.login = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const mailer_1 = __importDefault(require("../config/mailer"));
-const genOTP_1 = __importDefault(require("../config/genOTP"));
+const mailer_1 = __importDefault(require("../utils/mailer"));
+const genOTP_1 = __importDefault(require("../utils/genOTP"));
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const randomstring_1 = __importDefault(require("randomstring"));
-const genToken_1 = __importDefault(require("../config/genToken"));
+const genToken_1 = __importDefault(require("../utils/genToken"));
 const asyncHandler = require('express-async-handler');
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;

@@ -23,7 +23,7 @@ const jwtVerify = asyncHandler((req, res, next) => __awaiter(void 0, void 0, voi
     if (!(authHeader === null || authHeader === void 0 ? void 0 : authHeader.startsWith('Bearer'))) {
         return res.status(401).json({
             success: false,
-            action: "warning",
+            action: "error",
             msg: "Not accessible."
         });
     }

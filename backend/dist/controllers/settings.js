@@ -36,7 +36,7 @@ const editPswd = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
     if (currentPswd === pswd === pswd2) {
         return res.status(400).json({
             success: false,
-            action: 'warning',
+            action: 'error',
             msg: 'Your Old and New Passowrds are matched.'
         });
     }
@@ -121,7 +121,7 @@ const toggleMessage = asyncHandler((req, res) => __awaiter(void 0, void 0, void 
     if ((pbMsg === null || pbMsg === void 0 ? void 0 : pbMsg.length) > 150) {
         return res.status(400).json({
             success: false,
-            action: 'warning',
+            action: 'error',
             msg: 'Lmao..! Not saved!'
         });
     }
