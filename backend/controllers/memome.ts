@@ -6,6 +6,10 @@ import cloudinary from '../config/cloudinary'
 const textCrypt = require('text-encryption')
 const asyncHandler = require('express-async-handler')
 
+interface IRequest extends Request {
+    user: any
+}
+
 const addMemo = asyncHandler(async (req: Request, res: Response) => {
     let mediaRes: any
     let url: any
@@ -162,7 +166,7 @@ const countViews = asyncHandler(async (req: Request, res: Response) => {
     res.sendStatus(200)
 })
 
-const getMemos = asyncHandler(async (req: any, res: Response) => {
+const getMemos = asyncHandler(async (req: IRequest, res: Response) => {
     const account: any = await User.findOne({ user: req.user?.user }).select('-password -token').exec()
 
     if (!account) {
