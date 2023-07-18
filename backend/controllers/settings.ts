@@ -1,9 +1,13 @@
 import bcrypt from 'bcrypt'
-import { Response } from 'express'
 import User from '../models/UserModel'
+import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 
-const editPswd = asyncHandler(async (req: any, res: Response) => {
+interface IRequest extends Request {
+    user: any
+}
+
+const editPswd = asyncHandler(async (req: IRequest, res: Response) => {
     const { currentPswd, pswd, pswd2 }: any = req.body
 
     if (!currentPswd) {
@@ -25,7 +29,7 @@ const editPswd = asyncHandler(async (req: any, res: Response) => {
     if (currentPswd === pswd === pswd2) {
         return res.status(400).json({
             success: false,
-            action: 'warning',
+            action: 'error',
             msg: 'Your Old and New Passowrds are matched.'
         })
     }
@@ -61,7 +65,7 @@ const editPswd = asyncHandler(async (req: any, res: Response) => {
     })
 })
 
-const toggleDisability = asyncHandler(async (req: any, res: Response) => {
+const toggleDisability = asyncHandler(async (req: IRequest, res: Response) => {
     const { tgDisability }: any = req.body
 
     const account: any = await User.findOne({ user: req?.user?.user }).exec()
@@ -78,7 +82,7 @@ const toggleDisability = asyncHandler(async (req: any, res: Response) => {
     res.status(200).json({ success: true })
 })
 
-const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
+const togglePbMedia = asyncHandler(async (req: IRequest, res: Response) => {
     const { tgPbMedia }: any = req.body
 
     const account: any = await User.findOne({ user: req?.user?.user }).exec()
@@ -95,7 +99,7 @@ const togglePbMedia = asyncHandler(async (req: any, res: Response) => {
     res.sendStatus(200)
 })
 
-const togglePbContent = asyncHandler(async (req: any, res: Response) => {
+const togglePbContent = asyncHandler(async (req: IRequest, res: Response) => {
     const { tgPbContent }: any = req.body
 
     const account: any = await User.findOne({ user: req?.user?.user }).exec()
@@ -112,13 +116,13 @@ const togglePbContent = asyncHandler(async (req: any, res: Response) => {
     res.sendStatus(200)
 })
 
-const toggleMessage = asyncHandler(async (req: any, res: Response) => {
+const toggleMessage = asyncHandler(async (req: IRequest, res: Response) => {
     const { pbMsg }: any = req.body
 
     if (pbMsg?.length > 150) {
         return res.status(400).json({
             success: false,
-            action: 'warning',
+            action: 'error',
             msg: 'Lmao..! Not saved!'
         })
     }
