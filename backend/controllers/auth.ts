@@ -2,12 +2,15 @@ import bcrypt from 'bcrypt'
 import { Response } from 'express'
 import mailer from '../utils/mailer'
 import genOTP from '../utils/genOTP'
+import {
+    INC_PSWD, SMTH_WRONG, SUCCESS,
+    ACCESS_DENIED, CRED_BLANK, ERROR,
+} from '../utils/modal'
 import User from '../models/UserModel'
 import randomString from 'randomstring'
 import genToken from '../utils/genToken'
 import { IGenOTP, IMailer, IRequest } from '../type'
 const asyncHandler = require('express-async-handler')
-import { ACCESS_DENIED, ERROR, SUCCESS } from '../utils/modal'
 
 const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const USER_REGEX: RegExp = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/
@@ -25,7 +28,7 @@ const createUser = asyncHandler(async (req: IRequest, res: Response) => {
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
-    if (!email || !pswd || !pswd2) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
+    if (!email || !pswd || !pswd2) return res.status(400).json(CRED_BLANK)
 
     if (pswd !== pswd2) return res.status(400).json({ ...ERROR, msg: "Passwords does not match." })
 
@@ -37,7 +40,6 @@ const createUser = asyncHandler(async (req: IRequest, res: Response) => {
     if (account) return res.status(409).json({ ...ERROR, msg: "Account already exists." })
 
     const isUserExists: any = await User.findOne({ user }).exec()
-
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand: string = randomString.generate({
             length: parseInt('86759'[Math.floor(Math.random() * 5)]),
@@ -64,7 +66,7 @@ const login = asyncHandler(async (req: IRequest, res: Response) => {
     let { userId, pswd }: any = req.body
     userId = userId?.toLowerCase()?.trim()
 
-    if (!userId || !pswd) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
+    if (!userId || !pswd) return res.status(400).json(CRED_BLANK)
 
     const account: any = await User.findOne(
         EMAIL_REGEX.test(userId) ?
@@ -74,9 +76,7 @@ const login = asyncHandler(async (req: IRequest, res: Response) => {
     if (!account) return res.status(400).json({ ...ERROR, msg: "Invalid User ID or Password." })
 
     const match: boolean = await bcrypt.compare(pswd, account.password)
-    if (!match) {
-        return res.status(401).json({ ...ERROR, msg: "Incorrect password." })
-    }
+    if (!match) return res.status(401).json(INC_PSWD)
 
     const token = genToken(account.user)
 
@@ -103,7 +103,7 @@ const otpHandler = asyncHandler(async (req: IRequest, res: Response) => {
 
     const { totp, totpDate }: IGenOTP = genOTP()
 
-    if (!email) return res.status(400).json({ ...ERROR, msg: "Invalid email" })
+    if (!email) return res.status(400).json({ ...ERROR, msg: "Invalid email." })
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
     if (!account) return res.status(400).json({ ...ERROR, msg: "There is no account associated with this email." })
@@ -129,12 +129,12 @@ const editUsername = asyncHandler(async (req: IRequest, res: Response) => {
     let { newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
 
-    if (!newUser) return res.status(400).json({ ...ERROR, msg: "All fields are required" })
+    if (!newUser) return res.status(400).json(CRED_BLANK)
 
     if (restrictedUser.includes(newUser) || !USER_REGEX.test(newUser)) return res.status(400).json({ ...ERROR, msg: "Username is not allowed." })
 
     const account: any = await User.findOne({ user: req.user?.user }).exec()
-    if (!account) return res.status(404).json({ ...ERROR, msg: "Sorry, something went wrong." })
+    if (!account) return res.status(404).json(SMTH_WRONG)
 
     const userExists: any = await User.findOne({ user: newUser }).exec()
     if (userExists) return res.status(409).json({ ...ERROR, msg: "Username has been taken." })
@@ -165,7 +165,7 @@ const logout = asyncHandler(async (req: IRequest, res: Response) => {
 const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
     const { otp, email }: any = req.body
 
-    if (!otp || !email) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
+    if (!otp || !email) return res.status(400).json(CRED_BLANK)
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
     const totp: string = account.OTP.totp
@@ -178,7 +178,7 @@ const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
         return res.status(400).json({ ...ERROR, msg: "OTP Expired." })
     }
 
-    if (totp !== otp) return res.status(401).json({ ...ERROR, msg: "Incorrect OTP" })
+    if (totp !== otp) return res.status(401).json({ ...ERROR, msg: "Incorrect OTP." })
 
     account.OTP = {}
     account.mail.verified = true
@@ -191,7 +191,7 @@ const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
 const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     const { verified, email, newPswd, newPswd2 }: any = req.body
 
-    if (!email || !newPswd) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
+    if (!email || !newPswd) return res.status(400).json(CRED_BLANK)
 
     if (newPswd !== newPswd2) return res.status(400).json({ ...ERROR, msg: "Password does not match." })
 
