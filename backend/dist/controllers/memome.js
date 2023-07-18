@@ -20,14 +20,14 @@ const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 const textCrypt = require('text-encryption');
 const asyncHandler = require('express-async-handler');
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a;
     let mediaRes;
     let url;
     let encryptContent;
     let { user } = req.params;
     let { content, media, mediaType } = req.body;
     user = (_a = user === null || user === void 0 ? void 0 : user.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
-    content = (_b = content === null || content === void 0 ? void 0 : content.toLowerCase()) === null || _b === void 0 ? void 0 : _b.trim();
+    content = content === null || content === void 0 ? void 0 : content.trim();
     if (!user) {
         return res.status(400).json({
             success: false,
@@ -158,8 +158,8 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
-    const account = yield UserModel_1.default.findOne({ user: (_c = req.user) === null || _c === void 0 ? void 0 : _c.user }).select('-password -token').exec();
+    var _b;
+    const account = yield UserModel_1.default.findOne({ user: (_b = req.user) === null || _b === void 0 ? void 0 : _b.user }).select('-password -token').exec();
     if (!account) {
         return res.status(404).json({
             success: false,
