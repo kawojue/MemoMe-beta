@@ -49,7 +49,7 @@ const createUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
             msg: "Passwords does not match."
         });
     }
-    if (EMAIL_REGEX.test(email) === false) {
+    if (!EMAIL_REGEX.test(email)) {
         return res.status(400).json({
             success: false,
             action: "error",
