@@ -5,6 +5,7 @@ import genOTP from '../utils/genOTP'
 import User from '../models/UserModel'
 import randomString from 'randomstring'
 import genToken from '../utils/genToken'
+import { ERROR, SUCCESS } from '../utils/modal'
 import { IGenOTP, IMailer, IRequest } from '../type'
 const asyncHandler = require('express-async-handler')
 
@@ -24,46 +25,22 @@ const createUser = asyncHandler(async (req: IRequest, res: Response) => {
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
 
-    if (!email || !pswd || !pswd2) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "All fields are required."
-        })
-    }
+    if (!email || !pswd || !pswd2) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
 
-    if (pswd !== pswd2) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Passwords does not match."
-        })
-    }
+    if (pswd !== pswd2) return res.status(400).json({ ...ERROR, msg: "Passwords does not match." })
 
-    if (!EMAIL_REGEX.test(email)) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Invalid Email."
-        })
-    }
+    if (!EMAIL_REGEX.test(email)) return res.status(400).json({ ...ERROR, msg: "Invalid Email." })
 
     user = email?.split('@')[0]?.toLowerCase()
     const account: any = await User.findOne({ 'mail.email': email }).exec()
 
-    if (account) {
-        return res.status(409).json({
-            success: false,
-            action: "warning",
-            msg: "Account already exists."
-        })
-    }
+    if (account) return res.status(409).json({ ...ERROR, msg: "Account already exists." })
 
     const isUserExists: any = await User.findOne({ user }).exec()
 
     if (!USER_REGEX.test(user) || isUserExists || restrictedUser.includes(user)) {
         const rand: string = randomString.generate({
-            length: parseInt('657'[Math.floor(Math.random() * 3)]),
+            length: parseInt('86759'[Math.floor(Math.random() * 5)]),
             charset: 'alphabetic'
         }) as string
         user = rand?.toLowerCase()?.trim()
@@ -79,11 +56,7 @@ const createUser = asyncHandler(async (req: IRequest, res: Response) => {
         createdAt: `${new Date()}`
     })
 
-    res.status(201).json({
-        success: true,
-        action: "success",
-        msg: "Account creation was successful."
-    })
+    res.status(201).json({ ...SUCCESS, msg: "Account creation was successful." })
 })
 
 // handle Login
@@ -91,34 +64,18 @@ const login = asyncHandler(async (req: IRequest, res: Response) => {
     let { userId, pswd }: any = req.body
     userId = userId?.toLowerCase()?.trim()
 
-    if (!userId || !pswd) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "All fields are required."
-        })
-    }
+    if (!userId || !pswd) return res.status(400).json({ ...ERROR, msg: "All fields are required." })
 
     const account: any = await User.findOne(
         EMAIL_REGEX.test(userId) ?
             { 'mail.email': userId } : { user: userId }
     ).exec()
 
-    if (!account) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Invalid User ID or Password."
-        })
-    }
+    if (!account) return res.status(400).json({ ...ERROR, msg: "Invalid User ID or Password." })
 
     const match: boolean = await bcrypt.compare(pswd, account.password)
     if (!match) {
-        return res.status(401).json({
-            success: false,
-            action: "error",
-            msg: "Incorrect password."
-        })
+        return res.status(401).json({ ...ERROR, msg: "Incorrect password." })
     }
 
     const token = genToken(account.user)
@@ -134,8 +91,7 @@ const login = asyncHandler(async (req: IRequest, res: Response) => {
             pbMedia: account.pbMedia,
             pbContent: account.pbContent
         },
-        success: true,
-        action: "success",
+        ...SUCCESS,
         msg: "Login successful.",
     })
 })
@@ -147,22 +103,10 @@ const otpHandler = asyncHandler(async (req: IRequest, res: Response) => {
 
     const { totp, totpDate }: IGenOTP = genOTP()
 
-    if (!email) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Invalid email"
-        })
-    }
+    if (!email) return res.status(400).json({ ...ERROR, msg: "Invalid email" })
 
     const account: any = await User.findOne({ 'mail.email': email }).exec()
-    if (!account) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "There is no account associated with this email."
-        })
-    }
+    if (!account) return res.status(400).json({ ...ERROR, msg: "There is no account associated with this email." })
 
     account.OTP.totp = totp
     account.OTP.totpDate = totpDate
@@ -189,36 +133,17 @@ const editUsername = asyncHandler(async (req: IRequest, res: Response) => {
     let { newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
 
-    if (!newUser) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "All fields are required"
-        })
-    }
+    if (!newUser) return res.status(400).json({ ...ERROR, msg: "All fields are required" })
 
-    if (restrictedUser.includes(newUser) || !USER_REGEX.test(newUser)) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Username is not allowed."
-        })
-    }
+    if (restrictedUser.includes(newUser) || !USER_REGEX.test(newUser)) return res.status(400).json({ ...ERROR, msg: "Username is not allowed." })
 
     const account: any = await User.findOne({ user: req.user?.user }).exec()
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "Sorry, something went wrong. Try logging out then login again."
-        })
-    }
+    if (!account) return res.status(404).json({ ...ERROR, msg: "Sorry, something went wrong." })
 
     const userExists: any = await User.findOne({ user: newUser }).exec()
     if (userExists) {
         return res.status(409).json({
-            success: false,
-            action: "warning",
+            ...ERROR,
             msg: "Username has been taken."
         })
     }
@@ -259,8 +184,7 @@ const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
 
     if (!otp || !email) {
         return res.status(400).json({
-            success: false,
-            action: "error",
+            ...ERROR,
             msg: "All fields are required."
         })
     }
@@ -274,16 +198,14 @@ const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
         account.OTP = {}
         await account.save()
         return res.status(400).json({
-            success: false,
-            action: "warning",
+            ...ERROR,
             msg: "OTP Expired."
         })
     }
 
     if (totp !== otp) {
         return res.status(401).json({
-            success: false,
-            action: "error",
+            ...ERROR,
             msg: "Incorrect OTP"
         })
     }
@@ -305,16 +227,14 @@ const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
 
     if (!email || !newPswd) {
         return res.status(400).json({
-            success: false,
-            action: "error",
+            ...ERROR,
             msg: "All fields are required."
         })
     }
 
     if (newPswd !== newPswd2) {
         return res.status(400).json({
-            success: false,
-            action: "warning",
+            ...ERROR,
             msg: "Password does not match."
         })
     }
@@ -322,16 +242,14 @@ const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     const account: any = await User.findOne({ 'mail.email': email }).exec()
     if (!account) {
         return res.status(404).json({
-            success: false,
-            action: "error",
+            ...ERROR,
             msg: "Account does not exist."
         })
     }
 
     if (!verified || !account.mail.verified) {
         return res.status(400).json({
-            success: false,
-            action: "error",
+            ...ERROR,
             msg: "Access denied."
         })
     }
@@ -339,8 +257,7 @@ const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     const compare = await bcrypt.compare(newPswd, account.password)
     if (compare) {
         return res.status(400).json({
-            success: false,
-            action: "warning",
+            ...ERROR,
             msg: "You input your current password."
         })
     }
