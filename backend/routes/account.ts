@@ -2,6 +2,7 @@ import {
     createUser, login, logout,
     otpHandler, editUsername
 } from '../controllers/auth'
+import { ILimiter } from '../type'
 import password from './api/password'
 import express, { Router } from 'express'
 import limiter from '../middlewares/limiter'
