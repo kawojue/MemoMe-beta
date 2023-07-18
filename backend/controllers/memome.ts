@@ -1,16 +1,13 @@
 import { v4 as uuid } from 'uuid'
+import { Response } from 'express'
+import { IRequest } from '../type'
 import User from '../models/UserModel'
 import MemoMe from '../models/MemoMeModel'
-import { Request, Response } from 'express'
 import cloudinary from '../config/cloudinary'
 const textCrypt = require('text-encryption')
 const asyncHandler = require('express-async-handler')
 
-interface IRequest extends Request {
-    user: any
-}
-
-const addMemo = asyncHandler(async (req: Request, res: Response) => {
+const addMemo = asyncHandler(async (req: IRequest, res: Response) => {
     let mediaRes: any
     let url: any
     let encryptContent: any
@@ -113,7 +110,7 @@ const addMemo = asyncHandler(async (req: Request, res: Response) => {
     res.sendStatus(200)
 })
 
-const getUser = asyncHandler(async (req: Request, res: Response) => {
+const getUser = asyncHandler(async (req: IRequest, res: Response) => {
     const { user } = req.params
     const account: any = await User.findOne({ user }).select('-password').exec()
     if (!account) {
@@ -143,7 +140,7 @@ const getUser = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
-const countViews = asyncHandler(async (req: Request, res: Response) => {
+const countViews = asyncHandler(async (req: IRequest, res: Response) => {
     const { user }: any = req.body
 
     const account: any = await User.findOne({ user }).select('-password').exec()
