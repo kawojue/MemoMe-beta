@@ -1,4 +1,3 @@
-import { ILimiter } from '../type'
 import { Request, Response, NextFunction } from 'express'
 import rateLimit, { RateLimitRequestHandler, Options } from 'express-rate-limit'
 
