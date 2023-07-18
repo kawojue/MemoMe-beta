@@ -1,11 +1,8 @@
 import bcrypt from 'bcrypt'
+import { IRequest } from '../type'
+import { Response } from 'express'
 import User from '../models/UserModel'
-import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
-
-interface IRequest extends Request {
-    user: any
-}
 
 const editPswd = asyncHandler(async (req: IRequest, res: Response) => {
     const { currentPswd, pswd, pswd2 }: any = req.body
