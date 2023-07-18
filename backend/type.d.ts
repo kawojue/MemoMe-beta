@@ -1,8 +1,10 @@
+import { Request } from 'express'
+
 interface IMailer {
-    senderName: string
     to: string
-    subject: string
     text: string
+    subject: string
+    senderName: string
 }
 
 interface IGenOTP {
@@ -12,6 +14,18 @@ interface IGenOTP {
 
 interface ILimiter {
     max: number
-    timerArr: number[]
     msg?: string
+    timerArr: number[]
 }
+
+interface IRequest extends Request {
+    user: any
+}
+
+type Modal = {
+    msg?: string
+    success: true | false,
+    action: 'error' | 'success'
+}
+
+export { Modal, ILimiter, IMailer, IGenOTP, IRequest }
