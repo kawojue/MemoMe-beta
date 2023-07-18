@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt'
-import mailer from '../config/mailer'
-import genOTP from '../config/genOTP'
+import mailer from '../utils/mailer'
+import genOTP from '../utils/genOTP'
 import User from '../models/UserModel'
 import randomString from 'randomstring'
-import genToken from '../config/genToken'
-import { IMailer, IGenOTP } from '../type'
+import genToken from '../utils/genToken'
 import { Request, Response } from 'express'
 const asyncHandler = require('express-async-handler')
 
@@ -18,8 +17,12 @@ const restrictedUser: string[] = [
     "memome"
 ]
 
+interface IRequest extends Request {
+    user: any
+}
+
 // handle account creation
-const createUser = asyncHandler(async (req: any, res: Response) => {
+const createUser = asyncHandler(async (req: Request, res: Response) => {
     let user: any
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
@@ -185,7 +188,7 @@ const otpHandler = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // change username
-const editUsername = asyncHandler(async (req: any, res: Response) => {
+const editUsername = asyncHandler(async (req: IRequest, res: Response) => {
     let { newUser }: any = req.body
     newUser = newUser?.trim()?.toLowerCase()
 
@@ -234,7 +237,7 @@ const editUsername = asyncHandler(async (req: any, res: Response) => {
     })
 })
 
-const logout = asyncHandler(async (req: any, res: Response) => {
+const logout = asyncHandler(async (req: IRequest, res: Response) => {
     const authHeader = req.headers?.authorization
     if (!authHeader || !authHeader.startsWith('Bearer')) {
         return res.sendStatus(204)
