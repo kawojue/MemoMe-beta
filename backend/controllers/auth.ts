@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt'
+import { Response } from 'express'
 import mailer from '../utils/mailer'
 import genOTP from '../utils/genOTP'
 import User from '../models/UserModel'
 import randomString from 'randomstring'
 import genToken from '../utils/genToken'
-import { Request, Response } from 'express'
+import { IGenOTP, IMailer, IRequest } from '../type'
 const asyncHandler = require('express-async-handler')
 
 const EMAIL_REGEX: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -17,12 +18,8 @@ const restrictedUser: string[] = [
     "memome"
 ]
 
-interface IRequest extends Request {
-    user: any
-}
-
 // handle account creation
-const createUser = asyncHandler(async (req: Request, res: Response) => {
+const createUser = asyncHandler(async (req: IRequest, res: Response) => {
     let user: any
     let { email, pswd, pswd2 }: any = req.body
     email = email?.toLowerCase()?.trim()
@@ -43,7 +40,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
         })
     }
 
-    if (EMAIL_REGEX.test(email) === false) {
+    if (!EMAIL_REGEX.test(email)) {
         return res.status(400).json({
             success: false,
             action: "error",
@@ -90,7 +87,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // handle Login
-const login = asyncHandler(async (req: Request, res: Response) => {
+const login = asyncHandler(async (req: IRequest, res: Response) => {
     let { userId, pswd }: any = req.body
     userId = userId?.toLowerCase()?.trim()
 
@@ -144,7 +141,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // send otp to user
-const otpHandler = asyncHandler(async (req: Request, res: Response) => {
+const otpHandler = asyncHandler(async (req: IRequest, res: Response) => {
     let { email }: any = req.body
     email = email?.trim()?.toLowerCase()
 
@@ -257,7 +254,7 @@ const logout = asyncHandler(async (req: IRequest, res: Response) => {
 })
 
 // verify OTP
-const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
+const verifyOTP = asyncHandler(async (req: IRequest, res: Response) => {
     const { otp, email }: any = req.body
 
     if (!otp || !email) {
@@ -303,7 +300,7 @@ const verifyOTP = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // reset password
-const resetpswd = asyncHandler(async (req: Request, res: Response) => {
+const resetpswd = asyncHandler(async (req: IRequest, res: Response) => {
     const { verified, email, newPswd, newPswd2 }: any = req.body
 
     if (!email || !newPswd) {
