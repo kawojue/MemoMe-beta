@@ -17,7 +17,7 @@ DBConn(process.env.DB_URI as string)
 
 // set middlewares
 app.use(credentials)
-app.use(express.json({ limit: '14mb'}))
+app.use(express.json({ limit: '14mb' }))
 app.use(logger('dev'))
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ limit: '14mb', extended: true }))
@@ -27,7 +27,5 @@ app.use('/', rootRoute)
 
 mongoose.connection.once('open', () => {
     console.log("Connected to MongoDB!")
-    app.listen(PORT, () => {
-        console.log(`Server is running at http://localhost:${PORT}`)
-    })
+    app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`))
 })
