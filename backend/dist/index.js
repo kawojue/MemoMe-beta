@@ -26,7 +26,5 @@ app.use(express_1.default.urlencoded({ limit: '14mb', extended: true }));
 app.use('/', root_1.default);
 mongoose_1.default.connection.once('open', () => {
     console.log("Connected to MongoDB!");
-    app.listen(PORT, () => {
-        console.log(`Server is running at http://localhost:${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));
 });

@@ -19,6 +19,7 @@ const MemoMeModel_1 = __importDefault(require("../models/MemoMeModel"));
 const cloudinary_1 = __importDefault(require("../config/cloudinary"));
 const textCrypt = require('text-encryption');
 const asyncHandler = require('express-async-handler');
+const modal_1 = require("../utils/modal");
 const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     let mediaRes;
@@ -28,35 +29,15 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
     let { content, media, mediaType } = req.body;
     user = (_a = user === null || user === void 0 ? void 0 : user.toLowerCase()) === null || _a === void 0 ? void 0 : _a.trim();
     content = content === null || content === void 0 ? void 0 : content.trim();
-    if (!user) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Invalid params"
-        });
-    }
-    if (!content && !media) {
-        return res.status(400).json({
-            success: false,
-            action: "warning",
-            msg: "Credentials cannot be blank"
-        });
-    }
+    if (!user)
+        return res.status(400).json(Object.assign(Object.assign({}, modal_1.ERROR), { msg: "Invalid params." }));
+    if (!content && !media)
+        return res.status(400).json(modal_1.CRED_BLANK);
     const account = yield UserModel_1.default.findOne({ user }).exec();
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "User does not exist."
-        });
-    }
-    if (account.disabled) {
-        return res.status(400).json({
-            success: false,
-            action: "error",
-            msg: "Account Disabled."
-        });
-    }
+    if (!account)
+        return res.status(404).json(Object.assign(Object.assign({}, modal_1.ERROR), { msg: "User does not exist." }));
+    if (account.disabled)
+        return res.status(400).json(Object.assign(Object.assign({}, modal_1.ERROR), { msg: "Account Disabled." }));
     if (media) {
         if (mediaType === "video") {
             mediaRes = yield cloudinary_1.default.uploader.upload(media, {
@@ -75,9 +56,8 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
             download: true
         });
     }
-    if (content) {
+    if (content)
         encryptContent = textCrypt.encrypt(content, process.env.STRING_KEY);
-    }
     if (account.body) {
         const memome = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
         memome.body = [...memome.body, {
@@ -113,19 +93,17 @@ const addMemo = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.addMemo = addMemo;
 const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req.params;
-    const account = yield UserModel_1.default.findOne({ user }).select('-password').exec();
-    if (!account) {
+    const account = yield UserModel_1.default.findOne({ user }).select('-password -token -OTP').exec();
+    if (!account)
         return res.sendStatus(404);
-    }
-    if (account.disabled) {
-        return res.sendStatus(400);
-    }
+    if (account.disabled)
+        return res.sendStatus(401);
     if (!account.pbMedia && !account.pbContent) {
         return res.status(200).json({
             user,
             temporary: true,
             success: true,
-            action: "warning",
+            action: "success",
             msg: " has turned off to Recieve Text and Media."
         });
     }
@@ -140,13 +118,11 @@ const getUser = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.getUser = getUser;
 const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user } = req.body;
-    const account = yield UserModel_1.default.findOne({ user }).select('-password').exec();
-    if (!account) {
+    const account = yield UserModel_1.default.findOne({ user }).select('-password -OTP -token').exec();
+    if (!account)
         return res.sendStatus(404);
-    }
-    if (account.disabled) {
+    if (account.disabled)
         return res.sendStatus(400);
-    }
     if (!account.pbMedia && !account.pbContent) {
         account.profileViews += 1;
         yield account.save();
@@ -159,14 +135,9 @@ const countViews = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
 exports.countViews = countViews;
 const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
-    const account = yield UserModel_1.default.findOne({ user: (_b = req.user) === null || _b === void 0 ? void 0 : _b.user }).select('-password -token').exec();
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            action: "error",
-            msg: "Account not found"
-        });
-    }
+    const account = yield UserModel_1.default.findOne({ user: (_b = req.user) === null || _b === void 0 ? void 0 : _b.user }).select('-password -token -OTP').exec();
+    if (!account)
+        return res.status(404).json(Object.assign(Object.assign({}, modal_1.ERROR), { msg: "Account not found." }));
     let memos = yield MemoMeModel_1.default.findOne({ user: account.id }).exec();
     if (!memos) {
         memos = {
@@ -174,22 +145,14 @@ const getMemos = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, fu
         };
     }
     if (account.body === false) {
-        return res.status(200).json({
-            success: true,
-            action: "success",
-            body: {
+        return res.status(200).json(Object.assign(Object.assign({}, modal_1.SUCCESS), { body: {
                 account,
                 memos: memos.body
-            }
-        });
+            } }));
     }
-    res.status(200).json({
-        success: true,
-        action: "success",
-        body: {
+    res.status(200).json(Object.assign(Object.assign({}, modal_1.SUCCESS), { body: {
             account,
             memos: memos.body.reverse()
-        }
-    });
+        } }));
 }));
 exports.getMemos = getMemos;
