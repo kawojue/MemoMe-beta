@@ -1,5 +1,5 @@
+"use client"
 import { create } from 'zustand'
-
 
 const initialStore = {
     otp: '',
