@@ -1,6 +1,6 @@
 import notify from "./notify"
 
-const throwError = (err: any) => {
+const throwError = (err: any): void => {
     const msg = err.response?.data?.msg
     const action = err.response?.data?.action
     if (action) {
