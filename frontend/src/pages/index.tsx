@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { poppins } from '../../public/fonts'
 import { HeaderA } from '@/components/Header'
-import { BsFillRocketTakeoffFill } from '../../public/icons'
 import WordFlick from '@/components/WordFlick'
+import { BsFillRocketTakeoffFill } from '../../public/icons'
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <HeaderA />
       <main className="mt-24 lg:mt-20 md:mt-28 mx-auto grid place-items-center">
         <h1 className={`${poppins.className} home-h1 md:text-4xl lg:text-6xl`}>
-          <span>Send and Recieve</span>
+          <span>Send and Receive</span>
           <span>Anonymous Messages</span>
           <span> With your Friends Online.</span>
         </h1>
