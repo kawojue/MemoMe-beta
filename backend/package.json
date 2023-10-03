@@ -4,18 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.ts",
-    "build": "rimraf dist && tsc",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add ."
-  },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
-  "engines": {
-    "node": "18.x"
+    "start": "ts-node index.ts",
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "Muyiwa",
@@ -24,7 +14,6 @@
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.36.1",
     "cors": "^2.8.5",
-    "cryptr": "^6.2.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
@@ -34,9 +23,7 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
-    "pre-commit": "^1.2.2",
     "randomstring": "^1.2.3",
-    "rimraf": "^5.0.0",
     "text-encryption": "^1.5.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
